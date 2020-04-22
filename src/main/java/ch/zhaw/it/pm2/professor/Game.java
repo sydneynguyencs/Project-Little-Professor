@@ -1,3 +1,5 @@
+package ch.zhaw.it.pm2.professor;
+
 public class Game {
 
     public Game() {
