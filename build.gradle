@@ -15,14 +15,19 @@ plugins {
 }
 
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
+
+// by default use Java 11
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.1-jre'
+    implementation 'org.mockito:mockito-junit-jupiter:3.3.3'
+    compile 'org.beryx:text-io:3.4.0'
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
@@ -33,7 +38,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'ch.zhaw.it.pm2.little-professor.App'
+    mainClassName = 'ch.zhaw.it.pm2.professor.Launcher'
 }
 
 test {
