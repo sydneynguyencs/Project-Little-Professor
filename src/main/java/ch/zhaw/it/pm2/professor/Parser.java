@@ -5,10 +5,10 @@ package ch.zhaw.it.pm2.professor;
  * itself returns a Command object.
  */
 public class Parser {
-    DisplayIO displayIO;
+    CliDisplay displayIO;
 
     public Parser() {
-        displayIO = new DisplayIO();
+        displayIO = new CliDisplay();
     }
 
 }
