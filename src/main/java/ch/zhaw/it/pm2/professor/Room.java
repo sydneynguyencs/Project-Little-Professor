@@ -3,7 +3,7 @@ package ch.zhaw.it.pm2.professor;
 public class Room {
     String name;
     boolean isDone;
-    Questions questions;
+    QuestionGenerator questions;
 
     public Room(String name){
         this.name=name;
@@ -24,11 +24,11 @@ public class Room {
         isDone = done;
     }
 
-    public Questions getQuestions() {
+    public QuestionGenerator getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Questions questions) {
+    public void setQuestions(QuestionGenerator questions) {
         this.questions = questions;
     }
 
