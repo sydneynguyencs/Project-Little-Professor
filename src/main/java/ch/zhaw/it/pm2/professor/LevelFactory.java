@@ -1,25 +1,27 @@
 package ch.zhaw.it.pm2.professor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LevelFactory implements LevelSource {
 
+    private static final int NUMBER_OF_LEVELS = 3;
     private List<Level> levelList;
 
     public LevelFactory() {
         this.levelList = new ArrayList<>();
-        levelList.add(Level.BEGINNER);
-        levelList.add(Level.INTERMEDIATE);
-        levelList.add(Level.ADVANCED);
+        levelList.addAll(Arrays.asList(Level.values()).subList(0, NUMBER_OF_LEVELS));
     }
 
     /**
      * Representation for all Levels for the game.
      */
     public enum Level {
+        BEGINNER("Beginner", 10),
+        INTERMEDIATE("Intermediate", 100),
+        ADVANCED("Advanced", 1000);
 
-        BEGINNER("Beginner", 10), INTERMEDIATE("Intermediate", 100), ADVANCED("Advanced", 1000);
         private String level;
         private int domain;
 
