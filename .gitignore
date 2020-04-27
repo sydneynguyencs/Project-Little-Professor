@@ -1,3 +1,7 @@
+# little-professor specific
+users_test.txt
+users.txt
+
 # Compiled class file
 *.class
 
