@@ -1,8 +1,14 @@
-package ch.zhaw.it.pm2.professor;
+package ch.zhaw.it.pm2.professor.view;
 
-import ch.zhaw.it.pm2.professor.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class UserIo {
 

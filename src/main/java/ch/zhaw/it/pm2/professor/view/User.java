@@ -1,6 +1,4 @@
-package ch.zhaw.it.pm2.professor;
-
-import java.util.Objects;
+package ch.zhaw.it.pm2.professor.view;
 
 public class User {
 
