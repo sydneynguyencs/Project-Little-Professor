@@ -1,6 +1,5 @@
 package ch.zhaw.it.pm2.professor.view;
 
-import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
 import java.io.BufferedReader;

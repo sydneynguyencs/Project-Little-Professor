@@ -1,6 +1,5 @@
 package ch.zhaw.it.pm2.prefessor;
 
-import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.User;
 import ch.zhaw.it.pm2.professor.view.UserIo;
 import static org.junit.jupiter.api.Assertions.*;
