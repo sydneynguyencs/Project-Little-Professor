@@ -5,7 +5,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 import java.util.Random;
 
 public class QuestionGenerator {
@@ -46,7 +45,4 @@ public class QuestionGenerator {
             ex.printStackTrace();
         }
     }
-
 }
-
-
