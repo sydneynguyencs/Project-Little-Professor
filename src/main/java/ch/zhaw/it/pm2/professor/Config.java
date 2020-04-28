@@ -14,11 +14,8 @@ public class Config {
     public static final int NUMBER_OF_OPERATIONS = 4;
     public static final int NUMBER_OF_ROOMS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
-    //public static final int TIMER = 2;
 
-    // Player ID - wollen wir den Players 4 vorangefertigte Playerprofle zur Auswahl geben?
-    // erreichte punkte könnten soz. gespeichert werden
-    public enum Player {    }
+    //public static final int TIMER = 2;
 
     /**
      * Representation for all valid command for the game.
