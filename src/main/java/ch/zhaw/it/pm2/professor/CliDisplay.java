@@ -56,4 +56,9 @@ public class CliDisplay implements Display {
                 "or would you like to exit the game?\nPlease choose N for next level or E for exit.");
     }
 
+    public String getNextUserInput() {
+        return textIO.newStringInputReader().read();
+    }
+
+
 }
