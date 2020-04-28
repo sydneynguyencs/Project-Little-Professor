@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.controller;
 
+import ch.zhaw.it.pm2.professor.model.Question;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;

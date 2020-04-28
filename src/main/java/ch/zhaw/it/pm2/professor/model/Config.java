@@ -1,6 +1,8 @@
 package ch.zhaw.it.pm2.professor.model;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
