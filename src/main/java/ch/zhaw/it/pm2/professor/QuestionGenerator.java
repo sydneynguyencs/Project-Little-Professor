@@ -3,6 +3,8 @@ package ch.zhaw.it.pm2.professor;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 
@@ -10,13 +12,17 @@ public class QuestionGenerator {
     static Question question;
     ScriptEngineManager sem = new ScriptEngineManager();
     ScriptEngine engine = sem.getEngineByName("JavaScript");
+    final int PLACES = 2;
 
     private int getRandomInt(int start, int end) {
         return start + (int) (new Random().nextFloat() * (end - start));
     }
 
     private Double getRandomDouble(double start, double end) {
-        return start + new Random().nextDouble() * (end - start);
+        double randomDouble = start + new Random().nextDouble() * (end - start);
+        BigDecimal bd = BigDecimal.valueOf(randomDouble);
+        bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public void getQuestion(char operation, int lowerBound, int upperBound) {
