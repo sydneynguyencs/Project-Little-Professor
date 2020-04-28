@@ -11,4 +11,16 @@ public class Parser {
         displayIO = new CliDisplay();
     }
 
+    // TODO sobald Config fertig ist kann ich den next Command entgegennehmen
+    /*public Config getNextCommand() {
+        Config command;
+
+        displayIO.messageUserForInput();
+        String userInput = displayIO.getNextUserInput();
+
+        command =
+
+        return command;
+    }*/
+
 }
