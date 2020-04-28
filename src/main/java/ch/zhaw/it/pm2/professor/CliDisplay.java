@@ -10,14 +10,14 @@ import org.beryx.textio.TextTerminal;
  * <p>
  * All the methods in this class are getting called from another class, so this class only represents the IO.
  */
-public class DisplayIO implements Display {
+public class CliDisplay implements Display {
     TextIO textIO;
     TextTerminal<?> terminal;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public DisplayIO() {
+    public CliDisplay() {
         textIO = TextIoFactory.getTextIO();
         terminal = textIO.getTextTerminal();
         }
