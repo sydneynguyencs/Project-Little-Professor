@@ -59,6 +59,4 @@ public class CliDisplay implements Display {
     public String getNextUserInput() {
         return textIO.newStringInputReader().read();
     }
-
-
 }
