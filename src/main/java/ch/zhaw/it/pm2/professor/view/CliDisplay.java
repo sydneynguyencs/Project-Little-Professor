@@ -1,4 +1,4 @@
-package ch.zhaw.it.pm2.professor;
+package ch.zhaw.it.pm2.professor.view;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
