@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor;
 
+import java.util.Objects;
+
 public class User {
 
     private String name;
@@ -10,6 +12,14 @@ public class User {
         this.name = name;
         this.score = score;
         this.highscore = highscore;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getScore() {
@@ -26,5 +36,13 @@ public class User {
 
     public void setHighscore(int highscore) {
         this.highscore = highscore;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return name.equals(user.name);
     }
 }
