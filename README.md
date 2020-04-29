@@ -15,6 +15,14 @@ Gruppe05 - Einhörner
 
 Look at our [Wiki-Page](https://github.zhaw.ch/pm2-it19azh-ehri-fame-muon/gruppe05-einhoerner-little-professor/wiki) for more information.
 
+## Branching and Git-Workflow
+Generally, we work on the feature branches which we later merge into the `master` branch.  
+The naming-convention for feature branches is the following: `feature/<optional-issue-nr>-foo-bar`
+
+https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
+Find more information in our [Wiki](https://github.zhaw.ch/pm2-it19azh-ehri-fame-muon/gruppe05-einhoerner-little-professor/wiki/Git-Conventions)
+
 ## Getting started
 You can clone the application by running this command on your console/shell: <br>
 ```
