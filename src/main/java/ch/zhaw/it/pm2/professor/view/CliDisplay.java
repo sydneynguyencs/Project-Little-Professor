@@ -1,8 +1,13 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.controller.Parser;
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
+import ch.zhaw.it.pm2.professor.model.Config;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
+
+import java.util.List;
 
 /**
  * Prints the output to the terminal.
@@ -13,6 +18,7 @@ import org.beryx.textio.TextTerminal;
 public class CliDisplay implements Display {
     TextIO textIO;
     TextTerminal<?> terminal;
+    Parser parser;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
@@ -20,6 +26,7 @@ public class CliDisplay implements Display {
     public CliDisplay() {
         textIO = TextIoFactory.getTextIO();
         terminal = textIO.getTextTerminal();
+        this.parser = new Parser();
     }
 
     public void messageUserForInput() {
@@ -40,10 +47,28 @@ public class CliDisplay implements Display {
     }
 
     public void navigate() {
-        terminal.print("To navigate inside the house, user the following keys:\n\n" +
-                "W for UP\n" +
-                "A for Left *** D for Right\n" +
-                "X for Down");
+        boolean ok = false;
+        while (!ok) {
+            terminal.print("To navigate inside the house, user the following keys:\n\n" +
+                    "W for UP\n" +
+                    "A for Left *** D for Right\n" +
+                    "X for Down");
+            String input = "bla";
+            try {
+                this.parser.parseInput(null, null);
+                ok = true;
+            } catch (InvalidInputException e) {
+                invalidInputMessage();
+            }
+        }
+    }
+
+    public String getCommandSelectionString(List<Config.Command> commands) {
+        return null;
+    }
+
+    public void invalidInputMessage() {
+        // print invalid input message
     }
 
     public void timeIsUp() {

@@ -1,25 +1,22 @@
 package ch.zhaw.it.pm2.professor.controller;
 
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
+
+import java.util.List;
 
 /**
  * The class Parser creates a DisplayIO. It reads the user input and transfers it into a command. The class
  * itself returns a Config.Command object.
  */
 public class Parser {
-    CliDisplay displayIO;
 
     public Parser() {
-        displayIO = new CliDisplay();
     }
 
-    public Config.Command getNextCommand() {
-        Config.Command command;
-        displayIO.messageUserForInput();
-        String userInput = displayIO.getNextUserInput();
-        command = Config.Command.getCommand(userInput);
-        return command;
+    public Config.Command parseInput(List<Config.Command> acceptedCommands, String input) throws InvalidInputException {
+        throw new InvalidInputException();
     }
 
 
