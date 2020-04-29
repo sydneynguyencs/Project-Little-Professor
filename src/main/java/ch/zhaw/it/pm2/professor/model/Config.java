@@ -1,6 +1,8 @@
 package ch.zhaw.it.pm2.professor.model;
 
 
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -44,9 +46,9 @@ public class Config {
             this.command = command;
         }
 
-        public static Command getCommand(String command) {
+        public static Command getCommand(String commandFromUser) {
             return Stream.of(values())
-                    .filter(v -> v.command.equals(command))
+                    .filter(v -> v.command.equals(commandFromUser))
                     .findFirst()
                     .orElse(UNKNOWN);
         }
