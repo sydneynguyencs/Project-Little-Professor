@@ -7,11 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class House {
+    String house;
 
-    public String getEmptyHouse(String fileName) throws FileNotFoundException {
+
+    public String loadHouse(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
         StringBuilder emptyHouse = new StringBuilder();
-
         if (!file.canRead() || !file.isFile()) {
             throw new FileNotFoundException();
         }
@@ -33,6 +34,17 @@ public class House {
                 }
         }
 
-        return emptyHouse.toString();
+        return house = emptyHouse.toString();
+    }
+
+    public void setUsername(String name) throws FileNotFoundException {
+        while (name.length() < Config.MAX_CHARS_USERNAME) {
+            name = name + " ";
+        }
+        house = house.replace("______________", name);
+    }
+
+    public String getChangedHouse() {
+        return house;
     }
 }
