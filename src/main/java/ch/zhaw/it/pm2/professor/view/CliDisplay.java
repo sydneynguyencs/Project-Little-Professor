@@ -3,10 +3,12 @@ package ch.zhaw.it.pm2.professor.view;
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.model.House;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -19,23 +21,43 @@ public class CliDisplay implements Display {
     TextIO textIO;
     TextTerminal<?> terminal;
     Parser parser;
+    House house;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public CliDisplay() {
+    public CliDisplay(House house) {
         textIO = TextIoFactory.getTextIO();
         terminal = textIO.getTextTerminal();
         this.parser = new Parser();
+        this.house = house;
     }
 
     public void messageUserForInput() {
-        terminal.print("Please choose a valid input.");
+        terminal.println("Please choose a valid input.");
     }
 
     public void welcomeMessage() {
-        terminal.print("Welcome to the Little Professor Game.\nThe little Professor will " +
-                "help you to train your math skills while playing.");
+        try {
+            terminal.println(house.loadHouse("house/entrance.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        terminal.println("The little Professor will help you to train your math skills while playing.");
+    }
+
+    public void requestUsername() {
+        terminal.println("Please enter your username.\nBetween 1 - 14 characters");
+        try {
+            parser.parseName();
+        } catch (InvalidInputException e) {
+            e.printStackTrace();
+        }
+        ;
+    }
+
+    public void seeHouse() {
+        terminal.println(house.getChangedHouse());
     }
 
     public void seeTheHighscores() {
