@@ -6,7 +6,13 @@ public class User {
     private int score;
     private int highscore;
 
-    public User (String name, int score, int highscore) {
+    public User(String name, int score, int highscore) {
+        this.name = name;
+        this.score = score;
+        this.highscore = highscore;
+    }
+
+    public User(String name) {
         this.name = name;
         this.score = score;
         this.highscore = highscore;

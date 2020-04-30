@@ -20,6 +20,7 @@ public class Config {
     public static final int NUMBER_OF_OPERATIONS = 4;
     public static final int NUMBER_OF_ROOMS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
+    public static final int MAX_CHARS_USERNAME = 14;
 
     //public static final int TIMER = 2;
 
@@ -130,4 +131,7 @@ public class Config {
         }
     }
 
+    public static int getMaxCharsUsername() {
+        return MAX_CHARS_USERNAME;
+    }
 }
