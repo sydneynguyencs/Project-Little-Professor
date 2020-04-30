@@ -34,17 +34,21 @@ public class House {
                 }
         }
 
-        return house = emptyHouse.toString();
+        return emptyHouse.toString();
     }
 
-    public void setUsername(String name) throws FileNotFoundException {
+    public void setUsername(String name) {
         while (name.length() < Config.MAX_CHARS_USERNAME) {
             name = name + " ";
         }
         house = house.replace("______________", name);
     }
 
-    public String getChangedHouse() {
+    public String getHouse() {
         return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
     }
 }

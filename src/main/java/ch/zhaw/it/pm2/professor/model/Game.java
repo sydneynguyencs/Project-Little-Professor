@@ -23,6 +23,7 @@ public class Game {
     public void startGame() {
         display.welcomeMessage();
         display.requestUsername();
+        display.seeHouse();
 
     }
 

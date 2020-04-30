@@ -15,10 +15,6 @@ import java.util.Scanner;
  * itself returns a Config.Command object.
  */
 public class Parser {
-    private Scanner scanner;
-    public Parser() {
-        scanner = new Scanner(System.in);
-    }
 
     public Config.Command parseInput(List<Config.Command> acceptedCommands, String input) throws InvalidInputException {
         String command = "not found yet";
@@ -38,9 +34,8 @@ public class Parser {
         return Config.Command.getCommand(command);
     }
 
-    public String parseName() throws InvalidInputException {
-        String input = scanner.next();
-        if (input.length() < MAX_CHARS_USERNAME) {
+    public String parseName(String input) throws InvalidInputException {
+        if (input.length() > MAX_CHARS_USERNAME) {
             throw new InvalidInputException();
         }
         return input;

@@ -10,6 +10,7 @@ import org.beryx.textio.TextTerminal;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Prints the output to the terminal.
@@ -47,17 +48,23 @@ public class CliDisplay implements Display {
     }
 
     public void requestUsername() {
-        terminal.println("Please enter your username.\nBetween 1 - 14 characters");
         try {
-            parser.parseName();
+            house.setHouse(house.loadHouse("house/empty-house.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        terminal.println("Please enter your username.\nBetween 1 - 14 characters");
+        String username = this.textIO.newStringInputReader().read();
+        try {
+            parser.parseName(username);
         } catch (InvalidInputException e) {
             e.printStackTrace();
         }
-        ;
+        house.setUsername(username);
     }
 
     public void seeHouse() {
-        terminal.println(house.getChangedHouse());
+        terminal.println(house.getHouse());
     }
 
     public void seeTheHighscores() {
