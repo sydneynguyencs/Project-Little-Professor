@@ -4,17 +4,19 @@ import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
+import java.util.TimerTask;
 
-public class Game {
+public class Game extends TimerTask {
+    House house;
     Display display;
     User user;
-    House house;
 
     public Game() {
         display = new CliDisplay();
         house = new House();
     }
 
+    @Override
     public void run() {
         startGame();
     }
