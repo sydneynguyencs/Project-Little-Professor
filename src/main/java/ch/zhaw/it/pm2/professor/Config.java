@@ -9,6 +9,7 @@ package ch.zhaw.it.pm2.professor;
 public class Config {
 
     public final static String USER_FILE_PATH = "./users.txt";
+    public final static String USER_TEST_FILE_PATH = "./users_test.txt";
     public static final int NUMBER_OF_OPERATIONS = 4;
     public static final int NUMBER_OF_ROOMS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
