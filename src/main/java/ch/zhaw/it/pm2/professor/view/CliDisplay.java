@@ -47,7 +47,7 @@ public class CliDisplay implements Display {
         terminal.println("The little Professor will help you to train your math skills while playing.");
     }
 
-    public void requestUsername(House house) {
+    public String requestUsername(House house) {
         try {
             house.loadHouse("house/empty-house.txt");
         } catch (FileNotFoundException e) {
@@ -61,6 +61,7 @@ public class CliDisplay implements Display {
             e.printStackTrace();
         }
         house.setUsername(username);
+        return username;
     }
 
     public void seeHouse(House house) {
