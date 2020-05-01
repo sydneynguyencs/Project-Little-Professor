@@ -40,7 +40,7 @@ public class CliDisplay implements Display {
     public void welcomeMessage(House house) {
         try {
             house.loadHouse("house/entrance.txt");
-            terminal.println(house.toString());
+            terminal.println(house.toString(false)); // toString(false) shouldn't be needed instead an entrance-class would be cool
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
