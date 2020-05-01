@@ -40,7 +40,8 @@ public class CliDisplay implements Display {
 
     public void welcomeMessage() {
         try {
-            terminal.println(house.loadHouse("house/entrance.txt"));
+            house.loadHouse("house/entrance.txt");
+            terminal.println(this.house.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -49,7 +50,7 @@ public class CliDisplay implements Display {
 
     public void requestUsername() {
         try {
-            house.setHouse(house.loadHouse("house/empty-house.txt"));
+            house.loadHouse("house/empty-house.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -64,7 +65,7 @@ public class CliDisplay implements Display {
     }
 
     public void seeHouse() {
-        terminal.println(house.getHouse());
+        terminal.println(house.toString());
     }
 
     public void seeTheHighscores() {
