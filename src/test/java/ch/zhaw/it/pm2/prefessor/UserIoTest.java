@@ -23,8 +23,7 @@ public class UserIoTest {
     @Test
     public void noFileStoreTest() throws IOException, UserIo.InvalidFileException {
         deleteUserFile();
-        User user = new User("TestUser", 0, 1000);
-        this.userIo.store(user);
+        this.userIo.load("TestUser");
         assertTrue(getUserFile().exists());
     }
 
