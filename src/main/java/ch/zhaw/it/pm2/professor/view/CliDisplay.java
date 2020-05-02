@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
+
 /**
  * Prints the output to the terminal.
  * The class Display could be replaced by a GUI if wanted.
@@ -38,7 +39,8 @@ public class CliDisplay implements Display {
 
     public void welcomeMessage(House house) {
         try {
-            terminal.println(house.loadHouse("house/entrance.txt"));
+            house.loadHouse("house/entrance.txt");
+            terminal.println(house.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -47,7 +49,7 @@ public class CliDisplay implements Display {
 
     public void requestUsername(House house) {
         try {
-            house.setHouse(house.loadHouse("house/empty-house.txt"));
+            house.loadHouse("house/empty-house.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -62,7 +64,7 @@ public class CliDisplay implements Display {
     }
 
     public void seeHouse(House house) {
-        terminal.println(house.getHouse());
+        terminal.println(house.toString());
     }
 
     public void seeTheHighscores() {

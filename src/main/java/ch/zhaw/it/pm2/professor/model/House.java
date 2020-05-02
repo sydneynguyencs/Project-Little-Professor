@@ -7,12 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class House {
-    String house;
+    String[] house;
 
-
-    public String loadHouse(String fileName) throws FileNotFoundException {
+    public void loadHouse(String fileName) throws FileNotFoundException {
+        this.house = new String[17];
         File file = new File(fileName);
-        StringBuilder emptyHouse = new StringBuilder();
         if (!file.canRead() || !file.isFile()) {
             throw new FileNotFoundException();
         }
@@ -20,9 +19,10 @@ public class House {
         try {
             in = new BufferedReader(new FileReader(fileName));
             String row;
+            int line = 0;
             while ((row = in.readLine()) != null) {
-                emptyHouse.append(row)
-                          .append("\n");
+                this.house[line] = row;
+                line++;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,22 +33,23 @@ public class House {
                 } catch (IOException e) {
                 }
         }
+    }
 
-        return emptyHouse.toString();
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < this.house.length; i++) {
+            stringBuilder.append(this.house[i]);
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     public void setUsername(String name) {
-        while (name.length() < Config.MAX_CHARS_USERNAME) {
-            name = name + " ";
+        for (int i = 0; i < this.house.length; i++) {
+            while (name.length() < Config.MAX_CHARS_USERNAME) {
+                name = name + " ";
+            }
+            house[i] = house[i].replace("______________", name);
         }
-        house = house.replace("______________", name);
-    }
-
-    public String getHouse() {
-        return house;
-    }
-
-    public void setHouse(String house) {
-        this.house = house;
     }
 }

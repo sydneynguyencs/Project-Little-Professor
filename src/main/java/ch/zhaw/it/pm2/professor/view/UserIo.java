@@ -33,9 +33,7 @@ public class UserIo {
      * @throws InvalidFileException if something with the user-file is wrong
      */
     public User load(String name) throws IOException, InvalidFileException {
-
-        File file = new File(this.filePath);
-
+        File file = getFile();
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(file));
         ) {
@@ -49,7 +47,6 @@ public class UserIo {
         } catch (UserConverter.UserConversionException e) {
             throw new InvalidFileException();
         }
-
         return null;
     }
 
@@ -63,14 +60,9 @@ public class UserIo {
      * @throws InvalidFileException if something with the user-file is wrong
      */
     public void store(User user) throws IOException, InvalidFileException {
-
         boolean updated = false;
-
-        File file = new File(this.filePath);
-        //noinspection ResultOfMethodCallIgnored
-        file.createNewFile(); // does nothing, if file does not already exist
+        File file = getFile();
         File tmpFile = new File(this.filePath + ".tmp");
-
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(file));
                 BufferedWriter writer = new BufferedWriter(new FileWriter(tmpFile))
@@ -95,6 +87,13 @@ public class UserIo {
         file.delete();
         //noinspection ResultOfMethodCallIgnored
         tmpFile.renameTo(file);
+    }
+
+    private File getFile() throws IOException {
+        File file = new File(this.filePath);
+        //noinspection ResultOfMethodCallIgnored
+        file.createNewFile(); // does nothing, if file does not already exist
+        return file;
     }
 
     private static void writeUser(BufferedWriter writer, User fileUser)
