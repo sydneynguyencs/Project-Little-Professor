@@ -9,8 +9,8 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Prints the output to the terminal.
@@ -84,7 +84,7 @@ public class CliDisplay implements Display {
                     "X for Down");
             String input = "bla";
             try {
-                this.parser.parseInput(null, null);
+                this.parser.parseInput(Arrays.asList(Config.Command.values()), getNextUserInput());
                 ok = true;
             } catch (InvalidInputException e) {
                 invalidInputMessage();
