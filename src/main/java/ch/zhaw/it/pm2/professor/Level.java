@@ -5,14 +5,8 @@ import java.util.List;
 public class Level {
 
     private String name;
-    private int[] domain;
-    private Room[] rooms;
-
-    public Level(String name, int[] domain, Room[] rooms) {
-        this.name = name;
-        this.domain = domain;
-        this.rooms = rooms;
-    }
+    private int domain;
+    List<Room> rooms;
 
     /**
      * This {@link Enum} specifies the available operation types in the game.
@@ -82,15 +76,22 @@ public class Level {
         }
     }
 
+
+    public Level(String name, int domain, List<Room> rooms) {
+        this.name = name;
+        this.domain = domain;
+        this.rooms = rooms;
+    }
+
     public String getName() {
         return name;
     }
 
-    public int[] getDomain() {
+    public int getDomain() {
         return domain;
     }
 
-    public Room[] getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
