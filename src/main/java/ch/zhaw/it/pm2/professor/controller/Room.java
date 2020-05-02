@@ -1,4 +1,4 @@
-package ch.zhaw.it.pm2.professor;
+package ch.zhaw.it.pm2.professor.controller;
 
 public class Room {
     String name;

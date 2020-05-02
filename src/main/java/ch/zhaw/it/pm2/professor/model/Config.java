@@ -1,4 +1,11 @@
-package ch.zhaw.it.pm2.professor;
+package ch.zhaw.it.pm2.professor.model;
+
+
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * This class specifies the most important and basic parameters of the game
@@ -9,9 +16,11 @@ package ch.zhaw.it.pm2.professor;
 public class Config {
 
     public final static String USER_FILE_PATH = "./users.txt";
+    public final static String USER_TEST_FILE_PATH = "./users_test.txt";
     public static final int NUMBER_OF_OPERATIONS = 4;
     public static final int NUMBER_OF_ROOMS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
+    public static final int MAX_CHARS_USERNAME = 14;
 
     //public static final int TIMER = 2;
 
@@ -115,4 +124,7 @@ public class Config {
         }
     }
 
+    public static int getMaxCharsUsername() {
+        return MAX_CHARS_USERNAME;
+    }
 }
