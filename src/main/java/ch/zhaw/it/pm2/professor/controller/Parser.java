@@ -22,12 +22,12 @@ public class Parser {
                 return command;
             }
         }
-        throw new InvalidInputException();
+        throw new InvalidInputException("This Input is invalid.");
     }
 
     public String parseName(String input) throws InvalidInputException {
         if (input.length() > MAX_CHARS_USERNAME) {
-            throw new InvalidInputException();
+            throw new InvalidInputException("This Input is invalid.");
         }
         return input;
     }
