@@ -27,11 +27,11 @@ public class CliDisplay implements Display {
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public CliDisplay(House house) {
+    public CliDisplay() {
         textIO = TextIoFactory.getTextIO();
         terminal = textIO.getTextTerminal();
         this.parser = new Parser();
-        this.house = house;
+        house = new House();
     }
 
     public void messageUserForInput() {

@@ -5,14 +5,12 @@ import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.User;
 
 public class Game {
-    House house;
     CliDisplay display;
     User user;
     Parser parser;
 
     public Game() {
-        house = new House();
-        display = new CliDisplay(house);
+        display = new CliDisplay();
         parser = new Parser();
     }
 
