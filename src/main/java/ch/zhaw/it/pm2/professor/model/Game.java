@@ -8,12 +8,10 @@ import ch.zhaw.it.pm2.professor.view.User;
 public class Game {
     Display display;
     User user;
-    Parser parser;
     House house;
 
     public Game() {
         display = new CliDisplay();
-        parser = new Parser();
         house = new House();
     }
 
