@@ -21,8 +21,7 @@ public class Config {
     public static final int NUMBER_OF_ROOMS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
     public static final int MAX_CHARS_USERNAME = 14;
-
-    //public static final int TIMER = 2;
+    public static final int TIMER_INTERVAL_MILLIS = 1000;
 
     /**
      * Representation for all valid command for the game.

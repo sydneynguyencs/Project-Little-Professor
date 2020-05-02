@@ -12,7 +12,7 @@ public interface Display {
 
     public void welcomeMessage(House house);
 
-    public void requestUsername(House house);
+    public String requestUsername(House house);
 
     public void seeHouse(House house);
 
