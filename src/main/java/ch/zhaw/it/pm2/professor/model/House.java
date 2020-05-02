@@ -36,12 +36,25 @@ public class House {
     }
 
     public String toString() {
+        return toString(true);
+    }
+
+    public String toString(boolean withRooms) {
+        if (withRooms) {
+            addRooms();
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < this.house.length; i++) {
             stringBuilder.append(this.house[i]);
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    private void addRooms() {
+        for(Room room : Room.values()) {
+            room.addToHouse(this.house);
+        }
     }
 
     public void setUsername(String name) {
