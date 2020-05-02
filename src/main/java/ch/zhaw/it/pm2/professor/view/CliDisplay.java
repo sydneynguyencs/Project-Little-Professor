@@ -22,7 +22,6 @@ public class CliDisplay implements Display {
     TextIO textIO;
     TextTerminal<?> terminal;
     Parser parser;
-    House house;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
@@ -31,14 +30,13 @@ public class CliDisplay implements Display {
         textIO = TextIoFactory.getTextIO();
         terminal = textIO.getTextTerminal();
         this.parser = new Parser();
-        house = new House();
     }
 
     public void messageUserForInput() {
         terminal.println("Please choose a valid input.");
     }
 
-    public void welcomeMessage() {
+    public void welcomeMessage(House house) {
         try {
             terminal.println(house.loadHouse("house/entrance.txt"));
         } catch (FileNotFoundException e) {
@@ -47,7 +45,7 @@ public class CliDisplay implements Display {
         terminal.println("The little Professor will help you to train your math skills while playing.");
     }
 
-    public void requestUsername() {
+    public void requestUsername(House house) {
         try {
             house.setHouse(house.loadHouse("house/empty-house.txt"));
         } catch (FileNotFoundException e) {
@@ -63,7 +61,7 @@ public class CliDisplay implements Display {
         house.setUsername(username);
     }
 
-    public void seeHouse() {
+    public void seeHouse(House house) {
         terminal.println(house.getHouse());
     }
 

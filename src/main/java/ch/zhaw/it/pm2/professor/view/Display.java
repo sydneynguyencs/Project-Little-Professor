@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.model.House;
+
 /**
  * We use an Interface for our prototype.
  * At later stages it would be easier to replace the DisplayIO, which in the prototype is with berxyTextIO,
@@ -8,11 +10,11 @@ package ch.zhaw.it.pm2.professor.view;
 public interface Display {
     public void messageUserForInput();
 
-    public void welcomeMessage();
+    public void welcomeMessage(House house);
 
-    public void requestUsername();
+    public void requestUsername(House house);
 
-    public void seeHouse();
+    public void seeHouse(House house);
 
     public void seeTheHighscores();
 

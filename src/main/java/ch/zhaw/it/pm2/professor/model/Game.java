@@ -8,10 +8,12 @@ public class Game {
     CliDisplay display;
     User user;
     Parser parser;
+    House house;
 
     public Game() {
         display = new CliDisplay();
         parser = new Parser();
+        house = new House();
     }
 
     public void run() {
@@ -19,9 +21,9 @@ public class Game {
     }
 
     public void startGame() {
-        display.welcomeMessage();
-        display.requestUsername();
-        display.seeHouse();
+        display.welcomeMessage(house);
+        display.requestUsername(house);
+        display.seeHouse(house);
 
     }
 
