@@ -2,10 +2,11 @@ package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
+import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
 
 public class Game {
-    CliDisplay display;
+    Display display;
     User user;
     Parser parser;
     House house;
