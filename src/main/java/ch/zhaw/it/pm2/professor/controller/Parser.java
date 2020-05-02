@@ -17,21 +17,12 @@ import java.util.Scanner;
 public class Parser {
 
     public Config.Command parseInput(List<Config.Command> acceptedCommands, String input) throws InvalidInputException {
-        String command = "not found yet";
-        boolean commandInList = false;
-            Iterator iterator = acceptedCommands.iterator();
-            while (iterator.hasNext()) {
-                String temporaryCommand = String.valueOf(iterator.next());
-                if (temporaryCommand.equalsIgnoreCase(input)) {
-                    command = temporaryCommand;
-                    commandInList = true;
-                }
+        for (Config.Command command : acceptedCommands) {
+            if (command.toString().equals(input)) {
+                return command;
             }
-
-        if (!commandInList) {
-            throw new InvalidInputException();
         }
-        return Config.Command.getCommand(command);
+        throw new InvalidInputException();
     }
 
     public String parseName(String input) throws InvalidInputException {
