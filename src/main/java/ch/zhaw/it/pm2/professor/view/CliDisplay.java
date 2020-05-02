@@ -9,8 +9,9 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
+
 
 /**
  * Prints the output to the terminal.
@@ -22,33 +23,31 @@ public class CliDisplay implements Display {
     TextIO textIO;
     TextTerminal<?> terminal;
     Parser parser;
-    House house;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public CliDisplay(House house) {
+    public CliDisplay() {
         textIO = TextIoFactory.getTextIO();
         terminal = textIO.getTextTerminal();
         this.parser = new Parser();
-        this.house = house;
     }
 
     public void messageUserForInput() {
         terminal.println("Please choose a valid input.");
     }
 
-    public void welcomeMessage() {
+    public void welcomeMessage(House house) {
         try {
             house.loadHouse("house/entrance.txt");
-            terminal.println(this.house.toString());
+            terminal.println(house.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         terminal.println("The little Professor will help you to train your math skills while playing.");
     }
 
-    public void requestUsername() {
+    public void requestUsername(House house) {
         try {
             house.loadHouse("house/empty-house.txt");
         } catch (FileNotFoundException e) {
@@ -64,7 +63,7 @@ public class CliDisplay implements Display {
         house.setUsername(username);
     }
 
-    public void seeHouse() {
+    public void seeHouse(House house) {
         terminal.println(house.toString());
     }
 
@@ -85,7 +84,7 @@ public class CliDisplay implements Display {
                     "X for Down");
             String input = "bla";
             try {
-                this.parser.parseInput(null, null);
+                this.parser.parseInput(Arrays.asList(Config.Command.values()), getNextUserInput());
                 ok = true;
             } catch (InvalidInputException e) {
                 invalidInputMessage();

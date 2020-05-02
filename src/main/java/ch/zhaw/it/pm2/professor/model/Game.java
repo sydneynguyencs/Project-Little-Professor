@@ -5,15 +5,15 @@ import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.User;
 
 public class Game {
-    House house;
     CliDisplay display;
     User user;
     Parser parser;
+    House house;
 
     public Game() {
-        house = new House();
-        display = new CliDisplay(house);
+        display = new CliDisplay();
         parser = new Parser();
+        house = new House();
     }
 
     public void run() {
@@ -21,9 +21,9 @@ public class Game {
     }
 
     public void startGame() {
-        display.welcomeMessage();
-        display.requestUsername();
-        display.seeHouse();
+        display.welcomeMessage(house);
+        display.requestUsername(house);
+        display.seeHouse(house);
 
     }
 
