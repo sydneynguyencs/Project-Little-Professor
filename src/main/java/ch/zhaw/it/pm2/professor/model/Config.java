@@ -47,13 +47,6 @@ public class Config {
             this.command = command;
         }
 
-        public static Command getCommand(String commandFromUser) {
-            return Stream.of(values())
-                    .filter(v -> v.command.equals(commandFromUser))
-                    .findFirst()
-                    .orElse(UNKNOWN);
-        }
-
         /**
          * @return  the command as String
          */
