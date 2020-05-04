@@ -10,6 +10,9 @@ public class House {
     private String[] house;
     private State state;
 
+    private static final String USER_FIELD = "%USER________%";
+    private static final String TIME_FIELD = "%TIME%";
+
     public House() throws IOException {
         this.state = State.ENTRANCE;
         init();
@@ -63,11 +66,19 @@ public class House {
     }
 
     public void setUsername(String name) {
+        replaceField(USER_FIELD, name);
+    }
+
+    public void setTime(int time) {
+        this.replaceField(TIME_FIELD, String.valueOf(time));
+    }
+
+    public void replaceField(String field, String value) {
         for (int i = 0; i < this.house.length; i++) {
-            while (name.length() < Config.MAX_CHARS_USERNAME) {
-                name = name + " ";
+            while (value.length() < field.length()) {
+                value = value + " ";
             }
-            house[i] = house[i].replace("______________", name);
+            house[i] = house[i].replace(field, value);
         }
     }
 

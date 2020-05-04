@@ -34,6 +34,7 @@ public class Game extends TimerTask {
         if (this.started) {
             this.time--;
             System.out.println("Time: " + this.time);
+            this.display.showHouse(this.house);
         }
     }
 
