@@ -1,8 +1,4 @@
-package ch.zhaw.it.pm2.professor;
-
-import ch.zhaw.it.pm2.professor.model.Room;
-
-import java.util.List;
+package ch.zhaw.it.pm2.professor.model;
 
 public class Level {
 

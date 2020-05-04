@@ -1,5 +1,6 @@
-package ch.zhaw.it.pm2.professor;
+package ch.zhaw.it.pm2.professor.controller;
 
+import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
 
 import java.util.ArrayList;
