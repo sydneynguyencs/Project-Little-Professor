@@ -15,9 +15,10 @@ public class Game extends TimerTask {
     User user;
     Parser parser;
     UserIo userIo;
-    int time = 0;
+    int time = 10;
+    boolean started = false;
 
-    public Game() {
+    public Game() throws IOException {
         this.house = new House();
         this.display = new CliDisplay();
         this.parser = new Parser();
@@ -30,14 +31,21 @@ public class Game extends TimerTask {
     }
 
     private void update() {
-        this.time++;
-        System.out.println("Update the Game (time: " + this.time + ")");
+        if (this.started) {
+            this.time--;
+            System.out.println("Time: " + this.time);
+        }
     }
 
     public void start() throws IOException, UserIo.InvalidFileException {
+        this.display.showHouse(this.house);
         this.display.welcomeMessage(house);
-        this.user = userIo.load(display.requestUsername(house));
-        this.display.seeHouse(house);
+        String username = display.requestUsername();
+        this.house.changeState(House.State.HALLWAY);
+        this.user = userIo.load(username);
+        this.house.setUsername(username);
+        this.display.showHouse(this.house);
+        this.started = true;
     }
 
 }

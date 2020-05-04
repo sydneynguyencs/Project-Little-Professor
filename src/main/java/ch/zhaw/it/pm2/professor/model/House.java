@@ -7,17 +7,23 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class House {
-    String[] house;
+    private String[] house;
+    private State state;
 
-    public void loadHouse(String fileName) throws FileNotFoundException {
+    public House() throws IOException {
+        this.state = State.ENTRANCE;
+        init();
+    }
+
+    public void init() throws IOException {
         this.house = new String[17];
-        File file = new File(fileName);
+        File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
             throw new FileNotFoundException();
         }
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader(fileName));
+            in = new BufferedReader(new FileReader(this.state.getFilePath()));
             String row;
             int line = 0;
             while ((row = in.readLine()) != null) {
@@ -27,20 +33,19 @@ public class House {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                }
+            if (in != null) {
+                in.close();
+            }
         }
     }
 
-    public String toString() {
-        return toString(true);
+    public void changeState(State newState) throws IOException {
+        this.state = newState;
+        init();
     }
 
-    public String toString(boolean withRooms) {
-        if (withRooms) {
+    public String toString() {
+        if (this.state == State.HALLWAY) {
             addRooms();
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -63,6 +68,21 @@ public class House {
                 name = name + " ";
             }
             house[i] = house[i].replace("______________", name);
+        }
+    }
+
+    public enum State {
+        ENTRANCE("./src/main/resources/house/entrance.txt"),
+        HALLWAY("./src/main/resources/house/empty-house.txt");
+
+        String filePath;
+
+        State(String filePath) {
+            this.filePath = filePath;
+        }
+
+        public String getFilePath() {
+            return filePath;
         }
     }
 }
