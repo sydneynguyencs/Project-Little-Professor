@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor;
 
+import ch.zhaw.it.pm2.professor.model.Room;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,9 @@ public class LevelFactory implements LevelSource {
         int[] domainIntermediate = {10, 100};
         int[] domainAdvanced = {0, 1000};
 
-        Level.Room[] roomsAdditionSubtraction = {Level.Room.HALLWAY, Level.Room.ROOM_LEFT, Level.Room.ROOM_RIGHT};
-        Level.Room[] roomsMultiplicationDivision = {Level.Room.HALLWAY, Level.Room.ROOM_UP, Level.Room.ROOM_DOWN};
-        Level.Room[] roomsAll = {Level.Room.HALLWAY, Level.Room.ROOM_LEFT, Level.Room.ROOM_RIGHT, Level.Room.ROOM_UP, Level.Room.ROOM_DOWN};
+        Room[] roomsAdditionSubtraction = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT};
+        Room[] roomsMultiplicationDivision = {Room.HALLWAY, Room.ROOM_UP, Room.ROOM_DOWN};
+        Room[] roomsAll = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT, Room.ROOM_UP, Room.ROOM_DOWN};
 
         levelList.add(new Level("Level 1", domainBeginner, roomsAdditionSubtraction));
         levelList.add(new Level("Level 2", domainIntermediate, roomsAdditionSubtraction));
