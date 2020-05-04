@@ -1,8 +1,8 @@
 package ch.zhaw.it.pm2.prefessor;
 
-import ch.zhaw.it.pm2.professor.Config;
-import ch.zhaw.it.pm2.professor.User;
-import ch.zhaw.it.pm2.professor.UserIo;
+import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.view.User;
+import ch.zhaw.it.pm2.professor.view.UserIo;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +23,7 @@ public class UserIoTest {
     @Test
     public void noFileStoreTest() throws IOException, UserIo.InvalidFileException {
         deleteUserFile();
-        User user = new User("TestUser", 0, 1000);
-        this.userIo.store(user);
+        this.userIo.load("TestUser");
         assertTrue(getUserFile().exists());
     }
 

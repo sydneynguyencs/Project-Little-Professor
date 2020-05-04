@@ -1,4 +1,6 @@
-package ch.zhaw.it.pm2.professor;
+package ch.zhaw.it.pm2.professor.model;
+
+import java.util.stream.Stream;
 
 /**
  * This class specifies the most important and basic parameters of the game
@@ -11,10 +13,16 @@ public class Config {
     public final static String USER_FILE_PATH = "./users.txt";
     public final static String USER_TEST_FILE_PATH = "./users_test.txt";
     public static final int NUMBER_OF_OPERATIONS = 4;
-    public static final int NUMBER_OF_ROOMS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
-
-    //public static final int TIMER = 2;
+    public static final int MAX_CHARS_USERNAME = 14;
+    public static final int TIMER_INTERVAL_MILLIS = 1000;
+    public static final String[] ROOM_LOOK = {
+            "################" ,
+            "#              #" ,
+            "#              #" ,
+            "#              #" ,
+            "################"
+    };
 
     /**
      * Representation for all valid command for the game.
@@ -48,4 +56,36 @@ public class Config {
         }
     }
 
+    /**
+    * This {@link Enum} specifies the available operation types in the game.
+    */
+    public enum Operation {
+        ADDITION("+"),
+        SUBTRACTION("-"),
+        MULTIPLICATION("*"),
+        DIVISION("/");
+
+        private String operation;
+
+        /**
+         * Initialize with according command.
+         *
+         * @param operation the command as String.
+         */
+        Operation(String operation) {
+            this.operation = operation;
+        }
+
+        /**
+         * @return the command as String
+         */
+        @Override
+        public String toString() {
+            return operation;
+        }
+    }
+
+    public static int getMaxCharsUsername() {
+        return MAX_CHARS_USERNAME;
+    }
 }

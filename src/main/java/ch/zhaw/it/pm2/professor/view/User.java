@@ -1,6 +1,4 @@
-package ch.zhaw.it.pm2.professor;
-
-import java.util.Objects;
+package ch.zhaw.it.pm2.professor.view;
 
 public class User {
 
@@ -8,7 +6,13 @@ public class User {
     private int score;
     private int highscore;
 
-    public User (String name, int score, int highscore) {
+    public User(String name, int score, int highscore) {
+        this.name = name;
+        this.score = score;
+        this.highscore = highscore;
+    }
+
+    public User(String name) {
         this.name = name;
         this.score = score;
         this.highscore = highscore;
