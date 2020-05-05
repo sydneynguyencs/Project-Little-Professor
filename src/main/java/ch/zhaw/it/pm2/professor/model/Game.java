@@ -48,9 +48,30 @@ public class Game extends TimerTask {
         this.house.setUsername(username);
         this.display.showHouse(this.house);
         this.started = true;
-        this.display.selectCommand(house);
-
+        doNextMove();
     }
 
+    private void doNextMove() throws InvalidInputException {
+        Config.Command command = display.requestCommand();
+        if (command == Config.Command.HELP) {
+            this.display.helpMessage(); //can only be reached when typing help twice
+            doNextMove();
+        } else if (command == Config.Command.QUIT) {
+            this.display.quitMessage();
+        } else {
+            moveUser(command);
+        }
+        //else if highscore: showHighscore()
+    }
+
+    private void moveUser(Config.Command command) throws InvalidInputException {
+        Room currRoom = command.getRoom();//put user here.
+        this.display.selectedRoomMessage(command);
+        //put user into room and print room
+        this.display.showRoom(command.getRoom());
+        //todo: start question set
+        this.display.askQuestionsMessage();
+        doNextMove();
+    }
 
 }

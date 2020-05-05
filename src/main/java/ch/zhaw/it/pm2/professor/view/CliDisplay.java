@@ -104,25 +104,43 @@ public class CliDisplay implements Display {
     }
 
     @Override
-    public void selectCommand(House house) throws InvalidInputException {
+    public Config.Command requestCommand() throws InvalidInputException {
         terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
-        terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\n");
+        terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
         Config.Command command = parser.parseInput(Config.Command.getCommandList(), this.textIO.newStringInputReader().read());
-        terminal.println("You selected " + command.toString() +". Answer the given questions to gain points.");
-        moveUser(command);
+        return command;
+        //edge case: in case of an invalid command. does game stop?
     }
 
-    private void moveUser(Config.Command command) {
-        Room currRoom = command.getRoom();//put user here.
-        terminal.println("You entered the room with the mission to solve questions of the operation "+ currRoom.toString() + ".\n Finish before the time runs out!");
-        //todo: put user into room and print room
-
-        //todo: start question set
-
-
-
-
+    @Override
+    public void selectedRoomMessage(Config.Command command) {
+        terminal.println("\nYou entered the room with the mission to solve questions of the operation "+ command.getRoom().getOperation().toString() + ".\nFinish before the time runs out!");
     }
+
+    @Override
+    public void helpMessage() {
+        terminal.println("Move into a room to start the question set and gain enough points to win this level.\nWatch out for the timer!\nTo quit Little Professor type \"quit\"");
+    }
+
+    @Override
+    public void quitMessage() {
+        terminal.println("Thanks for playing!\nSee you soon to improve your math skills.");
+    }
+
+    @Override
+    public void askQuestionsMessage() {
+        terminal.println("Solve: ");
+        terminal.print("Your answer: ");
+        String answer = textIO.newStringInputReader().read();
+        terminal.println();
+        //return the  answer to check in game class?
+    }
+
+    @Override
+    public void showRoom(Room room) {
+        terminal.println(room.toString());
+    }
+
 
     public void printPromt(String promt) {
         terminal.print(promt);
