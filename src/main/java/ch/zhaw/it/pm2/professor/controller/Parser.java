@@ -3,12 +3,9 @@ package ch.zhaw.it.pm2.professor.controller;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 
-import java.util.Iterator;
 import java.util.List;
 
 import static ch.zhaw.it.pm2.professor.model.Config.MAX_CHARS_USERNAME;
-
-import java.util.Scanner;
 
 /**
  * The class Parser creates a DisplayIO. It reads the user input and transfers it into a command. The class

@@ -1,6 +1,6 @@
 # little-professor specific
-users_test.txt
-users.txt
+src/test/resources/users_test.txt
+src/main/resources/users.txt
 
 # Compiled class file
 *.class

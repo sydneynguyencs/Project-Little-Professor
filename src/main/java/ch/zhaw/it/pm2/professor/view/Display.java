@@ -10,11 +10,11 @@ import ch.zhaw.it.pm2.professor.model.House;
 public interface Display {
     public void messageUserForInput();
 
+    public void showHouse(House house);
+
     public void welcomeMessage(House house);
 
-    public String requestUsername(House house);
-
-    public void seeHouse(House house);
+    public String requestUsername();
 
     public void seeTheHighscores();
 

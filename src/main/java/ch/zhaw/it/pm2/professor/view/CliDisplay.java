@@ -8,7 +8,6 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,22 +36,15 @@ public class CliDisplay implements Display {
         terminal.println("Please choose a valid input.");
     }
 
+    public void showHouse(House house) {
+        terminal.println(house.toString()); // toString(false) shouldn't be needed instead an entrance-class would be cool
+    }
+
     public void welcomeMessage(House house) {
-        try {
-            house.loadHouse("house/entrance.txt");
-            terminal.println(house.toString(false)); // toString(false) shouldn't be needed instead an entrance-class would be cool
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         terminal.println("The little Professor will help you to train your math skills while playing.");
     }
 
-    public String requestUsername(House house) {
-        try {
-            house.loadHouse("house/empty-house.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public String requestUsername() {
         terminal.println("Please enter your username.\nBetween 1 - 14 characters");
         String username = this.textIO.newStringInputReader().read();
         try {
@@ -60,12 +52,7 @@ public class CliDisplay implements Display {
         } catch (InvalidInputException e) {
             e.printStackTrace();
         }
-        house.setUsername(username);
         return username;
-    }
-
-    public void seeHouse(House house) {
-        terminal.println(house.toString());
     }
 
     public void seeTheHighscores() {
