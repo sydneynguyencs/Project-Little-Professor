@@ -4,6 +4,7 @@ import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
+import ch.zhaw.it.pm2.professor.model.Room;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -108,6 +109,19 @@ public class CliDisplay implements Display {
         terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\n");
         Config.Command command = parser.parseInput(Config.Command.getCommandList(), this.textIO.newStringInputReader().read());
         terminal.println("You selected " + command.toString() +". Answer the given questions to gain points.");
+        moveUser(command);
+    }
+
+    private void moveUser(Config.Command command) {
+        Room currRoom = command.getRoom();//put user here.
+        terminal.println("You entered the room with the mission to solve questions of the operation "+ currRoom.toString() + ".\n Finish before the time runs out!");
+        //todo: put user into room and print room
+
+        //todo: start question set
+
+
+
+
     }
 
     public void printPromt(String promt) {

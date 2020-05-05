@@ -34,12 +34,14 @@ public class Config {
         QUIT("quit"),
         HELP("help"),
         UNKNOWN("?"),
-        LEFT("left"),
-        RIGHT("right"),
-        UP("up"),
-        DOWN("down");
+        LEFT("left", Room.ROOM_LEFT),
+        RIGHT("right", Room.ROOM_RIGHT),
+        UP("up", Room.ROOM_UP),
+        DOWN("down", Room.ROOM_DOWN);
 
         private String command;
+        private Room room;
+
 
         /**
          * Initialize with according command.
@@ -47,6 +49,16 @@ public class Config {
          */
         Command(String command) {
             this.command = command;
+        }
+
+        /**
+         * Initialize with according command.
+         * @param command   the command as String.
+         * @param room   the room as Room.
+         */
+        Command(String command, Room room) {
+            this.command = command;
+            this.room = room;
         }
 
         /**
@@ -62,6 +74,10 @@ public class Config {
             for(int i = 0; i < 8; i++)
                 commands.add(Command.values()[i]);
             return commands;
+        }
+
+        public Room getRoom() {
+            return room;
         }
     }
 
