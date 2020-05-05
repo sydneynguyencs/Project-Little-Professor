@@ -7,11 +7,11 @@ import java.awt.*;
  * provide an operation, other do not.
  */
 public enum Room {
-    ROOM_LEFT(Config.Operation.ADDITION, new Point(0, 5)),
-    ROOM_RIGHT(Config.Operation.SUBTRACTION, new Point(18, 0)),
-    ROOM_UP(Config.Operation.MULTIPLICATION, new Point(36, 5)),
-    ROOM_DOWN(Config.Operation.DIVISION, new Point(18, 10)),
-    HALLWAY("--", new Point(18, 5));
+    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8)),
+    ROOM_RIGHT(Config.Operation.SUBTRACTION, new Point(23, 3)),
+    ROOM_UP(Config.Operation.MULTIPLICATION, new Point(41, 8)),
+    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13)),
+    HALLWAY("--", new Point(23, 8));
 
     private Config.Operation operation = null;
     private final String name;
