@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.House;
 
 /**
@@ -29,4 +30,5 @@ public interface Display {
     public String getNextUserInput();
 
 
+    public void selectCommand(House house) throws InvalidInputException;
 }

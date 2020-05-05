@@ -19,7 +19,7 @@ import java.util.List;
  * All the methods in this class are getting called from another class, so this class only represents the IO.
  */
 public class CliDisplay implements Display {
-    TextIO textIO;
+    private TextIO textIO;
     TextTerminal<?> terminal;
     Parser parser;
 
@@ -100,6 +100,14 @@ public class CliDisplay implements Display {
 
     public String getNextUserInput() {
         return textIO.newStringInputReader().read();
+    }
+
+    @Override
+    public void selectCommand(House house) throws InvalidInputException {
+        terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
+        terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\n");
+        Config.Command command = parser.parseInput(Config.Command.getCommandList(), this.textIO.newStringInputReader().read());
+        terminal.println("You selected " + command.toString() +". Answer the given questions to gain points.");
     }
 
     public void printPromt(String promt) {

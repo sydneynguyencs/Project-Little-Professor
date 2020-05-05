@@ -1,6 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.Parser;
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
@@ -38,7 +39,7 @@ public class Game extends TimerTask {
         }
     }
 
-    public void start() throws IOException, UserIo.InvalidFileException {
+    public void start() throws IOException, UserIo.InvalidFileException, InvalidInputException {
         this.display.showHouse(this.house);
         this.display.welcomeMessage(house);
         String username = display.requestUsername();
@@ -47,6 +48,9 @@ public class Game extends TimerTask {
         this.house.setUsername(username);
         this.display.showHouse(this.house);
         this.started = true;
+        this.display.selectCommand(house);
+
     }
+
 
 }

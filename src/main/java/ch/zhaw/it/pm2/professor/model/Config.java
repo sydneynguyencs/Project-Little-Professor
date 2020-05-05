@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -53,6 +55,13 @@ public class Config {
         @Override
         public String toString() {
             return command;
+        }
+
+        public static List<Command> getCommandList() {
+            List<Command> commands = new ArrayList<>();
+            for(int i = 0; i < 8; i++)
+                commands.add(Command.values()[i]);
+            return commands;
         }
     }
 
