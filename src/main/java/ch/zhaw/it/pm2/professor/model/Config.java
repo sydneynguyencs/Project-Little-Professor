@@ -15,6 +15,7 @@ public class Config {
     public static final int NUMBER_OF_OPERATIONS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
     public static final int MAX_CHARS_USERNAME = 14;
+    public static final int MIN_CHARS_USERNAME = 4;
     public static final int TIMER_INTERVAL_MILLIS = 1000;
     public static final String[] ROOM_LOOK = {
             "################" ,
