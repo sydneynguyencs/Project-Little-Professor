@@ -45,7 +45,7 @@ public class CliDisplay implements Display {
     }
 
     public String requestUsername() {
-        terminal.println("Please enter your username.\nBetween 1 - 14 characters");
+        terminal.println("Please enter your username.\nBetween 4 - 14 characters");
         String username = this.textIO.newStringInputReader().read();
         try {
             parser.parseName(username);
