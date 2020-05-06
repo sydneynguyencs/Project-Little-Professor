@@ -11,15 +11,21 @@ import java.util.Random;
 
 public class QuestionGenerator {
     static Question question;
-    ScriptEngineManager sem = new ScriptEngineManager();
-    ScriptEngine engine = sem.getEngineByName("JavaScript");
+    ScriptEngineManager sem;
+    ScriptEngine engine;
     final int PLACES = 2;
 
-    private int getRandomInt(int start, int end) {
+    public QuestionGenerator(){
+        question = new Question();
+        sem = new ScriptEngineManager();
+        engine = sem.getEngineByName("JavaScript");
+    }
+
+    protected int getRandomInt(int start, int end) {
         return start + (int) (new Random().nextFloat() * (end - start));
     }
 
-    private Double getRandomDouble(double start, double end) {
+    protected double getRandomDouble(double start, double end) {
         double randomDouble = start + new Random().nextDouble() * (end - start);
         BigDecimal bd = BigDecimal.valueOf(randomDouble);
         bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
@@ -31,7 +37,7 @@ public class QuestionGenerator {
         int num2 = getRandomInt(lowerBound, upperBound);
         question.setQuestion(num1 + " " + operation + " " + num2);
         try {
-            question.setAnswer((Double) engine.eval(question.getQuestion()));
+            question.setAnswer( engine.eval(question.getQuestion()).toString());
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }
@@ -43,7 +49,7 @@ public class QuestionGenerator {
         double num2 = getRandomDouble(lowerBound, upperBound);
         question.setQuestion(num1 + " " + operation + " " + num2);
         try {
-            question.setAnswer((Double) engine.eval(question.getQuestion()));
+            question.setAnswer( engine.eval(question.getQuestion()).toString());
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }

@@ -2,7 +2,7 @@ package ch.zhaw.it.pm2.professor.model;
 
 public class Question {
     private String question;
-    private double answer;
+    private String answer;
 
     public String getQuestion() {
         return question;
@@ -12,11 +12,11 @@ public class Question {
         this.question = question;
     }
 
-    public double getAnswer() {
+    public String getAnswer() {
         return answer;
     }
 
-    public void setAnswer(double answer) {
+    public void setAnswer(String answer) {
         this.answer = answer;
     }
 }
