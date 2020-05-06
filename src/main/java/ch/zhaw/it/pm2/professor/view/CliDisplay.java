@@ -51,7 +51,7 @@ public class CliDisplay implements Display {
         try {
             parser.parseName(username);
         } catch (InvalidInputException e) {
-            e.printStackTrace();
+            invalidInputMessage();
         }
         return username;
     }
@@ -88,7 +88,7 @@ public class CliDisplay implements Display {
     }
 
     public void invalidInputMessage() {
-        // print invalid input message
+        terminal.print("The given input is invalid. Pleas enter one of the proposed commands.");
     }
 
     public void timeIsUp() {
