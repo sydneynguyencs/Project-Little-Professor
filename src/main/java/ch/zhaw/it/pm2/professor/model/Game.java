@@ -45,6 +45,7 @@ public class Game extends TimerTask {
         this.house.changeState(House.State.HALLWAY);
         this.user = userIo.load(username);
         this.house.setUsername(username);
+        this.house.setHighscore(user.getHighscore());
         this.display.showHouse(this.house);
         this.started = true;
     }
