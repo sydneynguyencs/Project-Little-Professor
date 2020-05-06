@@ -23,15 +23,13 @@ public interface Display {
 
     public void displayHighscores();
 
-    public void navigate();
+    public Config.Command navigate();
 
     public void timeIsUp();
 
     public void levelComplete();
 
     public String getNextUserInput();
-
-    public Config.Command requestCommand() throws InvalidInputException;
 
     public void selectedRoomMessage(Config.Command command);
 

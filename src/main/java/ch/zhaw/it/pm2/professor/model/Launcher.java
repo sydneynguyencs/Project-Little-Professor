@@ -8,7 +8,7 @@ import java.util.Timer;
 
 public class Launcher {
 
-    public static void main(String[] args) throws IOException, UserIo.InvalidFileException, InvalidInputException {
+    public static void main(String[] args) throws IOException, UserIo.InvalidFileException {
         Timer timer = new Timer();
         Game game = new Game();
         game.start();

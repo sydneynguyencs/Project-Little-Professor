@@ -64,21 +64,23 @@ public class CliDisplay implements Display {
         terminal.print("This are the highscores.");
     }
 
-    public void navigate() {
+    public Config.Command navigate() {
         boolean ok = false;
+        Config.Command command = null;
         while (!ok) {
-            terminal.print("To navigate inside the house, user the following keys:\n\n" +
-                    "W for UP\n" +
-                    "A for Left *** D for Right\n" +
-                    "X for Down");
-            String input = "bla";
+            //show house updated
+            terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
+            terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
+            String input = getNextUserInput();
             try {
-                this.parser.parseInput(Arrays.asList(Config.Command.values()), getNextUserInput());
+                //make command dynamic
+                command = this.parser.parseInput(Arrays.asList(Config.Command.values()), input);
                 ok = true;
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }
         }
+        return command;
     }
 
     public String getCommandSelectionString(List<Config.Command> commands) {
@@ -101,15 +103,6 @@ public class CliDisplay implements Display {
 
     public String getNextUserInput() {
         return textIO.newStringInputReader().read();
-    }
-
-    @Override
-    public Config.Command requestCommand() throws InvalidInputException {
-        terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
-        terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
-        Config.Command command = parser.parseInput(Config.Command.getCommandList(), this.textIO.newStringInputReader().read());
-        return command;
-        //edge case: in case of an invalid command. does game stop?
     }
 
     @Override
@@ -140,7 +133,6 @@ public class CliDisplay implements Display {
     public void showRoom(Room room) {
         terminal.println(room.toString());
     }
-
 
     public void printPromt(String promt) {
         terminal.print(promt);

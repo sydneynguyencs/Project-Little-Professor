@@ -1,7 +1,6 @@
 package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.Parser;
-import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
@@ -39,7 +38,7 @@ public class Game extends TimerTask {
         }
     }
 
-    public void start() throws IOException, UserIo.InvalidFileException, InvalidInputException {
+    public void start() throws IOException, UserIo.InvalidFileException {
         this.display.showHouse(this.house);
         this.display.welcomeMessage(house);
         String username = display.requestUsername();
@@ -51,8 +50,8 @@ public class Game extends TimerTask {
         doNextMove();
     }
 
-    private void doNextMove() throws InvalidInputException {
-        Config.Command command = display.requestCommand();
+    private void doNextMove() {
+        Config.Command command = this.display.navigate(); //
         if (command == Config.Command.HELP) {
             this.display.helpMessage(); //can only be reached when typing help twice
             doNextMove();
@@ -61,16 +60,18 @@ public class Game extends TimerTask {
         } else {
             moveUser(command);
         }
-        //else if highscore: showHighscore()
     }
 
-    private void moveUser(Config.Command command) throws InvalidInputException {
+    private void moveUser(Config.Command command) {
         Room currRoom = command.getRoom();//put user here.
         this.display.selectedRoomMessage(command);
         //put user into room and print room
         this.display.showRoom(command.getRoom());
         //todo: start question set
         this.display.askQuestionsMessage();
+        //todo: print updated house (with completed room)
+        //room enum complete/not available ROOM_LOOK_COMPLETED addHouse() adaptieren
+        //can be done in doNextMove()
         doNextMove();
     }
 
