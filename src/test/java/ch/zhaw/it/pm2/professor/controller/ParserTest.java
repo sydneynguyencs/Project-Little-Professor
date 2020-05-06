@@ -54,21 +54,15 @@ class ParserTest {
     }
 
     @Test
-    void parseValidInputGo() throws InvalidInputException {
-        Config.Command actualCommand = parser.parseInput(acceptedCommands,VALID_INPUT_GO);
-        assertEquals(GO,actualCommand);
+    void parseValidInputLeftWithSpaces() throws InvalidInputException {
+        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_LEFT_TEST_TRIM);
+        assertEquals(LEFT,actualCommand);
     }
 
     @Test
     void parseValidInputHelp() throws InvalidInputException {
         Config.Command actualCommand = parser.parseInput(acceptedCommands,VALID_INPUT_HELP);
         assertEquals(HELP,actualCommand);
-    }
-
-    @Test
-    void parseValidInputLeftWithSpaces() throws InvalidInputException {
-        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_LEFT_TEST_TRIM);
-        assertEquals(LEFT,actualCommand);
     }
 
     @Test
@@ -100,7 +94,6 @@ class ParserTest {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseInput(acceptedCommands, INVALID_INPUT_ONE));
-        assertEquals("This Input is invalid, please provide a valid command.", thrown.getMessage());
     }
 
     @Test
@@ -108,7 +101,6 @@ class ParserTest {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseInput(acceptedCommands, INVALID_INPUT_TWO));
-        assertEquals("This Input is invalid, please provide a valid command.", thrown.getMessage());
     }
 
     @Test
@@ -116,7 +108,6 @@ class ParserTest {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseInput(acceptedCommands, EMPTY_STRING));
-        assertEquals("This Input is invalid, please provide a valid command.", thrown.getMessage());
     }
 
     @Test
@@ -124,18 +115,11 @@ class ParserTest {
         NullPointerException thrown = assertThrows(
                 NullPointerException.class,
                 () -> parser.parseInput(acceptedCommands, null));
-        assertEquals("The input must not be null.", thrown.getMessage());
     }
 
     @Test
     void parseValidName() throws InvalidInputException {
         String actualUsername = parser.parseName(VALID_USERNAME);
-        assertEquals("Cellestine", actualUsername);
-    }
-
-    @Test
-    void parseValidNameTrimAccidentallyGivenSpaces() throws InvalidInputException {
-        String actualUsername = parser.parseName(VALID_USERNAME_TEST_TRIM_15_CHARS);
         assertEquals("Cellestine", actualUsername);
     }
 
@@ -146,12 +130,16 @@ class ParserTest {
     }
 
     @Test
+    void parseValidNameTrimAccidentallyGivenSpaces() throws InvalidInputException {
+        String actualUsername = parser.parseName(VALID_USERNAME_TEST_TRIM_15_CHARS);
+        assertEquals("Cellestine", actualUsername);
+    }
+
+    @Test
     void parseInvalidName() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseName(INVALID_USERNAME));
-        assertEquals("The username has to many chars, please provide an username " +
-                "with 14 chars maximum.", thrown.getMessage());
     }
 
     @Test
@@ -159,7 +147,6 @@ class ParserTest {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseName(EMPTY_STRING));
-        assertEquals("Please choose at least 4 chars for your username.", thrown.getMessage());
     }
 
     @Test
@@ -167,7 +154,6 @@ class ParserTest {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseName("abc"));
-        assertEquals("Please choose at least 4 chars for your username.", thrown.getMessage());
     }
 
     @Test
@@ -175,6 +161,5 @@ class ParserTest {
         NullPointerException thrown = assertThrows(
                 NullPointerException.class,
                 () -> parser.parseName(null));
-        assertEquals("The input must not be null.", thrown.getMessage());
     }
 }

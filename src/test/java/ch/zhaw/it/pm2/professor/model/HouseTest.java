@@ -31,25 +31,6 @@ class HouseTest {
                     "#                                                             #\n" +
                     "###############################################################\n";
 
-    private static final String HOUSE_WITH_ROOMS =
-                    "###############################################################\n" +
-                    "#                 #              #                            #\n" +
-                    "#                 #     -        #                            #\n" +
-                    "#                 #              #                            #\n" +
-                    "#                 ################                            #\n" +
-                    "################  ################  ################          #\n" +
-                    "#              #  #              #  #              #          #\n" +
-                    "#     +        #  #     --       #  #     *        #          #\n" +
-                    "#              #  #              #  #              #          #\n" +
-                    "################  ################  ################          #\n" +
-                    "#                 ################                            #\n" +
-                    "#                 #              #                            #\n" +
-                    "#                 #     /        #                            #\n" +
-                    "#                 #              #                            #\n" +
-                    "###############################################################\n" +
-                    "# Username:%USER________%| Score:%SCORE%     | Time:%TIME%    #\n" +
-                    "###############################################################\n";
-
     private static final String HOUSE_WITH_ROOMS_AND_USERDATA =
                     "###############################################################\n" +
                     "#                 #              #                            #\n" +
@@ -97,15 +78,7 @@ class HouseTest {
     }
 
     @Test
-    void testAddRoomsIfStateHallway() throws IOException {
-        house.changeState(House.State.HALLWAY);
-        String actualHouse = house.toString();
-
-        assertEquals(HOUSE_WITH_ROOMS, actualHouse);
-    }
-
-    @Test
-    void setUserData() throws IOException {
+    void setUserDataAndAddRoomsInStateHallway() throws IOException {
         house.changeState(House.State.HALLWAY);
         house.setUsername(USERNAME);
         house.setTime(2);
@@ -113,5 +86,13 @@ class HouseTest {
         String actualHouse = house.toString();
 
         assertEquals(HOUSE_WITH_ROOMS_AND_USERDATA, actualHouse);
+    }
+
+    @Test
+    void testNullState() throws IOException {
+        NullPointerException thrown = assertThrows(
+                NullPointerException.class,
+                () -> house.changeState(null));
+
     }
 }
