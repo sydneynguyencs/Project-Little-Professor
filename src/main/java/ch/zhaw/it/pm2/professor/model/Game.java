@@ -17,6 +17,7 @@ public class Game extends TimerTask {
     UserIo userIo;
     int time = 10;
     boolean started = false;
+    int currentLevel = 1;
 
     public Game() throws IOException {
         this.house = new House();
@@ -33,7 +34,7 @@ public class Game extends TimerTask {
     private void update() {
         if (this.started) {
             this.time--;
-            System.out.println("Time: " + this.time);
+            this.house.setTime(this.time);
             this.display.showHouse(this.house);
         }
     }
@@ -45,6 +46,10 @@ public class Game extends TimerTask {
         this.house.changeState(House.State.HALLWAY);
         this.user = userIo.load(username);
         this.house.setUsername(username);
+        this.house.setHighscore(user.getHighscore());
+        this.house.setScore(user.getScore());
+        this.house.setTime(this.time);
+        this.house.setLevel(currentLevel);
         this.display.showHouse(this.house);
         this.started = true;
     }

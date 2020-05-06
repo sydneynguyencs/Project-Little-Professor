@@ -47,7 +47,7 @@ public class UserIo {
         } catch (UserConverter.UserConversionException e) {
             throw new InvalidFileException();
         }
-        return null;
+        return new User(name);
     }
 
     /**

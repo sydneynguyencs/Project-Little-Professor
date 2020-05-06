@@ -5,6 +5,7 @@ public class User {
     private String name;
     private int score;
     private int highscore;
+    private static final int NONE = 0;
 
     public User(String name, int score, int highscore) {
         this.name = name;
@@ -14,8 +15,8 @@ public class User {
 
     public User(String name) {
         this.name = name;
-        this.score = score;
-        this.highscore = highscore;
+        this.score = NONE;
+        this.highscore = NONE;
     }
 
     public String getName() {

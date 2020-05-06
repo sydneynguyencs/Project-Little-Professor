@@ -12,7 +12,10 @@ public class House {
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
+    private static final String HIGHSCORE_FIELD = "%HIGHSCORE%";
     private static final String SCORE_FIELD = "%SCORE%";
+    private static final String LEVEL_FIELD = "%LEVEL%";
+    private static final int LINES_EMPTYHOUSE = 21;
 
     public House() throws IOException {
         this.state = State.ENTRANCE;
@@ -24,7 +27,7 @@ public class House {
     }
 
     public void init() throws IOException {
-        this.house = new String[17];
+        this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
             throw new FileNotFoundException("The file can not be found in your system." +
@@ -79,8 +82,16 @@ public class House {
         this.replaceField(TIME_FIELD, String.valueOf(time));
     }
 
+    public void setHighscore(int highscore) {
+        this.replaceField(HIGHSCORE_FIELD, String.valueOf(highscore));
+    }
+
     public void setScore(int score) {
         this.replaceField(SCORE_FIELD, String.valueOf(score));
+    }
+
+    public void setLevel(int level) {
+        this.replaceField(LEVEL_FIELD, String.valueOf(level));
     }
 
     public void replaceField(String field, String value) {
