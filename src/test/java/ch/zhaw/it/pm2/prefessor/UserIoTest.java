@@ -28,6 +28,15 @@ public class UserIoTest {
     }
 
     /**
+     * Test if a new user is created, when he isn't found.
+     */
+    @Test
+    public void newUserTest() throws IOException, UserIo.InvalidFileException {
+        User user = this.userIo.load("Deki");
+        assertNotNull(user);
+    }
+
+    /**
      * Tests if the the user-file is created if it does not exist and User.store() is called.
      */
     @Test
