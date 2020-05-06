@@ -17,6 +17,7 @@ public class Game extends TimerTask {
     UserIo userIo;
     int time = 10;
     boolean started = false;
+    int currentLevel = 1;
 
     public Game() throws IOException {
         this.house = new House();
@@ -47,8 +48,7 @@ public class Game extends TimerTask {
         this.house.setUsername(username);
         this.house.setHighscore(user.getHighscore());
         this.house.setTime(this.time);
-        //ToDo: Level should be saved somewhere
-        this.house.setLevel(0);
+        this.house.setLevel(currentLevel);
         this.display.showHouse(this.house);
         this.started = true;
     }
