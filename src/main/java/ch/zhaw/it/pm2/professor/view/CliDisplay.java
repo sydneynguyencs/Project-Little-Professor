@@ -6,6 +6,7 @@ import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
+import org.beryx.textio.InputReader;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -20,16 +21,16 @@ import java.util.List;
  * All the methods in this class are getting called from another class, so this class only represents the IO.
  */
 public class CliDisplay implements Display {
-    TextIO textIO;
-    TextTerminal<?> terminal;
-    Parser parser;
+    private TextIO textIO;
+    private TextTerminal<?> terminal;
+    private Parser parser;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
     public CliDisplay() {
-        textIO = TextIoFactory.getTextIO();
-        terminal = textIO.getTextTerminal();
+        this.textIO = TextIoFactory.getTextIO();
+        this.terminal = textIO.getTextTerminal();
         this.parser = new Parser();
     }
 
