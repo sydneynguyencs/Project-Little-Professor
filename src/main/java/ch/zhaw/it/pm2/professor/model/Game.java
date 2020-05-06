@@ -47,6 +47,7 @@ public class Game extends TimerTask {
         this.user = userIo.load(username);
         this.house.setUsername(username);
         this.house.setHighscore(user.getHighscore());
+        this.house.setScore(user.getScore());
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
         this.display.showHouse(this.house);
