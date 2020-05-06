@@ -26,7 +26,7 @@ public class QuestionGenerator {
         return bd.doubleValue();
     }
 
-    public void getQuestion(char operation, int lowerBound, int upperBound) {
+    public Question getQuestion(char operation, int lowerBound, int upperBound) {
         int num1 = getRandomInt(lowerBound, upperBound);
         int num2 = getRandomInt(lowerBound, upperBound);
         question.setQuestion(num1 + " " + operation + " " + num2);
@@ -35,9 +35,10 @@ public class QuestionGenerator {
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }
+        return question;
     }
 
-    public void getQuestion(char operation, double lowerBound, double upperBound) {
+    public Question getQuestion(char operation, double lowerBound, double upperBound) {
         double num1 = getRandomDouble(lowerBound, upperBound);
         double num2 = getRandomDouble(lowerBound, upperBound);
         question.setQuestion(num1 + " " + operation + " " + num2);
@@ -46,5 +47,6 @@ public class QuestionGenerator {
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }
+        return question;
     }
 }
