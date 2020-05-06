@@ -122,8 +122,8 @@ public class CliDisplay implements Display {
 
     @Override
     public void askQuestionsMessage() {
-        terminal.println("Solve: ");
-        terminal.print("Your answer: ");
+        terminal.println("Solve: *questions to be loaded here*");
+        terminal.print("Your answer: *type something here and check with result.\nDo the whole questionset and the programm brings you back to the hallway.\nIn this Version, just type something to go back to the hallway.*");
         String answer = textIO.newStringInputReader().read();
         terminal.println();
         //return the  answer to check in game class?
