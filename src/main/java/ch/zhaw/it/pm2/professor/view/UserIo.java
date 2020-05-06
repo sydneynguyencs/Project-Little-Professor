@@ -34,8 +34,6 @@ public class UserIo {
      */
     public User load(String name) throws IOException, InvalidFileException {
         File file = getFile();
-        User user = null;
-        boolean foundUser=false;
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(file));
         ) {
@@ -43,17 +41,14 @@ public class UserIo {
             while ((line = reader.readLine()) != null) {
                 User fileUser = UserConverter.toObject(line);
                 if (fileUser.getName().equals(name)) {
-                    user = fileUser;
-                    foundUser = true;
+                    return fileUser;
                 }
-            }
-            if(foundUser==false){
-                user = new User(name);
             }
         } catch (UserConverter.UserConversionException e) {
             throw new InvalidFileException();
         }
-        return user;
+        User user;
+        return user = new User(name);
     }
 
     /**
