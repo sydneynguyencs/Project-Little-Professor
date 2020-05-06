@@ -33,7 +33,7 @@ public class Game extends TimerTask {
     private void update() {
         if (this.started) {
             this.time--;
-            System.out.println("Time: " + this.time);
+            this.house.setTime(this.time);
             this.display.showHouse(this.house);
         }
     }
@@ -46,6 +46,9 @@ public class Game extends TimerTask {
         this.user = userIo.load(username);
         this.house.setUsername(username);
         this.house.setHighscore(user.getHighscore());
+        this.house.setTime(this.time);
+        //ToDo: Level should be saved somewhere
+        this.house.setLevel(0);
         this.display.showHouse(this.house);
         this.started = true;
     }
