@@ -10,8 +10,9 @@ import ch.zhaw.it.pm2.professor.view.UserIo;
 
 import java.io.IOException;
 import java.util.TimerTask;
+import java.util.concurrent.Callable;
 
-public class Game extends TimerTask {
+public class Game extends TimerTask implements Callable<Integer> {
     House house;
     Display display;
     User user;
@@ -25,7 +26,7 @@ public class Game extends TimerTask {
     String username;
 
     public Game() throws IOException {
-        this.house = new House();
+        this.house = new House(this);
         this.display = new CliDisplay();
         this.parser = new Parser();
         this.userIo = new UserIo();
@@ -116,4 +117,8 @@ public class Game extends TimerTask {
         //update points
     }
 
+    @Override
+    public Integer call() throws Exception {
+        return this.time;
+    }
 }

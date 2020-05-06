@@ -5,10 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 public class House {
     private String[] house;
     private State state;
+    private Callable<Integer> time;
+    //private List<Room> rooms;
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
@@ -17,8 +20,9 @@ public class House {
     private static final String LEVEL_FIELD = "%LEVEL%";
     private static final int LINES_EMPTYHOUSE = 21;
 
-    public House() throws IOException {
+    public House(Callable<Integer> time) throws IOException {
         this.state = State.ENTRANCE;
+        this.time = time;
         init();
     }
 
@@ -58,7 +62,8 @@ public class House {
 
     public String printLevel(Level level) {
         if (this.state == State.HALLWAY) {
-            addRooms(level);
+            setTimeInMatrix(getTime());
+            addRoomsToMatrix(level);
         }
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : this.house) {
@@ -68,7 +73,7 @@ public class House {
         return stringBuilder.toString();
     }
 
-    private void addRooms(Level level) {
+    private void addRoomsToMatrix(Level level) {
         for(Room room : level.getRooms()) {
             room.addToHouse(this.house);
         }
@@ -78,8 +83,19 @@ public class House {
         replaceField(USER_FIELD, name);
     }
 
-    public void setTime(int time) {
+    private void setTimeInMatrix(int time) {
         this.replaceField(TIME_FIELD, String.valueOf(time));
+    }
+
+    private int getTime() {
+        if (this.time == null) {
+            throw new NullPointerException();
+        }
+        try {
+            return this.time.call();
+        } catch (Exception e) {
+            throw new RuntimeException("This should not be possible.");
+        }
     }
 
     public void setHighscore(int highscore) {
