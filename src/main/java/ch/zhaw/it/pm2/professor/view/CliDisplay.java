@@ -20,7 +20,7 @@ import java.util.List;
  * All the methods in this class are getting called from another class, so this class only represents the IO.
  */
 public class CliDisplay implements Display {
-    private TextIO textIO;
+    TextIO textIO;
     TextTerminal<?> terminal;
     Parser parser;
 
@@ -65,9 +65,7 @@ public class CliDisplay implements Display {
     }
 
     public Config.Command navigate() {
-        boolean ok = false;
         Config.Command command = null;
-        while (!ok) {
             //show house updated
             terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
             terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
@@ -75,11 +73,9 @@ public class CliDisplay implements Display {
             try {
                 //make command dynamic
                 command = this.parser.parseInput(Arrays.asList(Config.Command.values()), input);
-                ok = true;
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }
-        }
         return command;
     }
 
