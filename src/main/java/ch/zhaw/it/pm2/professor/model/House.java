@@ -14,7 +14,7 @@ public class House {
     private static final String TIME_FIELD = "%TIME%";
     private static final String HIGHSCORE_FIELD = "%HIGHSCORE%";
     private static final String SCORE_FIELD = "%SCORE%";
-    private static final String LEVEL_FIELD = "%LEVEL_FIELD%";
+    private static final String LEVEL_FIELD = "%LEVEL%";
     private static final int LINES_EMPTYHOUSE = 21;
 
     public House() throws IOException {
