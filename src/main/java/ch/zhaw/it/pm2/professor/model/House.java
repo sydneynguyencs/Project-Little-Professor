@@ -12,17 +12,23 @@ public class House {
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
+    private static final String SCORE_FIELD = "%SCORE%";
 
     public House() throws IOException {
         this.state = State.ENTRANCE;
         init();
     }
 
+    public State getState() {
+        return this.state;
+    }
+
     public void init() throws IOException {
         this.house = new String[17];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("The file can not be found in your system." +
+                    "Please check if the State-files exists on your computer.");
         }
         BufferedReader in = null;
         try {
@@ -71,6 +77,10 @@ public class House {
 
     public void setTime(int time) {
         this.replaceField(TIME_FIELD, String.valueOf(time));
+    }
+
+    public void setScore(int score) {
+        this.replaceField(SCORE_FIELD, String.valueOf(score));
     }
 
     public void replaceField(String field, String value) {

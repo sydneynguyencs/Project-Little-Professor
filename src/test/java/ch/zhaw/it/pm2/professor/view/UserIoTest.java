@@ -1,4 +1,4 @@
-package ch.zhaw.it.pm2.prefessor;
+package ch.zhaw.it.pm2.professor.view;
 
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.User;
