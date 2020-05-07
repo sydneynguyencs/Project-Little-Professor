@@ -6,7 +6,6 @@ import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
-import org.beryx.textio.InputReader;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -49,7 +48,7 @@ public class CliDisplay implements Display {
 
     public String requestUsername() {
         terminal.println("Please enter your username.\nBetween " + Config.MIN_CHARS_USERNAME + " - " + Config.MAX_CHARS_USERNAME + " characters");
-        String username = this.textIO.newStringInputReader().read();
+        String username = getNextUserInput();
         try {
             parser.parseName(username);
         } catch (InvalidInputException e) {
@@ -68,14 +67,14 @@ public class CliDisplay implements Display {
 
     public Config.Command navigate(Level level) {
         Config.Command command = null;
-            terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
-            terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
-            String input = getNextUserInput();
-            try {
-                command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
-            } catch (InvalidInputException e) {
-                invalidInputMessage();
-            }
+        terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
+        terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
+        String input = getNextUserInput();
+        try {
+            command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
+        } catch (InvalidInputException e) {
+            invalidInputMessage();
+        }
         return command;
     }
 
@@ -98,7 +97,33 @@ public class CliDisplay implements Display {
     }
 
     public String getNextUserInput() {
-        return textIO.newStringInputReader().read();
+        terminal.print("Enter \"quit\" to quit.\n");
+        String userInput = textIO.newStringInputReader().read();
+        checkForQuitCommand(userInput);
+        return userInput;
+    }
+
+    private void checkForQuitCommand(String userInput) {
+        Config.Command[] quitCommandList = {Config.Command.QUIT};
+        try {
+            this.parser.parseInput(quitCommandList, userInput);
+            exitApplication();
+        } catch (InvalidInputException e) {
+            // so we don't quit
+        }
+    }
+
+    /**
+     * If this method gets called, the user gets informed that the Application gets closed after 5 seconds.
+     */
+    private void exitApplication() {
+        terminal.println("Thank you for playing racetrack today. The Application closes in 5 seconds. Goodbye.");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            System.out.println(e.toString());
+        }
+        System.exit(0);
     }
 
     @Override
@@ -121,7 +146,7 @@ public class CliDisplay implements Display {
     public void askQuestionsMessage() {
         terminal.println("Solve: (question set to be inserted here)");
         terminal.print("Your answer: \n(In this Version, just type something to go back to the hallway.)");
-        String answer = textIO.newStringInputReader().read();
+        String answer = getNextUserInput();
         terminal.println();
         //return the  answer to check in game class?
     }

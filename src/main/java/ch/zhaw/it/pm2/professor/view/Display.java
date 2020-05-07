@@ -30,7 +30,7 @@ public interface Display {
 
     public void levelComplete();
 
-    public String getNextUserInput();
+    public String getNextUserInput() throws InvalidInputException;
 
     public void selectedRoomMessage(Room room, Level level);
 
