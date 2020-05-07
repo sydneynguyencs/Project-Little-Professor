@@ -52,13 +52,14 @@ public class Game extends TimerTask {
 
     private void doNextMove() {
         Config.Command command = this.display.navigate(); //
-        if (command == Config.Command.HELP) {
-            this.display.helpMessage(); //can only be reached when typing help twice
-            doNextMove();
-        } else if (command == Config.Command.QUIT) {
-            this.display.quitMessage();
-        } else {
-            moveUser(command);
+        switch(command) {
+            case HELP:
+                this.display.helpMessage();
+                doNextMove();
+            case QUIT:
+                this.display.quitMessage();
+            default:
+                moveUser(command);
         }
     }
 
