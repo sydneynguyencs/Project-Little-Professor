@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.controller.LevelFactory;
+import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
@@ -15,15 +17,19 @@ public class Game extends TimerTask {
     User user;
     Parser parser;
     UserIo userIo;
+    Level currentLevel;
+    LevelSource levelSource;
     int time = 10;
     boolean started = false;
-    int currentLevel = 1;
+    //int currentLevel = 1;
 
     public Game() throws IOException {
         this.house = new House();
         this.display = new CliDisplay();
         this.parser = new Parser();
         this.userIo = new UserIo();
+        levelSource = new LevelFactory();
+        currentLevel = levelSource.getLevels().get(0); //erstes Level aus der Liste
     }
 
     @Override
@@ -50,7 +56,7 @@ public class Game extends TimerTask {
         this.house.setScore(user.getScore());
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
-        this.display.showHouse(this.house);
+        this.display.showHouse(this.house, currentLevel);
         this.started = true;
         doNextMove();
     }

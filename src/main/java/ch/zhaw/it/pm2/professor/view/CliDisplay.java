@@ -4,6 +4,7 @@ import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
+import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -39,6 +40,11 @@ public class CliDisplay implements Display {
 
     public void showHouse(House house) {
         terminal.println(house.toString()); // toString(false) shouldn't be needed instead an entrance-class would be cool
+    }
+
+    @Override
+    public void showHouse(House house, Level level) {
+        terminal.println(house.toString());
     }
 
     public void welcomeMessage(House house) {

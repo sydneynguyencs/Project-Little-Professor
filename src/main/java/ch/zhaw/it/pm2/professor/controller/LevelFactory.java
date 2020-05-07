@@ -30,6 +30,6 @@ public class LevelFactory implements LevelSource {
 
     @Override
     public List<Level> getLevels() {
-        return null;
+        return levelList;
     }
 }
