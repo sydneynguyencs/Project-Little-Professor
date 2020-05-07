@@ -67,7 +67,6 @@ public class CliDisplay implements Display {
 
     public Config.Command navigate(Level level) {
         Config.Command command = null;
-            //show house updated
             terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
             terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
             String input = getNextUserInput();
@@ -103,7 +102,6 @@ public class CliDisplay implements Display {
 
     @Override
     public void selectedRoomMessage(Room room, Level level) {
-
         terminal.println("\nYou entered the room with the mission to solve questions of the operation " + room.getOperation().toString() +
                 ".\nFinish before the time runs out!");
     }

@@ -78,7 +78,7 @@ public class Game extends TimerTask {
     }
 
     private void moveUser(Config.Command command, Level currentLevel) {
-        //while currentLevel not done yet
+        //while currentLevel not done yet && time not up yet
 
         Room room = null;
         for(int i = 0; i < currentLevel.getRooms().length; i++) {
