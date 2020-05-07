@@ -41,7 +41,7 @@ public class Game extends TimerTask {
         if (this.started) {
             this.time--;
             this.house.setTime(this.time);
-            this.display.showHouse(this.house);
+            this.display.showHouse(this.house, currentLevel);
         }
     }
 
@@ -62,7 +62,10 @@ public class Game extends TimerTask {
     }
 
     private void doNextMove(Level currentLevel) {
-        Config.Command command = this.display.navigate(currentLevel); //
+        Config.Command command = this.display.navigate(currentLevel);
+        if(command == null) {
+            doNextMove(currentLevel);
+        }
         switch(command) {
             case HELP:
                 this.display.helpMessage();

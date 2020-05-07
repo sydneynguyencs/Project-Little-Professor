@@ -14,8 +14,6 @@ import ch.zhaw.it.pm2.professor.model.Room;
 public interface Display {
     public void messageUserForInput();
 
-    public void showHouse(House house);
-
     public void showHouse(House house, Level level);
 
     public void welcomeMessage(House house);

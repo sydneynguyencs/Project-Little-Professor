@@ -37,10 +37,6 @@ public class CliDisplay implements Display {
         terminal.println("Please choose a valid input.");
     }
 
-    public void showHouse(House house) {
-        terminal.println(house.toString()); // toString(false) shouldn't be needed instead an entrance-class would be cool
-    }
-
     @Override
     public void showHouse(House house, Level level) {
         terminal.println(house.toString(level));
@@ -75,7 +71,6 @@ public class CliDisplay implements Display {
             terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
             terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
             String input = getNextUserInput();
-            //sollten das loopen bis der user einen richtigen input macht
             try {
                 command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
             } catch (InvalidInputException e) {

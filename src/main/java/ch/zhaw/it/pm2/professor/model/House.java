@@ -56,18 +56,6 @@ public class House {
         init();
     }
 
-    public String toString() {
-        if (this.state == State.HALLWAY) {
-            addRooms();
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < this.house.length; i++) {
-            stringBuilder.append(this.house[i]);
-            stringBuilder.append("\n");
-        }
-        return stringBuilder.toString();
-    }
-
     public String toString(Level level) {
         if (this.state == State.HALLWAY) {
             addRooms(level);
