@@ -130,6 +130,14 @@ public class CliDisplay implements Display {
         terminal.println(room.toString());
     }
 
+    @Override
+    public void updateLevelMessage(Level level) {
+        terminal.println("__________________________________________________\n");
+        terminal.println("Congratulations! You finished this level successfully. Welcome to level " + level.getName());
+
+
+    }
+
     public void printPromt(String promt) {
         terminal.print(promt);
     }

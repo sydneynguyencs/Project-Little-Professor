@@ -41,4 +41,6 @@ public interface Display {
     public void askQuestionsMessage();
 
     public void showRoom(Room room, Level level);
+
+    void updateLevelMessage(Level level);
 }

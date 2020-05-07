@@ -19,10 +19,10 @@ public class Game extends TimerTask {
     UserIo userIo;
     Level currentLevel;
     LevelSource levelSource;
-    int count = 0;
+    int levelCount = 0;
     int time = 10;
     boolean started = false;
-    //int currentLevel = 1;
+    String username;
 
     public Game() throws IOException {
         this.house = new House();
@@ -30,7 +30,7 @@ public class Game extends TimerTask {
         this.parser = new Parser();
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
-        currentLevel = levelSource.getLevels().get(count); //erstes Level aus der Liste
+        currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
     }
 
     @Override
@@ -49,38 +49,43 @@ public class Game extends TimerTask {
     public void start() throws IOException, UserIo.InvalidFileException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
-        String username = display.requestUsername();
-        this.house.changeState(House.State.HALLWAY);
+        username = display.requestUsername();
         this.user = userIo.load(username);
+        updateHouse();
+        this.started = true;
+        doUserCommand();
+    }
+
+    private void updateHouse() throws IOException {
+        this.house.changeState(House.State.HALLWAY);
         this.house.setUsername(username);
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
-        this.display.showHouse(this.house, currentLevel);
-        this.started = true;
-        doUserCommand(currentLevel);
     }
 
-    private void doUserCommand(Level currentLevel) {
+    private void doUserCommand() throws IOException {
+        updateHouse();
+        this.display.showHouse(this.house, currentLevel);
+        this.house.changeState(House.State.HALLWAY);
+
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
-            doUserCommand(currentLevel);
+            doUserCommand();
         }
         switch(command) {
             case HELP:
                 this.display.helpMessage();
-                doUserCommand(currentLevel);
+                doUserCommand();
             case QUIT:
                 this.display.quitMessage();
             default:
-                moveIntoRoom(command, currentLevel);
+                moveIntoRoom(command);
         }
     }
 
-    private void moveIntoRoom(Config.Command command, Level currentLevel) {
-        //while currentLevel not done yet && time not up yet
-
+    private void moveIntoRoom(Config.Command command) throws IOException {
         Room room = null;
         for(int i = 0; i < currentLevel.getRooms().length; i++) {
             if(currentLevel.getRooms()[i].getCommand() == command) {
@@ -91,17 +96,22 @@ public class Game extends TimerTask {
 
         this.display.selectedRoomMessage(room, currentLevel);
         this.display.showRoom(room, currentLevel);
-        startQuestionSet(room, currentLevel);
+        startQuestionSet(room);
 
         //mark room as completed
-        this.display.showHouse(house, currentLevel); //update()? Timer does not change after leaving room
 
-        //if all rooms of currentlevel completed && !timeUp: go to next level currentLevel++
-        currentLevel = levelSource.getLevels().get(count++); //erstes Level aus der Liste
-        doUserCommand(currentLevel);
+        //if all rooms of current level completed && !timeUp: go to next level currentLevel++
+        updateLevel();
+        doUserCommand();
     }
 
-    private void startQuestionSet(Room room, Level currentLevel) {
+    private void updateLevel() throws IOException {
+        levelCount++;
+        currentLevel = levelSource.getLevels().get(levelCount);
+        this.display.updateLevelMessage(currentLevel);
+    }
+
+    private void startQuestionSet(Room room) {
         this.display.askQuestionsMessage();
         //update points
     }
