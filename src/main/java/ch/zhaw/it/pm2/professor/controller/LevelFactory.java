@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelFactory implements LevelSource {
-    private static final int NUMBER_OF_LEVELS = 6;
     private List<Level> levelList;
 
     public LevelFactory() {
@@ -24,7 +23,6 @@ public class LevelFactory implements LevelSource {
         levelList.add(new Level("2", domainIntermediate, roomsAdditionSubtraction));
         levelList.add(new Level("3", domainBeginner, roomsMultiplicationDivision));
         levelList.add(new Level("4", domainIntermediate, roomsMultiplicationDivision));
-        levelList.add(new Level("5", domainIntermediate, roomsAll));
         levelList.add(new Level("6", domainAdvanced, roomsAll));
     }
 

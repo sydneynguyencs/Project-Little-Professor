@@ -19,6 +19,7 @@ public class Game extends TimerTask {
     UserIo userIo;
     Level currentLevel;
     LevelSource levelSource;
+    int count = 0;
     int time = 10;
     boolean started = false;
     //int currentLevel = 1;
@@ -29,7 +30,7 @@ public class Game extends TimerTask {
         this.parser = new Parser();
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
-        currentLevel = levelSource.getLevels().get(0); //erstes Level aus der Liste
+        currentLevel = levelSource.getLevels().get(count); //erstes Level aus der Liste
     }
 
     @Override
@@ -58,26 +59,26 @@ public class Game extends TimerTask {
         this.house.setLevel(currentLevel);
         this.display.showHouse(this.house, currentLevel);
         this.started = true;
-        doNextMove(currentLevel);
+        doUserCommand(currentLevel);
     }
 
-    private void doNextMove(Level currentLevel) {
+    private void doUserCommand(Level currentLevel) {
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
-            doNextMove(currentLevel);
+            doUserCommand(currentLevel);
         }
         switch(command) {
             case HELP:
                 this.display.helpMessage();
-                doNextMove(currentLevel);
+                doUserCommand(currentLevel);
             case QUIT:
                 this.display.quitMessage();
             default:
-                moveUser(command, currentLevel);
+                moveIntoRoom(command, currentLevel);
         }
     }
 
-    private void moveUser(Config.Command command, Level currentLevel) {
+    private void moveIntoRoom(Config.Command command, Level currentLevel) {
         //while currentLevel not done yet && time not up yet
 
         Room room = null;
@@ -90,14 +91,19 @@ public class Game extends TimerTask {
 
         this.display.selectedRoomMessage(room, currentLevel);
         this.display.showRoom(room, currentLevel);
-        //todo: start question set
-        this.display.askQuestionsMessage();
+        startQuestionSet(room, currentLevel);
 
         //mark room as completed
-        this.display.showHouse(house, currentLevel);
+        this.display.showHouse(house, currentLevel); //update()? Timer does not change after leaving room
 
         //if all rooms of currentlevel completed && !timeUp: go to next level currentLevel++
-        doNextMove(currentLevel);
+        currentLevel = levelSource.getLevels().get(count++); //erstes Level aus der Liste
+        doUserCommand(currentLevel);
+    }
+
+    private void startQuestionSet(Room room, Level currentLevel) {
+        this.display.askQuestionsMessage();
+        //update points
     }
 
 }

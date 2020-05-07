@@ -61,17 +61,11 @@ public class House {
             addRooms(level);
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < this.house.length; i++) {
-            stringBuilder.append(this.house[i]);
+        for (String s : this.house) {
+            stringBuilder.append(s);
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
-    }
-
-    private void addRooms() {
-        for(Room room : Room.values()) {
-            room.addToHouse(this.house);
-        }
     }
 
     private void addRooms(Level level) {

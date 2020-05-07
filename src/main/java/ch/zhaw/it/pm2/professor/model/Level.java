@@ -8,7 +8,6 @@ public class Level {
     private String name;
     private int[] domain;
     private Room[] rooms;
-    private List<Config.Command> validCommandsList;
 
     public Level(String name, int[] domain, Room[] rooms) {
         this.name = name;
@@ -29,8 +28,7 @@ public class Level {
     }
 
     public List<Config.Command> getValidCommandsList() {
-        System.out.println("OK LEVEL Valid Command List");
-        validCommandsList = new ArrayList<>();
+        List<Config.Command> validCommandsList = new ArrayList<>();
         for (int i = 1; i < rooms.length; i++) {
             validCommandsList.add(rooms[i].getCommand());
         }
@@ -38,7 +36,5 @@ public class Level {
         validCommandsList.add(Config.Command.QUIT);
         return validCommandsList;
     }
-
-
 
 }
