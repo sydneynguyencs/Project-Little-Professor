@@ -72,10 +72,10 @@ public class CliDisplay implements Display {
     public Config.Command navigate(Level level) {
         Config.Command command = null;
             //show house updated
-            terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
+            terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
             terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
             String input = getNextUserInput();
-            terminal.print("OK Navigate");
+            //sollten das loopen bis der user einen richtigen input macht
             try {
                 command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
             } catch (InvalidInputException e) {
@@ -89,7 +89,7 @@ public class CliDisplay implements Display {
     }
 
     public void invalidInputMessage() {
-        terminal.print("The given input is invalid. Pleas enter one of the proposed commands.");
+        terminal.print("The given input is invalid. Please enter one of the proposed commands.\n");
     }
 
     public void timeIsUp() {

@@ -46,7 +46,7 @@ public class Game extends TimerTask {
     }
 
     public void start() throws IOException, UserIo.InvalidFileException {
-        this.display.showHouse(this.house);
+        this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         String username = display.requestUsername();
         this.house.changeState(House.State.HALLWAY);
