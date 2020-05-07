@@ -75,7 +75,6 @@ public class Game extends TimerTask {
     }
 
     private void moveUser(Config.Command command) {
-        Room currRoom = command.getRoom();//put user here.
         this.display.selectedRoomMessage(command);
         //put user into room and print room
         this.display.showRoom(command.getRoom());

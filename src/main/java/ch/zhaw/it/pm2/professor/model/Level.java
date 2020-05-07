@@ -8,13 +8,12 @@ public class Level {
     private String name;
     private int[] domain;
     private Room[] rooms;
-    private List<Config.Command> commands;
+    private List<Config.Command> validCommandsList;
 
     public Level(String name, int[] domain, Room[] rooms) {
         this.name = name;
         this.domain = domain;
         this.rooms = rooms;
-        commands = new ArrayList<>();
     }
 
     public String getName() {
@@ -29,10 +28,15 @@ public class Level {
         return rooms;
     }
 
-    public List <Config.Command> getCommands() {
+    public List<Config.Command> getValidCommandsList() {
+        System.out.println("OK LEVEL Valid Command List");
+        validCommandsList = new ArrayList<>();
+        validCommandsList.add(Config.Command.HELP);
+        validCommandsList.add(Config.Command.QUIT);
         for(int i = 0; i < rooms.length; i++) {
-            commands.add(rooms[i].getCommand());
+            validCommandsList.add(rooms[i].getCommand());
         }
-        return commands; }
+        return validCommandsList;
+    }
 
 }

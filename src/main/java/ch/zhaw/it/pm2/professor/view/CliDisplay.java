@@ -10,7 +10,6 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -76,9 +75,9 @@ public class CliDisplay implements Display {
             terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
             terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
             String input = getNextUserInput();
+            terminal.print("OK Navigate");
             try {
-                //make command dynamic
-                command = this.parser.parseInput(level.getCommands(), input);
+                command = this.parser.parseInput(level.getValidCommandsList(), input);
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }

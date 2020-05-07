@@ -33,6 +33,7 @@ public enum Room {
     public String toString() {
         return "\n################\n#              #\n#       "+ operation.toString() +"      #\n#              #\n################\n";
     }
+
     public Config.Command getCommand() {
         return command;
     }
