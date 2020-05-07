@@ -12,8 +12,8 @@ import java.util.stream.Stream;
  */
 public class Config {
 
-    public final static String USER_FILE_PATH = "./src/main/resources/users.txt";
-    public final static String USER_TEST_FILE_PATH = "./src/test/resources/users_test.txt";
+    public final static String USER_FILE_PATH = "/src/main/resources/users.txt";
+    public final static String USER_TEST_FILE_PATH = "/src/test/resources/users_test.txt";
     public static final int NUMBER_OF_OPERATIONS = 4;
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
     public static final int MAX_CHARS_USERNAME = 12;
