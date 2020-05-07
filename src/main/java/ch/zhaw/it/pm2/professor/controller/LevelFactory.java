@@ -12,12 +12,12 @@ public class LevelFactory implements LevelSource {
 
     public LevelFactory() {
         this.levelList = new ArrayList<>();
-        int[] domainBeginner = {0,10};
+        int[] domainBeginner = {0, 10};
         int[] domainIntermediate = {10, 100};
         int[] domainAdvanced = {0, 1000};
 
-        Room[] roomsAdditionSubtraction = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT};
-        Room[] roomsMultiplicationDivision = {Room.HALLWAY, Room.ROOM_UP, Room.ROOM_DOWN};
+        Room[] roomsAdditionSubtraction = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_UP};
+        Room[] roomsMultiplicationDivision = {Room.HALLWAY, Room.ROOM_RIGHT, Room.ROOM_DOWN};
         Room[] roomsAll = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT, Room.ROOM_UP, Room.ROOM_DOWN};
 
         levelList.add(new Level("1", domainBeginner, roomsAdditionSubtraction));

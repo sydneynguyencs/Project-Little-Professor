@@ -31,11 +31,11 @@ public class Level {
     public List<Config.Command> getValidCommandsList() {
         System.out.println("OK LEVEL Valid Command List");
         validCommandsList = new ArrayList<>();
-        validCommandsList.add(Config.Command.HELP);
-        validCommandsList.add(Config.Command.QUIT);
-        for(int i = 0; i < rooms.length; i++) {
+        for (int i = 1; i < rooms.length; i++) {
             validCommandsList.add(rooms[i].getCommand());
         }
+        validCommandsList.add(Config.Command.HELP);
+        validCommandsList.add(Config.Command.QUIT);
         return validCommandsList;
     }
 

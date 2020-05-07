@@ -8,8 +8,8 @@ import java.awt.*;
  */
 public enum Room {
     ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8), Config.Command.LEFT),
-    ROOM_RIGHT(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.RIGHT),
-    ROOM_UP(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.UP),
+    ROOM_UP(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.UP),
+    ROOM_RIGHT(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.RIGHT),
     ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13), Config.Command.DOWN),
     HALLWAY("--", new Point(23, 8));
 

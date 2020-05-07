@@ -77,7 +77,7 @@ public class CliDisplay implements Display {
             String input = getNextUserInput();
             terminal.print("OK Navigate");
             try {
-                command = this.parser.parseInput(level.getValidCommandsList(), input);
+                command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }
@@ -108,7 +108,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void selectedRoomMessage(Config.Command command) {
-        terminal.println("\nYou entered the room with the mission to solve questions of the operation "+ command.getRoom().getOperation().toString() + ".\nFinish before the time runs out!");
+        terminal.println("\nYou entered the room with the mission to solve these questions.\nFinish before the time runs out!");
     }
 
     @Override
