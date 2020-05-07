@@ -109,7 +109,7 @@ public class House {
     }
 
     public void setLevel(Level level) {
-        this.replaceField(LEVEL_FIELD, String.valueOf(level));
+        this.replaceField(LEVEL_FIELD, level.getName());
     }
 
     public void replaceField(String field, String value) {

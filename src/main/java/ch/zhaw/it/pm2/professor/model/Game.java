@@ -58,15 +58,15 @@ public class Game extends TimerTask {
         this.house.setLevel(currentLevel);
         this.display.showHouse(this.house, currentLevel);
         this.started = true;
-        doNextMove();
+        doNextMove(currentLevel);
     }
 
-    private void doNextMove() {
-        Config.Command command = this.display.navigate(); //
+    private void doNextMove(Level currentLevel) {
+        Config.Command command = this.display.navigate(currentLevel); //
         switch(command) {
             case HELP:
                 this.display.helpMessage();
-                doNextMove();
+                doNextMove(currentLevel);
             case QUIT:
                 this.display.quitMessage();
             default:
@@ -84,7 +84,8 @@ public class Game extends TimerTask {
         //todo: print updated house (with completed room)
         //room enum complete/not available ROOM_LOOK_COMPLETED addHouse() adaptieren
         //can be done in doNextMove()
-        doNextMove();
+        this.display.showHouse(house, currentLevel);
+        doNextMove(currentLevel);
     }
 
 }

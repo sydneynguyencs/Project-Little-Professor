@@ -44,7 +44,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void showHouse(House house, Level level) {
-        terminal.println(house.toString());
+        terminal.println(house.toString(level));
     }
 
     public void welcomeMessage(House house) {
@@ -70,7 +70,7 @@ public class CliDisplay implements Display {
         terminal.print("This are the highscores.");
     }
 
-    public Config.Command navigate() {
+    public Config.Command navigate(Level level) {
         Config.Command command = null;
             //show house updated
             terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
@@ -78,7 +78,7 @@ public class CliDisplay implements Display {
             String input = getNextUserInput();
             try {
                 //make command dynamic
-                command = this.parser.parseInput(Arrays.asList(Config.Command.values()), input);
+                command = this.parser.parseInput(level.getCommands(), input);
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }

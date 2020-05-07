@@ -26,7 +26,7 @@ public interface Display {
 
     public void displayHighscores();
 
-    public Config.Command navigate();
+    public Config.Command navigate(Level level);
 
     public void timeIsUp();
 
