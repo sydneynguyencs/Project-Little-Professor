@@ -34,7 +34,7 @@ public interface Display {
 
     public String getNextUserInput();
 
-    public void selectedRoomMessage(Config.Command command);
+    public void selectedRoomMessage(Room room, Level level);
 
     public void helpMessage();
 
@@ -42,5 +42,5 @@ public interface Display {
 
     public void askQuestionsMessage();
 
-    public void showRoom(Room room);
+    public void showRoom(Room room, Level level);
 }

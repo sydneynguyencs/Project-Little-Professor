@@ -107,8 +107,10 @@ public class CliDisplay implements Display {
     }
 
     @Override
-    public void selectedRoomMessage(Config.Command command) {
-        terminal.println("\nYou entered the room with the mission to solve these questions.\nFinish before the time runs out!");
+    public void selectedRoomMessage(Room room, Level level) {
+
+        terminal.println("\nYou entered the room with the mission to solve questions of the operation " + room.getOperation().toString() +
+                ".\nFinish before the time runs out!");
     }
 
     @Override
@@ -123,15 +125,15 @@ public class CliDisplay implements Display {
 
     @Override
     public void askQuestionsMessage() {
-        terminal.println("Solve: *questions to be loaded here*");
-        terminal.print("Your answer: *type something here and check with result.\nDo the whole questionset and the programm brings you back to the hallway.\nIn this Version, just type something to go back to the hallway.*");
+        terminal.println("Solve: (question set to be inserted here)");
+        terminal.print("Your answer: \n(In this Version, just type something to go back to the hallway.)");
         String answer = textIO.newStringInputReader().read();
         terminal.println();
         //return the  answer to check in game class?
     }
 
     @Override
-    public void showRoom(Room room) {
+    public void showRoom(Room room, Level level) {
         terminal.println(room.toString());
     }
 

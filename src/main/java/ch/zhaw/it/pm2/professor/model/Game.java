@@ -70,20 +70,30 @@ public class Game extends TimerTask {
             case QUIT:
                 this.display.quitMessage();
             default:
-                moveUser(command);
+                moveUser(command, currentLevel);
         }
     }
 
-    private void moveUser(Config.Command command) {
-        this.display.selectedRoomMessage(command);
-        //put user into room and print room
-        this.display.showRoom(command.getRoom());
+    private void moveUser(Config.Command command, Level currentLevel) {
+        //while currentLevel not done yet
+
+        Room room = null;
+        for(int i = 0; i < currentLevel.getRooms().length; i++) {
+            if(currentLevel.getRooms()[i].getCommand() == command) {
+                room = currentLevel.getRooms()[i];
+            }
+        }
+        assert false;
+
+        this.display.selectedRoomMessage(room, currentLevel);
+        this.display.showRoom(room, currentLevel);
         //todo: start question set
         this.display.askQuestionsMessage();
-        //todo: print updated house (with completed room)
-        //room enum complete/not available ROOM_LOOK_COMPLETED addHouse() adaptieren
-        //can be done in doNextMove()
+
+        //mark room as completed
         this.display.showHouse(house, currentLevel);
+
+        //if all rooms of currentlevel completed && !timeUp: go to next level currentLevel++
         doNextMove(currentLevel);
     }
 
