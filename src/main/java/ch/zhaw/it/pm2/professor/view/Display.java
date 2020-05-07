@@ -1,10 +1,13 @@
 package ch.zhaw.it.pm2.professor.view;
 
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
+import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
+
+import java.io.IOException;
 
 /**
  * We use an Interface for our prototype.
@@ -36,11 +39,13 @@ public interface Display {
 
     public void helpMessage();
 
-    public void quitMessage();
-
     public void askQuestionsMessage();
 
     public void showRoom(Room room, Level level);
 
     void updateLevelMessage(Level level);
+
+    public interface GameEndListener {
+        void onGameEnd() throws UserIoException;
+    }
 }

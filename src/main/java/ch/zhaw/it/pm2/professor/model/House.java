@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 public class House {
     private String[] house;
     private State state;
-    private Callable<Integer> time;
+    private TimeInterface timeSource;
     //private List<Room> rooms;
 
     private static final String USER_FIELD = "%USER________%";
@@ -20,9 +20,9 @@ public class House {
     private static final String LEVEL_FIELD = "%LEVEL%";
     private static final int LINES_EMPTYHOUSE = 21;
 
-    public House(Callable<Integer> time) throws IOException {
+    public House(TimeInterface timeSource) throws IOException {
         this.state = State.ENTRANCE;
-        this.time = time;
+        this.timeSource = timeSource;
         init();
     }
 
@@ -92,11 +92,11 @@ public class House {
     }
 
     private int getTime() {
-        if (this.time == null) {
+        if (this.timeSource == null) {
             throw new NullPointerException();
         }
         try {
-            return this.time.call();
+            return this.timeSource.getTime();
         } catch (Exception e) {
             throw new RuntimeException("This should not be possible.");
         }
@@ -136,5 +136,9 @@ public class House {
         public String getFilePath() {
             return filePath;
         }
+    }
+
+    public interface TimeInterface {
+        int getTime();
     }
 }

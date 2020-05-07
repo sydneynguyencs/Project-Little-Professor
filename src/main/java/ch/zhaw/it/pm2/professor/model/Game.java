@@ -3,23 +3,26 @@ package ch.zhaw.it.pm2.professor.model;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.controller.Parser;
+import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
 import ch.zhaw.it.pm2.professor.view.UserIo;
+import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
 import java.io.IOException;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
 
-public class Game extends TimerTask implements Callable<Integer> {
-    House house;
-    Display display;
-    User user;
-    Parser parser;
-    UserIo userIo;
-    Level currentLevel;
-    LevelSource levelSource;
+public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener {
+    private House house;
+    private Display display;
+    private User user;
+    private Parser parser;
+    private UserIo userIo;
+    private int time = 10;
+    private boolean started = false;
+    private Level currentLevel;
+    private LevelSource levelSource;
     int levelCount = 0;
     int time = 10;
     boolean started = false;
@@ -27,7 +30,7 @@ public class Game extends TimerTask implements Callable<Integer> {
 
     public Game() throws IOException {
         this.house = new House(this);
-        this.display = new CliDisplay();
+        this.display = new CliDisplay(this);
         this.parser = new Parser();
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
@@ -46,7 +49,7 @@ public class Game extends TimerTask implements Callable<Integer> {
         }
     }
 
-    public void start() throws IOException, UserIo.InvalidFileException {
+    public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         username = display.requestUsername();
@@ -78,8 +81,6 @@ public class Game extends TimerTask implements Callable<Integer> {
             case HELP:
                 this.display.helpMessage();
                 doUserCommand();
-            case QUIT:
-                this.display.quitMessage();
             default:
                 moveIntoRoom(command);
         }
@@ -116,8 +117,19 @@ public class Game extends TimerTask implements Callable<Integer> {
         //update points
     }
 
-    @Override
-    public Integer call() throws Exception {
+    public int getTime() {
         return this.time;
+    }
+
+    public void onGameEnd() throws UserIoException {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            System.out.println(e.toString());
+        }
+        if (this.user != null) {
+            this.userIo.store(this.user);
+        }
+        System.exit(0);
     }
 }
