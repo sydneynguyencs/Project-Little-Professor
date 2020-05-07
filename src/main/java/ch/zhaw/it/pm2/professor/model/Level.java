@@ -2,17 +2,17 @@ package ch.zhaw.it.pm2.professor.model;
 
 public class Level {
 
-    private String name;
+    private int name;
     private int[] domain;
     private Room[] rooms;
 
-    public Level(String name, int[] domain, Room[] rooms) {
+    public Level(int name, int[] domain, Room[] rooms) {
         this.name = name;
         this.domain = domain;
         this.rooms = rooms;
     }
 
-    public String getName() {
+    public int getName() {
         return name;
     }
 

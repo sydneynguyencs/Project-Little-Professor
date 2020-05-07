@@ -20,12 +20,12 @@ public class LevelFactory implements LevelSource {
         Room[] roomsMultiplicationDivision = {Room.HALLWAY, Room.ROOM_UP, Room.ROOM_DOWN};
         Room[] roomsAll = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT, Room.ROOM_UP, Room.ROOM_DOWN};
 
-        levelList.add(new Level("Level 1", domainBeginner, roomsAdditionSubtraction));
-        levelList.add(new Level("Level 2", domainIntermediate, roomsAdditionSubtraction));
-        levelList.add(new Level("Level 3", domainBeginner, roomsMultiplicationDivision));
-        levelList.add(new Level("Level 4", domainIntermediate, roomsMultiplicationDivision));
-        levelList.add(new Level("Level 5", domainIntermediate, roomsAll));
-        levelList.add(new Level("Level 6", domainAdvanced, roomsAll));
+        levelList.add(new Level(1, domainBeginner, roomsAdditionSubtraction));
+        levelList.add(new Level(2, domainIntermediate, roomsAdditionSubtraction));
+        levelList.add(new Level(3, domainBeginner, roomsMultiplicationDivision));
+        levelList.add(new Level(4, domainIntermediate, roomsMultiplicationDivision));
+        levelList.add(new Level(5, domainIntermediate, roomsAll));
+        levelList.add(new Level(6, domainAdvanced, roomsAll));
     }
 
     @Override
