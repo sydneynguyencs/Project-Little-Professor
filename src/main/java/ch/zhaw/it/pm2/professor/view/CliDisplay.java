@@ -4,6 +4,7 @@ import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
+import ch.zhaw.it.pm2.professor.model.Room;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -50,7 +51,7 @@ public class CliDisplay implements Display {
         try {
             parser.parseName(username);
         } catch (InvalidInputException e) {
-            e.printStackTrace();
+            invalidInputMessage();
         }
         return username;
     }
@@ -63,21 +64,19 @@ public class CliDisplay implements Display {
         terminal.print("This are the highscores.");
     }
 
-    public void navigate() {
-        boolean ok = false;
-        while (!ok) {
-            terminal.print("To navigate inside the house, user the following keys:\n\n" +
-                    "W for UP\n" +
-                    "A for Left *** D for Right\n" +
-                    "X for Down");
-            String input = "bla";
+    public Config.Command navigate() {
+        Config.Command command = null;
+            //show house updated
+            terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
+            terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
+            String input = getNextUserInput();
             try {
-                this.parser.parseInput(Arrays.asList(Config.Command.values()), getNextUserInput());
-                ok = true;
+                //make command dynamic
+                command = this.parser.parseInput(Arrays.asList(Config.Command.values()), input);
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }
-        }
+        return command;
     }
 
     public String getCommandSelectionString(List<Config.Command> commands) {
@@ -85,7 +84,7 @@ public class CliDisplay implements Display {
     }
 
     public void invalidInputMessage() {
-        // print invalid input message
+        terminal.print("The given input is invalid. Pleas enter one of the proposed commands.");
     }
 
     public void timeIsUp() {
@@ -100,6 +99,35 @@ public class CliDisplay implements Display {
 
     public String getNextUserInput() {
         return textIO.newStringInputReader().read();
+    }
+
+    @Override
+    public void selectedRoomMessage(Config.Command command) {
+        terminal.println("\nYou entered the room with the mission to solve questions of the operation "+ command.getRoom().getOperation().toString() + ".\nFinish before the time runs out!");
+    }
+
+    @Override
+    public void helpMessage() {
+        terminal.println("Move into a room to start the question set and gain enough points to win this level.\nWatch out for the timer!\nTo quit Little Professor type \"quit\"");
+    }
+
+    @Override
+    public void quitMessage() {
+        terminal.println("Thanks for playing!\nSee you soon to improve your math skills.");
+    }
+
+    @Override
+    public void askQuestionsMessage() {
+        terminal.println("Solve: *questions to be loaded here*");
+        terminal.print("Your answer: *type something here and check with result.\nDo the whole questionset and the programm brings you back to the hallway.\nIn this Version, just type something to go back to the hallway.*");
+        String answer = textIO.newStringInputReader().read();
+        terminal.println();
+        //return the  answer to check in game class?
+    }
+
+    @Override
+    public void showRoom(Room room) {
+        terminal.println(room.toString());
     }
 
     public void printPromt(String promt) {

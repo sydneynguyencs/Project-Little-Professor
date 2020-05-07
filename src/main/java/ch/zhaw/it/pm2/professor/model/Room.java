@@ -29,7 +29,7 @@ public enum Room {
 
     @Override
     public String toString() {
-        return this.name;
+        return "\n################\n#              #\n#       "+ operation.toString() +"      #\n#              #\n################\n";
     }
 
     /**

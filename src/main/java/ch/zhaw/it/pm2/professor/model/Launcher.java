@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.view.UserIo;
 
 import java.io.IOException;

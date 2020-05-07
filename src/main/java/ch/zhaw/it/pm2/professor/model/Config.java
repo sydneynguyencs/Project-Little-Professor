@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -33,12 +35,14 @@ public class Config {
         QUIT("quit"),
         HELP("help"),
         UNKNOWN("?"),
-        LEFT("left"),
-        RIGHT("right"),
-        UP("up"),
-        DOWN("down");
+        LEFT("left", Room.ROOM_LEFT),
+        RIGHT("right", Room.ROOM_RIGHT),
+        UP("up", Room.ROOM_UP),
+        DOWN("down", Room.ROOM_DOWN);
 
         private String command;
+        private Room room;
+
 
         /**
          * Initialize with according command.
@@ -49,11 +53,32 @@ public class Config {
         }
 
         /**
+         * Initialize with according command.
+         * @param command   the command as String.
+         * @param room   the room as Room.
+         */
+        Command(String command, Room room) {
+            this.command = command;
+            this.room = room;
+        }
+
+        /**
          * @return  the command as String
          */
         @Override
         public String toString() {
             return command;
+        }
+
+        public static List<Command> getCommandList() {
+            List<Command> commands = new ArrayList<>();
+            for(int i = 0; i < 8; i++)
+                commands.add(Command.values()[i]);
+            return commands;
+        }
+
+        public Room getRoom() {
+            return room;
         }
     }
 
