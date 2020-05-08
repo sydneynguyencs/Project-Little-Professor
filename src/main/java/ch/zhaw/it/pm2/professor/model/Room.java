@@ -7,19 +7,21 @@ import java.awt.*;
  * provide an operation, other do not.
  */
 public enum Room {
-    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8)),
-    ROOM_RIGHT(Config.Operation.SUBTRACTION, new Point(23, 3)),
-    ROOM_UP(Config.Operation.MULTIPLICATION, new Point(41, 8)),
-    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13)),
+    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8), Config.Command.LEFT),
+    ROOM_UP(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.UP),
+    ROOM_RIGHT(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.RIGHT),
+    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13), Config.Command.DOWN),
     HALLWAY("--", new Point(23, 8));
 
     private Config.Operation operation = null;
     private final String name;
     private final Point position;
+    private Config.Command command;
 
-    Room(Config.Operation operation, Point position) {
+    Room(Config.Operation operation, Point position, Config.Command command) {
         this(operation.toString(), position);
         this.operation = operation;
+        this.command = command;
     }
 
     Room(String name, Point position) {
@@ -30,6 +32,10 @@ public enum Room {
     @Override
     public String toString() {
         return "\n################\n#              #\n#       "+ operation.toString() +"      #\n#              #\n################\n";
+    }
+
+    public Config.Command getCommand() {
+        return command;
     }
 
     /**

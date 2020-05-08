@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.controller.LevelFactory;
+import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
@@ -15,15 +17,20 @@ public class Game extends TimerTask {
     User user;
     Parser parser;
     UserIo userIo;
+    Level currentLevel;
+    LevelSource levelSource;
+    int levelCount = 0;
     int time = 10;
     boolean started = false;
-    int currentLevel = 1;
+    String username;
 
     public Game() throws IOException {
         this.house = new House();
         this.display = new CliDisplay();
         this.parser = new Parser();
         this.userIo = new UserIo();
+        levelSource = new LevelFactory();
+        currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
     }
 
     @Override
@@ -35,50 +42,78 @@ public class Game extends TimerTask {
         if (this.started) {
             this.time--;
             this.house.setTime(this.time);
-            this.display.showHouse(this.house);
+            this.display.showHouse(this.house, currentLevel);
         }
     }
 
     public void start() throws IOException, UserIo.InvalidFileException {
-        this.display.showHouse(this.house);
+        this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
-        String username = display.requestUsername();
-        this.house.changeState(House.State.HALLWAY);
+        username = display.requestUsername();
         this.user = userIo.load(username);
+        updateHouse();
+        this.started = true;
+        doUserCommand();
+    }
+
+    private void updateHouse() throws IOException {
+        this.house.changeState(House.State.HALLWAY);
         this.house.setUsername(username);
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
-        this.display.showHouse(this.house);
-        this.started = true;
-        doNextMove();
     }
 
-    private void doNextMove() {
-        Config.Command command = this.display.navigate(); //
+    private void doUserCommand() throws IOException {
+        updateHouse();
+        this.display.showHouse(this.house, currentLevel);
+        this.house.changeState(House.State.HALLWAY);
+
+        Config.Command command = this.display.navigate(currentLevel);
+        if(command == null) {
+            doUserCommand();
+        }
         switch(command) {
             case HELP:
                 this.display.helpMessage();
-                doNextMove();
+                doUserCommand();
             case QUIT:
                 this.display.quitMessage();
             default:
-                moveUser(command);
+                moveIntoRoom(command);
         }
     }
 
-    private void moveUser(Config.Command command) {
-        Room currRoom = command.getRoom();//put user here.
-        this.display.selectedRoomMessage(command);
-        //put user into room and print room
-        this.display.showRoom(command.getRoom());
-        //todo: start question set
+    private void moveIntoRoom(Config.Command command) throws IOException {
+        Room room = null;
+        for(int i = 0; i < currentLevel.getRooms().length; i++) {
+            if(currentLevel.getRooms()[i].getCommand() == command) {
+                room = currentLevel.getRooms()[i];
+            }
+        }
+        assert false;
+
+        this.display.selectedRoomMessage(room, currentLevel);
+        this.display.showRoom(room, currentLevel);
+        startQuestionSet(room);
+
+        //mark room as completed
+
+        //if all rooms of current level completed && !timeUp: go to next level currentLevel++
+        updateLevel();
+        doUserCommand();
+    }
+
+    private void updateLevel() throws IOException {
+        levelCount++;
+        currentLevel = levelSource.getLevels().get(levelCount);
+        this.display.updateLevelMessage(currentLevel);
+    }
+
+    private void startQuestionSet(Room room) {
         this.display.askQuestionsMessage();
-        //todo: print updated house (with completed room)
-        //room enum complete/not available ROOM_LOOK_COMPLETED addHouse() adaptieren
-        //can be done in doNextMove()
-        doNextMove();
+        //update points
     }
 
 }

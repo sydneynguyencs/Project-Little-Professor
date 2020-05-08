@@ -19,6 +19,7 @@ public class Parser {
             throw new NullPointerException("The input must not be null.");
         }
         for (Config.Command command : acceptedCommands) {
+
             if (command.toString().equals(input.trim())) {
                 return command;
             }

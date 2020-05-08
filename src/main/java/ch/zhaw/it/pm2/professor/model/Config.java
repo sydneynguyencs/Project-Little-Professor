@@ -12,9 +12,8 @@ import java.util.stream.Stream;
  */
 public class Config {
 
-    public final static String USER_FILE_PATH = "/src/main/resources/users.txt";
-    public final static String USER_TEST_FILE_PATH = "/src/test/resources/users_test.txt";
-    public static final int NUMBER_OF_OPERATIONS = 4;
+    public final static String USER_FILE_PATH = "./src/main/resources/users.txt";
+    public final static String USER_TEST_FILE_PATH = "./src/test/resources/users_test.txt";
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
     public static final int MAX_CHARS_USERNAME = 12;
     public static final int MIN_CHARS_USERNAME = 4;
@@ -35,14 +34,12 @@ public class Config {
         QUIT("quit"),
         HELP("help"),
         UNKNOWN("?"),
-        LEFT("left", Room.ROOM_LEFT),
-        RIGHT("right", Room.ROOM_RIGHT),
-        UP("up", Room.ROOM_UP),
-        DOWN("down", Room.ROOM_DOWN);
+        LEFT("left"),
+        RIGHT("right"),
+        UP("up"),
+        DOWN("down");
 
         private String command;
-        private Room room;
-
 
         /**
          * Initialize with according command.
@@ -53,16 +50,6 @@ public class Config {
         }
 
         /**
-         * Initialize with according command.
-         * @param command   the command as String.
-         * @param room   the room as Room.
-         */
-        Command(String command, Room room) {
-            this.command = command;
-            this.room = room;
-        }
-
-        /**
          * @return  the command as String
          */
         @Override
@@ -70,16 +57,6 @@ public class Config {
             return command;
         }
 
-        public static List<Command> getCommandList() {
-            List<Command> commands = new ArrayList<>();
-            for(int i = 0; i < 8; i++)
-                commands.add(Command.values()[i]);
-            return commands;
-        }
-
-        public Room getRoom() {
-            return room;
-        }
     }
 
     /**

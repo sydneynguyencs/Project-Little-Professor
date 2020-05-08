@@ -56,20 +56,20 @@ public class House {
         init();
     }
 
-    public String toString() {
+    public String toString(Level level) {
         if (this.state == State.HALLWAY) {
-            addRooms();
+            addRooms(level);
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < this.house.length; i++) {
-            stringBuilder.append(this.house[i]);
+        for (String s : this.house) {
+            stringBuilder.append(s);
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
     }
 
-    private void addRooms() {
-        for(Room room : Room.values()) {
+    private void addRooms(Level level) {
+        for(Room room : level.getRooms()) {
             room.addToHouse(this.house);
         }
     }
@@ -90,8 +90,8 @@ public class House {
         this.replaceField(SCORE_FIELD, String.valueOf(score));
     }
 
-    public void setLevel(int level) {
-        this.replaceField(LEVEL_FIELD, String.valueOf(level));
+    public void setLevel(Level level) {
+        this.replaceField(LEVEL_FIELD, level.getName());
     }
 
     public void replaceField(String field, String value) {

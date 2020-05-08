@@ -1,5 +1,8 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Level {
 
     private String name;
@@ -22,6 +25,16 @@ public class Level {
 
     public Room[] getRooms() {
         return rooms;
+    }
+
+    public List<Config.Command> getValidCommandsList() {
+        List<Config.Command> validCommandsList = new ArrayList<>();
+        for (int i = 1; i < rooms.length; i++) {
+            validCommandsList.add(rooms[i].getCommand());
+        }
+        validCommandsList.add(Config.Command.HELP);
+        validCommandsList.add(Config.Command.QUIT);
+        return validCommandsList;
     }
 
 }

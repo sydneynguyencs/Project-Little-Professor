@@ -3,6 +3,7 @@ package ch.zhaw.it.pm2.professor.view;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
+import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
 
 /**
@@ -13,7 +14,7 @@ import ch.zhaw.it.pm2.professor.model.Room;
 public interface Display {
     public void messageUserForInput();
 
-    public void showHouse(House house);
+    public void showHouse(House house, Level level);
 
     public void welcomeMessage(House house);
 
@@ -23,7 +24,7 @@ public interface Display {
 
     public void displayHighscores();
 
-    public Config.Command navigate();
+    public Config.Command navigate(Level level);
 
     public void timeIsUp();
 
@@ -31,7 +32,7 @@ public interface Display {
 
     public String getNextUserInput();
 
-    public void selectedRoomMessage(Config.Command command);
+    public void selectedRoomMessage(Room room, Level level);
 
     public void helpMessage();
 
@@ -39,5 +40,7 @@ public interface Display {
 
     public void askQuestionsMessage();
 
-    public void showRoom(Room room);
+    public void showRoom(Room room, Level level);
+
+    void updateLevelMessage(Level level);
 }

@@ -4,12 +4,12 @@ import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
+import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -37,8 +37,9 @@ public class CliDisplay implements Display {
         terminal.println("Please choose a valid input.");
     }
 
-    public void showHouse(House house) {
-        terminal.println(house.toString()); // toString(false) shouldn't be needed instead an entrance-class would be cool
+    @Override
+    public void showHouse(House house, Level level) {
+        terminal.println(house.toString(level));
     }
 
     public void welcomeMessage(House house) {
@@ -64,15 +65,13 @@ public class CliDisplay implements Display {
         terminal.print("This are the highscores.");
     }
 
-    public Config.Command navigate() {
+    public Config.Command navigate(Level level) {
         Config.Command command = null;
-            //show house updated
-            terminal.println("Your are in the Hallway right now. Type any of the following commands to enter a room.\n");
+            terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
             terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
             String input = getNextUserInput();
             try {
-                //make command dynamic
-                command = this.parser.parseInput(Arrays.asList(Config.Command.values()), input);
+                command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
             } catch (InvalidInputException e) {
                 invalidInputMessage();
             }
@@ -84,7 +83,7 @@ public class CliDisplay implements Display {
     }
 
     public void invalidInputMessage() {
-        terminal.print("The given input is invalid. Pleas enter one of the proposed commands.");
+        terminal.print("The given input is invalid. Please enter one of the proposed commands.\n");
     }
 
     public void timeIsUp() {
@@ -102,8 +101,9 @@ public class CliDisplay implements Display {
     }
 
     @Override
-    public void selectedRoomMessage(Config.Command command) {
-        terminal.println("\nYou entered the room with the mission to solve questions of the operation "+ command.getRoom().getOperation().toString() + ".\nFinish before the time runs out!");
+    public void selectedRoomMessage(Room room, Level level) {
+        terminal.println("\nYou entered the room with the mission to solve questions of the operation " + room.getOperation().toString() +
+                ".\nFinish before the time runs out!");
     }
 
     @Override
@@ -118,16 +118,24 @@ public class CliDisplay implements Display {
 
     @Override
     public void askQuestionsMessage() {
-        terminal.println("Solve: *questions to be loaded here*");
-        terminal.print("Your answer: *type something here and check with result.\nDo the whole questionset and the programm brings you back to the hallway.\nIn this Version, just type something to go back to the hallway.*");
+        terminal.println("Solve: (question set to be inserted here)");
+        terminal.print("Your answer: \n(In this Version, just type something to go back to the hallway.)");
         String answer = textIO.newStringInputReader().read();
         terminal.println();
         //return the  answer to check in game class?
     }
 
     @Override
-    public void showRoom(Room room) {
+    public void showRoom(Room room, Level level) {
         terminal.println(room.toString());
+    }
+
+    @Override
+    public void updateLevelMessage(Level level) {
+        terminal.println("__________________________________________________\n");
+        terminal.println("Congratulations! You finished this level successfully. Welcome to level " + level.getName());
+
+
     }
 
     public void printPromt(String promt) {
