@@ -1,26 +1,31 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.controller.LevelFactory;
+import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
 
     private String name;
-    private int[] domain;
+    private LevelFactory.Difficulty difficulty;
     private Room[] rooms;
+    private QuestionGenerator generator;
 
-    public Level(String name, int[] domain, Room[] rooms) {
+    public Level(String name, LevelFactory.Difficulty difficulty, Room[] rooms) {
         this.name = name;
-        this.domain = domain;
+        this.difficulty = difficulty;
         this.rooms = rooms;
+        this.generator = new QuestionGenerator(difficulty.hasDoubleNumbers());
     }
 
     public String getName() {
         return name;
     }
 
-    public int[] getDomain() {
-        return domain;
+    public LevelFactory.Difficulty getDifficulty() {
+        return difficulty;
     }
 
     public Room[] getRooms() {
@@ -35,6 +40,11 @@ public class Level {
         validCommandsList.add(Config.Command.HELP);
         validCommandsList.add(Config.Command.QUIT);
         return validCommandsList;
+    }
+
+    public String getQuestion(Room room) {
+        //question = generator.getQuestion(room.getOperation().toChar(),difficulty.getLowerbound(),difficulty.getUpperbound());
+        return null;
     }
 
 }

@@ -60,30 +60,30 @@ public class Config {
     }
 
     /**
-    * This {@link Enum} specifies the available operation types in the game.
-    */
+     * This {@link Enum} specifies the available operation types in the game.
+     */
     public enum Operation {
-        ADDITION("+"),
-        SUBTRACTION("-"),
-        MULTIPLICATION("*"),
-        DIVISION("/");
+        ADDITION('+'),
+        SUBTRACTION('-'),
+        MULTIPLICATION('*'),
+        DIVISION('/');
 
-        private String operation;
+        private char operation;
 
         /**
          * Initialize with according command.
          *
          * @param operation the command as String.
          */
-        Operation(String operation) {
+        Operation(char operation) {
             this.operation = operation;
         }
 
         /**
          * @return the command as String
          */
-        @Override
-        public String toString() {
+
+        public char toChar() {
             return operation;
         }
     }
