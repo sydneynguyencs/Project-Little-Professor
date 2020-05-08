@@ -23,11 +23,11 @@ public class QuestionGenerator {
         this.hasDouble = hasDouble;
     }
 
-    private int getRandomInt(int start, int end) {
+    protected int getRandomInt(int start, int end) {
         return start + (int) (new Random().nextFloat() * (end - start));
     }
 
-    private Double getRandomDouble(int start, int end) {
+    protected Double getRandomDouble(int start, int end) {
         double randomDouble = start + new Random().nextDouble() * (end - start);
         BigDecimal bd = BigDecimal.valueOf(randomDouble);
         bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
@@ -35,6 +35,9 @@ public class QuestionGenerator {
     }
 
     public String getQuestion(char operation, int lowerBound, int upperBound) {
+        if(!checkOperator(operation)){
+            throw new IllegalArgumentException("Operation is invalid");
+        }
         int choose = 0;
         if (hasDouble) {
             choose = getRandomInt(0, 1);
@@ -58,4 +61,10 @@ public class QuestionGenerator {
         return question.getQuestion();
     }
 
+    protected boolean checkOperator(char operation) {
+        if (operation =='+'||operation =='-'||operation =='*'||operation =='/'){
+            return true;
+        }
+        return false;
+    }
 }
