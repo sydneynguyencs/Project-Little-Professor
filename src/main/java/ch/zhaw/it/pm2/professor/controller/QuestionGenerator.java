@@ -54,15 +54,19 @@ public class QuestionGenerator {
                 question.setQuestion(num3 + " " + operation + " " + num4);
         }
         try {
-            question.setAnswer((Double) engine.eval(question.getQuestion()));
+            question.setAnswer(engine.eval(question.getQuestion()).toString());
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }
         return question.getQuestion();
     }
 
+    public String getAnswer() {
+        return question.getAnswer();
+    }
+
     protected boolean checkOperator(char operation) {
-        if (operation =='+'||operation =='-'||operation =='*'||operation =='/'){
+        if (operation == '+' || operation == '-' || operation == '*' || operation == '/') {
             return true;
         }
         return false;
