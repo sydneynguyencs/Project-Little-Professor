@@ -91,6 +91,7 @@ public class UserIo {
     private File getFile() throws IOException {
         File file = new File(this.filePath);
         //noinspection ResultOfMethodCallIgnored
+        file.getParentFile().mkdirs(); // create resources-folder if it does not exist
         file.createNewFile(); // does nothing, if file does not already exist
         return file;
     }
