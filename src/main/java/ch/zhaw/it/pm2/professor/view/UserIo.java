@@ -39,7 +39,7 @@ public class UserIo {
                 }
             }
         } catch (IOException e) {
-            wrapInUserIoException(e);
+            throw new UserIoException(e);
         }
         return new User(name);
     }
@@ -57,7 +57,7 @@ public class UserIo {
         try {
             file = getFile();
         } catch (IOException e) {
-            wrapInUserIoException(e);
+            throw new UserIoException(e);
         }
         File tmpFile = new File(this.filePath + ".tmp");
         try (
@@ -79,20 +79,13 @@ public class UserIo {
         } catch (UserConverter.UserConversionException | IOException e) {
             // if a UserConversionException is catched, something with the users in the file is wrong
             // because of this we throw a UserIoException to
-            wrapInUserIoException(e);
-            return;
+            throw new UserIoException(e);
         }
 
         //noinspection ResultOfMethodCallIgnored
         file.delete();
         //noinspection ResultOfMethodCallIgnored
         tmpFile.renameTo(file);
-    }
-
-    private void wrapInUserIoException(Exception e) throws UserIoException {
-        UserIoException ue = new UserIoException();
-        ue.addSuppressed(e);
-        throw ue;
     }
 
     private File getFile() throws IOException {
