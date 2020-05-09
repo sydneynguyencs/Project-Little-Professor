@@ -39,7 +39,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void showHouse(House house, Level level) {
-        terminal.println(house.toString(level));
+        terminal.println(house.printLevel(level));
     }
 
     public void welcomeMessage(House house) {

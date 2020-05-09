@@ -56,7 +56,7 @@ public class House {
         init();
     }
 
-    public String toString(Level level) {
+    public String printLevel(Level level) {
         if (this.state == State.HALLWAY) {
             addRooms(level);
         }

@@ -2,6 +2,7 @@ package ch.zhaw.it.pm2.professor.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HouseTest {
 
-    House house;
+    private House house;
 
     private static final String USERNAME = "Cellestine";
     private static final String ENTRANCE_STRING =
@@ -58,6 +59,13 @@ class HouseTest {
                             "# Level:%LEVEL% | Time:2                     Score:1000       #\n" +
                             "###############################################################\n";
 
+    private static final Level LEVEL_MOCK_WITH_ALL_ROOMS;
+
+    static {
+        Level levelMock = mock(Level.class);
+        when(levelMock.getRooms()).thenReturn(Room.values());
+        LEVEL_MOCK_WITH_ALL_ROOMS = levelMock;
+    }
 
     @BeforeEach
     void setUp() throws IOException {
@@ -80,8 +88,7 @@ class HouseTest {
     @Test
     void testEntranceToString() throws IOException {
         house.changeState(House.State.ENTRANCE);
-        String actualHouse = house.toString();
-
+        String actualHouse = house.printLevel(LEVEL_MOCK_WITH_ALL_ROOMS);
         assertEquals(ENTRANCE_STRING, actualHouse);
     }
 
@@ -91,7 +98,7 @@ class HouseTest {
         house.setUsername(USERNAME);
         house.setTime(2);
         house.setScore(1000);
-        String actualHouse = house.toString();
+        String actualHouse = house.printLevel(LEVEL_MOCK_WITH_ALL_ROOMS);
 
         assertEquals(HOUSE_WITH_ROOMS_AND_USERDATA, actualHouse);
     }
