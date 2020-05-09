@@ -14,24 +14,19 @@ import java.io.IOException;
 import java.util.TimerTask;
 
 public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener {
-    private House house;
-    private Display display;
+    private final House house;
+    private final Display display;
     private User user;
-    private Parser parser;
-    private UserIo userIo;
+    private final UserIo userIo;
     private int time = 10;
     private boolean started = false;
     private Level currentLevel;
-    private LevelSource levelSource;
-    int levelCount = 0;
-    int time = 10;
-    boolean started = false;
-    String username;
+    private final LevelSource levelSource;
+    private int levelCount = 0;
 
     public Game() throws IOException {
         this.house = new House(this);
         this.display = new CliDisplay(this);
-        this.parser = new Parser();
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
@@ -52,8 +47,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
-        username = display.requestUsername();
-        this.user = userIo.load(username);
+        this.user = userIo.load(display.requestUsername());
         updateHouse();
         this.started = true;
         doUserCommand();
@@ -61,7 +55,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
 
     private void updateHouse() throws IOException {
         this.house.changeState(House.State.HALLWAY);
-        this.house.setUsername(username);
+        this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
         this.house.setTime(this.time);
