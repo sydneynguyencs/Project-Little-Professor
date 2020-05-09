@@ -18,7 +18,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private User user;
     private final UserIo userIo;
     private int time = 10;
-    private boolean started = false;
     private Level currentLevel;
     private final LevelSource levelSource;
     private int levelCount = 0;
@@ -39,21 +38,21 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void update() {
-        if (this.started) {
-            this.time--;
-            this.house.setTime(this.time);
-        }
+        this.time--;
+        this.house.setTime(this.time);
     }
 
     public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         this.user = userIo.load(display.requestUsername());
-        updateHouse();
-        this.started = true;
-        doUserCommand();
-        end();
-        this.userIo.store(this.user);
+        while (true) {
+            updateHouse();
+            this.user.setScore(0);
+            doUserCommand();
+            end();
+            this.display.playAgainMessage();
+        }
     }
 
     /**

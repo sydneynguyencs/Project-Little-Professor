@@ -46,6 +46,8 @@ public interface Display {
 
     void newPersonalHighscoreNotification(int highscore);
 
+    void playAgainMessage();
+
     interface GameEndListener {
         void onGameEnd() throws UserIoException;
     }

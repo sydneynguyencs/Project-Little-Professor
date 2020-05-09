@@ -11,9 +11,6 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
-import java.util.List;
-
-
 /**
  * Prints the output to the terminal.
  * The class Display could be replaced by a GUI if wanted.
@@ -64,14 +61,6 @@ public class CliDisplay implements Display {
         return username;
     }
 
-    public void seeTheHighscores() {
-        terminal.print("To see the highscores from all the users, please press Y.");
-    }
-
-    public void displayHighscores() {
-        terminal.print("This are the highscores.");
-    }
-
     public Config.Command navigate(Level level) {
         Config.Command command = null;
         terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
@@ -83,10 +72,6 @@ public class CliDisplay implements Display {
             invalidInputMessage();
         }
         return command;
-    }
-
-    public String getCommandSelectionString(List<Config.Command> commands) {
-        return null;
     }
 
     public void invalidInputMessage() {
@@ -142,7 +127,7 @@ public class CliDisplay implements Display {
      * If this method gets called, the user gets informed that the Application gets closed after 5 seconds.
      */
     private void exitApplication() {
-        terminal.println("\nThank you for playing racetrack today. The Application closes in 5 seconds and your highscore will be saved. Goodbye.");
+        terminal.println("\nThank you for playing little-professor today. The Application closes in 5 seconds and your highscore will be saved. Goodbye.");
         try {
             this.gameEndListener.onGameEnd();
         } catch (UserIoException e) {
@@ -206,8 +191,20 @@ public class CliDisplay implements Display {
         terminal.println("YOU ACHIEVED A NEW PERSONAL HIGHSCORE: " + highscore);
     }
 
-    public void printPromt(String promt) {
-        terminal.print(promt);
+    @Override
+    public void playAgainMessage() {
+        Config.Command command = null;
+        Config.Command[] yesCommandList = {Config.Command.YES};
+        while (command == null) {
+            terminal.println("__________________________________________________\n");
+            terminal.println("Would you like to play again? ('y' for yes)");
+            String input = getNextUserInput();
+            try {
+                command = this.parser.parseInput(yesCommandList, input);
+            } catch (InvalidInputException e) {
+                // ask again
+            }
+        }
     }
 
     public interface DebugSuccessListener {

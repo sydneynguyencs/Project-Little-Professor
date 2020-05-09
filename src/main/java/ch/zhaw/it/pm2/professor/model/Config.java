@@ -34,6 +34,7 @@ public class Config {
         RIGHT("right"),
         UP("up"),
         DOWN("down"),
+        YES("y"),
         DEBUG_SUCCESS("suc"), // can be removed, when logic is fully implemented
         DEBUG_FAIL("fail"); // can be removed, when logic is fully implemented
 
