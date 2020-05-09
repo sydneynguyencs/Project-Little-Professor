@@ -69,7 +69,7 @@ class HouseTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        house = new House();
+        house = new House(() -> {return 2;});
         assertNotNull(house);
     }
 
