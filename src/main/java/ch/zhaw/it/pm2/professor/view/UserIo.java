@@ -5,18 +5,17 @@ import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.security.InvalidKeyException;
-import java.security.InvalidParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.logging.Logger;
 
 public class UserIo {
+
+    private static final Logger LOGGER = Logger.getLogger(UserIo.class.getCanonicalName());
 
     private final String filePath;
 
@@ -106,23 +105,41 @@ public class UserIo {
 
     private static String cryptString(String line, int cryptMode) throws UserIoEncryptionException {
         try {
-            byte[] bytes = Base64.getDecoder().decode(makeBase64(line));
+            LOGGER.fine("Crypt with crypt mode: " + cryptMode);
+            LOGGER.fine("String to crypt: " + line);
+            String base64String = toBase64(line);
+            LOGGER.fine("String to crypt in base-64: " + base64String);
+            byte[] bytes = Base64.getDecoder().decode(base64String);
             Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
-            SecretKeySpec k = new SecretKeySpec(Config.SECRET_KEY, Config.ENCRYPTION_TYPE);
-            c.init(cryptMode, k);
+            byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
+            SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
+            c.init(cryptMode, key);
             byte[] cryptedBytes = c.doFinal(bytes);
-            return new String(Base64.getEncoder().encode(cryptedBytes));
+            String cryptedBase64String = Base64.getEncoder().encodeToString(cryptedBytes);
+            LOGGER.fine("Crypted string in base-64: " + cryptedBase64String);
+            String cryptedString = fromBase64(cryptedBase64String);
+            LOGGER.fine("Crypted string: " + cryptedString);
+            return cryptedString;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
             throw new UserIoEncryptionException(e);
         }
     }
 
-    private static String makeBase64(String string) {
+    private static String toBase64(String string) {
         StringBuilder stringBuilder = new StringBuilder(string);
         while (stringBuilder.length()%4 != 0) {
             stringBuilder.append('=');
         }
         return stringBuilder.toString();
+    }
+
+    private static String fromBase64(String base64String) {
+        for (int i = base64String.length() - 1; i >= 0; i--) {
+            if (base64String.charAt(i) != '=') {
+                return base64String.substring(0, i + 1);
+            }
+        }
+        return null;
     }
 
     private File getFile() throws IOException {

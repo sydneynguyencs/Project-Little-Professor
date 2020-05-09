@@ -14,7 +14,7 @@ public class Config {
     public static final int MAX_CHARS_USERNAME = 12;
     public static final int MIN_CHARS_USERNAME = 4;
     public static final int TIMER_INTERVAL_MILLIS = 1000;
-    public final static byte[] SECRET_KEY = "PwRui0HXKxPJ2OuBkL0OzHLBx1F99sh7".getBytes();
+    public final static String SECRET_KEY = "00ZQyczZ2Xc20o//04INMg==";
     public final static String ENCRYPTION_TYPE = "AES";
     public static final String[] ROOM_LOOK = {
             "################" ,
