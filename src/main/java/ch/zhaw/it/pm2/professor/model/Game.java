@@ -43,7 +43,6 @@ public class Game extends TimerTask implements Callable<Integer> {
         if (this.started) {
             this.time--;
             this.house.setTime(this.time);
-            this.display.showHouse(this.house, currentLevel);
         }
     }
 

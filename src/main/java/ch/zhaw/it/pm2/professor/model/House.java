@@ -83,6 +83,10 @@ public class House {
         replaceField(USER_FIELD, name);
     }
 
+    public void setTime(int time) {
+        replaceField(TIME_FIELD, Integer.valueOf(time).toString());
+    }
+
     private void setTimeInMatrix(int time) {
         this.replaceField(TIME_FIELD, String.valueOf(time));
     }
