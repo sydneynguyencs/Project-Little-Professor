@@ -4,11 +4,12 @@ import ch.zhaw.it.pm2.professor.view.User;
 
 public class UserConverter {
 
+
     public static String toString(User user) throws UserConversionException {
         if (user == null) {
             throw new UserConversionException();
         }
-        return user.getName() + "\t" + user.getHighscore();
+        return user.getName() + '+' + user.getHighscore();
     }
 
     public static User toObject(String user) throws UserConversionException {
@@ -16,7 +17,7 @@ public class UserConverter {
             throw new UserConversionException();
         }
 
-        String[] userArray = user.split("\t");
+        String[] userArray = user.split("\\+");
         if (userArray.length != 2) {
             throw new UserConversionException();
         }

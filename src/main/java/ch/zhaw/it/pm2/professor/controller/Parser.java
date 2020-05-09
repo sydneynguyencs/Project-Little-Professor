@@ -68,6 +68,9 @@ public class Parser {
             throw new InvalidInputException("The username has to many chars, please provide an username " +
                     "with 14 chars maximum.");
         }
+        if (!input.trim().matches("[A-Za-z]+")) {
+            throw new InvalidInputException("The username must only contain upper and lowercase letters.");
+        }
         return input.trim();
     }
 }
