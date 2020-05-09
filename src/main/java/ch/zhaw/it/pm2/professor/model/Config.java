@@ -33,7 +33,9 @@ public class Config {
         LEFT("left"),
         RIGHT("right"),
         UP("up"),
-        DOWN("down");
+        DOWN("down"),
+        DEBUG_SUCCESS("suc"), // can be removed, when logic is fully implemented
+        DEBUG_FAIL("fail"); // can be removed, when logic is fully implemented
 
         private String command;
 

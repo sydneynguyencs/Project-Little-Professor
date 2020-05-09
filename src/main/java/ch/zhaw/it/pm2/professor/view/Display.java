@@ -15,41 +15,38 @@ import java.io.IOException;
  * to a JavaFX-View (or another View).
  */
 public interface Display {
-    public void messageUserForInput();
 
-    public void showHouse(House house, Level level);
+    void showHouse(House house, Level level);
 
-    public void welcomeMessage(House house);
+    void welcomeMessage(House house);
 
-    public String requestUsername();
+    String requestUsername();
 
-    public void seeTheHighscores();
+    Config.Command navigate(Level level);
 
-    public void displayHighscores();
+    void timeIsUp();
 
-    public Config.Command navigate(Level level);
+    void levelComplete();
 
-    public void timeIsUp();
+    String getNextUserInput() throws InvalidInputException;
 
-    public void levelComplete();
+    void selectedRoomMessage(Room room, Level level);
 
-    public String getNextUserInput() throws InvalidInputException;
+    void helpMessage();
 
-    public void selectedRoomMessage(Room room, Level level);
+    String askQuestionsMessage(Room room, Level level);
 
-    public void helpMessage();
+    void showAnwser(Room room, Level level);
 
-    public void quitMessage();
-
-    public String askQuestionsMessage(Room room, Level level);
-
-    public void showAnwser(Room room, Level level);
-
-    public void showRoom(Room room, Level level);
+    void showRoom(Room room, Level level);
 
     void updateLevelMessage(Level level);
 
-    public interface GameEndListener {
+    void gameEndNotification(boolean success, int score);
+
+    void newPersonalHighscoreNotification(int highscore);
+
+    interface GameEndListener {
         void onGameEnd() throws UserIoException;
     }
 }

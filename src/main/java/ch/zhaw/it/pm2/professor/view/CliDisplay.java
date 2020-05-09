@@ -25,15 +25,19 @@ public class CliDisplay implements Display {
     private TextTerminal<?> terminal;
     private Parser parser;
     private GameEndListener gameEndListener;
+    private DebugSuccessListener debugSuccessListener; // is only temporary because the game can't be ended at the moment
+    private DebugFailListener debugFailListener; // is only temporary because the game can't be ended at the moment
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public CliDisplay(GameEndListener gameEndListener) {
+    public CliDisplay(GameEndListener gameEndListener, DebugSuccessListener debugSuccessListener, DebugFailListener debugFailListener) {
         this.textIO = TextIoFactory.getTextIO();
         this.terminal = textIO.getTextTerminal();
         this.parser = new Parser();
         this.gameEndListener = gameEndListener;
+        this.debugSuccessListener = debugSuccessListener;
+        this.debugFailListener = debugFailListener;
     }
 
     public void messageUserForInput() {
@@ -103,6 +107,7 @@ public class CliDisplay implements Display {
         terminal.print("\nEnter \"quit\" to quit.\n");
         String userInput = textIO.newStringInputReader().read();
         checkForQuitCommand(userInput);
+        checkForGameEnd(userInput);
         return userInput;
     }
 
@@ -113,6 +118,23 @@ public class CliDisplay implements Display {
             exitApplication();
         } catch (InvalidInputException e) {
             // so we don't quit
+        }
+    }
+
+    /**
+     * Can be deleted, when game can be finished
+     */
+    private void checkForGameEnd(String userInput) {
+        Config.Command[] successCommandList = {Config.Command.DEBUG_SUCCESS};
+        try {
+            Config.Command command = this.parser.parseInput(successCommandList, userInput);
+            if (command == Config.Command.DEBUG_FAIL) {
+                this.debugFailListener.onGameFailed();
+            } else if (command == Config.Command.DEBUG_SUCCESS){
+                this.debugSuccessListener.onGameSuccess();
+            }
+        } catch (InvalidInputException e) {
+            // so we don't end the game
         }
     }
 
@@ -165,12 +187,34 @@ public class CliDisplay implements Display {
     @Override
     public void updateLevelMessage(Level level) {
         terminal.println("__________________________________________________\n");
-        terminal.println("Congratulations! You finished this level successfully. Welcome to level " + level.getName());
+        terminal.println("You finished this level successfully. Welcome to level " + level.getName());
+    }
 
+    @Override
+    public void gameEndNotification(boolean success, int score) {
+        terminal.println("__________________________________________________\n");
+        if (success) {
+            terminal.println("Congratulations! You finished the game successfully with the following score: " + score);
+        } else {
+            terminal.println("Unfortunately you could not successfully complete the game with a score of " + score + ".");
+        }
+    }
 
+    @Override
+    public void newPersonalHighscoreNotification(int highscore) {
+        terminal.println("__________________________________________________\n");
+        terminal.println("YOU ACHIEVED A NEW PERSONAL HIGHSCORE: " + highscore);
     }
 
     public void printPromt(String promt) {
         terminal.print(promt);
+    }
+
+    public interface DebugSuccessListener {
+        void onGameSuccess();
+    }
+
+    public interface DebugFailListener {
+        void onGameFailed();
     }
 }
