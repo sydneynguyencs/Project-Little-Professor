@@ -7,11 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTest {
 
-    private static final String[] emtyHouse =
+    private static final String[] EMPTY_HOUSE =
             {"###############################################################", "# Username:%USER________%         Highscore:%HIGHSCORE%       #", "###############################################################", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "#                                                             #", "###############################################################", "# Level:%LEVEL% | Time:%TIME%                Score:%SCORE%    #", "###############################################################"};
 
-    private static final String[] expectedFullHouse =
+    private static final String[] EXPECTED_FULL_HOUSE_NO_HALLWAY =
             {"###############################################################", "# Username:%USER________%         Highscore:%HIGHSCORE%       #", "###############################################################", "#                      ################                       #", "#                      #              #                       #", "#                      #     -        #                       #", "#                      #              #                       #", "#                      ################                       #", "#    ################                    ################     #", "#    #              #                    #              #     #", "#    #     +        #                    #     *        #     #", "#    #              #                    #              #     #", "#    ################                    ################     #", "#                      ################                       #", "#                      #              #                       #", "#                      #     /        #                       #", "#                      #              #                       #", "#                      ################                       #","###############################################################", "# Level:%LEVEL% | Time:%TIME%                Score:%SCORE%    #", "###############################################################"};
+
 
     @BeforeEach
     void setUp() {
@@ -20,13 +21,13 @@ class RoomTest {
 
 
     @Test
-    void addToHouse() {
-        Room.ROOM_UP.addToHouse(emtyHouse);
-        Room.ROOM_DOWN.addToHouse(emtyHouse);
-        Room.ROOM_RIGHT.addToHouse(emtyHouse);
-        Room.ROOM_LEFT.addToHouse(emtyHouse);
-        String[] actualFullHouse = emtyHouse;
+    void addToHouseNoHallway() {
+        Room.ROOM_UP.addToHouse(EMPTY_HOUSE);
+        Room.ROOM_DOWN.addToHouse(EMPTY_HOUSE);
+        Room.ROOM_RIGHT.addToHouse(EMPTY_HOUSE);
+        Room.ROOM_LEFT.addToHouse(EMPTY_HOUSE);
+        String[] actualFullHouse = EMPTY_HOUSE;
 
-        assertArrayEquals(expectedFullHouse, actualFullHouse);
+        assertArrayEquals(EXPECTED_FULL_HOUSE_NO_HALLWAY, actualFullHouse);
     }
 }
