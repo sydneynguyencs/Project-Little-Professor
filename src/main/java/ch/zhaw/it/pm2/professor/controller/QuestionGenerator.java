@@ -27,7 +27,7 @@ public class QuestionGenerator {
         return start + (int) (new Random().nextFloat() * (end - start));
     }
 
-    protected Double getRandomDouble(int start, int end) {
+    protected double getRandomDouble(int start, int end) {
         double randomDouble = start + new Random().nextDouble() * (end - start);
         BigDecimal bd = BigDecimal.valueOf(randomDouble);
         bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
