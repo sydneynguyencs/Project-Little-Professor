@@ -61,16 +61,20 @@ public class House {
     }
 
     public String printLevel(Level level) {
-        if (this.state == State.HALLWAY) {
-            setTimeInMatrix(getTime());
-            addRoomsToMatrix(level);
-        }
         StringBuilder stringBuilder = new StringBuilder();
-        for (String s : this.house) {
+        for (String s : printLevelAsArray(level)) {
             stringBuilder.append(s);
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    public String[] printLevelAsArray(Level level) {
+        if (this.state == State.HALLWAY) {
+            setTimeInMatrix(getTime());
+            addRoomsToMatrix(level);
+        }
+        return this.house;
     }
 
     private void addRoomsToMatrix(Level level) {
