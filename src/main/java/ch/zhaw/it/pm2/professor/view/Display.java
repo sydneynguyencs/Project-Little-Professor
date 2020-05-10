@@ -38,7 +38,9 @@ public interface Display {
 
     public void quitMessage();
 
-    public void askQuestionsMessage();
+    public String askQuestionsMessage(Room room, Level level);
+
+    public void showAnwser(Room room, Level level);
 
     public void showRoom(Room room, Level level);
 

@@ -43,8 +43,11 @@ public class Level {
     }
 
     public String getQuestion(Room room) {
-        //question = generator.getQuestion(room.getOperation().toChar(),difficulty.getLowerbound(),difficulty.getUpperbound());
-        return null;
+        return generator.getQuestion(room.getOperation().toString().charAt(0), difficulty.getLowerbound(), difficulty.getUpperbound());
+    }
+
+    public String getAnwser(Room room) {
+        return generator.getAnswer();
     }
 
 }

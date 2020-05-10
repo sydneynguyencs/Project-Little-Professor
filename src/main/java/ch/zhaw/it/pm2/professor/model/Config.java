@@ -1,9 +1,5 @@
 package ch.zhaw.it.pm2.professor.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 /**
  * This class specifies the most important and basic parameters of the game
  * Little Professor.
@@ -63,19 +59,19 @@ public class Config {
      * This {@link Enum} specifies the available operation types in the game.
      */
     public enum Operation {
-        ADDITION('+'),
-        SUBTRACTION('-'),
-        MULTIPLICATION('*'),
-        DIVISION('/');
+        ADDITION("+"),
+        SUBTRACTION("-"),
+        MULTIPLICATION("*"),
+        DIVISION("/");
 
-        private char operation;
+        private String operation;
 
         /**
          * Initialize with according command.
          *
          * @param operation the command as String.
          */
-        Operation(char operation) {
+        Operation(String operation) {
             this.operation = operation;
         }
 
@@ -83,7 +79,7 @@ public class Config {
          * @return the command as String
          */
 
-        public char toChar() {
+        public String toString() {
             return operation;
         }
     }

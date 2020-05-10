@@ -87,8 +87,8 @@ public class Game extends TimerTask {
 
     private void moveIntoRoom(Config.Command command) throws IOException {
         Room room = null;
-        for(int i = 0; i < currentLevel.getRooms().length; i++) {
-            if(currentLevel.getRooms()[i].getCommand() == command) {
+        for (int i = 0; i < currentLevel.getRooms().length; i++) {
+            if (currentLevel.getRooms()[i].getCommand() == command) {
                 room = currentLevel.getRooms()[i];
             }
         }
@@ -96,12 +96,12 @@ public class Game extends TimerTask {
 
         this.display.selectedRoomMessage(room, currentLevel);
         this.display.showRoom(room, currentLevel);
-        startQuestionSet(room);
-
+        startQuestionSet(room, currentLevel);
+        updateHouse();
         //mark room as completed
 
         //if all rooms of current level completed && !timeUp: go to next level currentLevel++
-        updateLevel();
+        //updateLevel();
         doUserCommand();
     }
 
@@ -111,9 +111,12 @@ public class Game extends TimerTask {
         this.display.updateLevelMessage(currentLevel);
     }
 
-    private void startQuestionSet(Room room) {
-        this.display.askQuestionsMessage();
-        //update points
+    private void startQuestionSet(Room room, Level level) {
+        for (int i = 0; i < Config.NUMBER_OF_QUESTIONS_PER_ROOM; i++) {
+            if (this.display.askQuestionsMessage(room, level).equals(level.getAnwser(room))) {
+                user.setScore(user.getScore() + 1);
+            }
+            this.display.showAnwser(room, level);
+        }
     }
-
 }
