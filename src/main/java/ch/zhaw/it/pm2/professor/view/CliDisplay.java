@@ -156,7 +156,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void showAnwser(Room room, Level level) {
-        terminal.println("Solve: " + level.getAnwser(room));
+        terminal.println("Solution: " + level.getAnwser(room));
     }
 
     @Override
