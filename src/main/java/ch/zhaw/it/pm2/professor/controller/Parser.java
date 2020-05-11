@@ -3,6 +3,7 @@ package ch.zhaw.it.pm2.professor.controller;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.model.Config;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static ch.zhaw.it.pm2.professor.model.Config.MAX_CHARS_USERNAME;
@@ -25,6 +26,10 @@ public class Parser {
             }
         }
         throw new InvalidInputException("This Input is invalid, please provide a valid command.");
+    }
+
+    public Config.Command parseInput(Config.Command[] acceptedCommands, String input) throws InvalidInputException {
+        return parseInput(Arrays.asList(acceptedCommands), input);
     }
 
     public String parseName(String input) throws InvalidInputException {

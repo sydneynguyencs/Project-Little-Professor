@@ -2,6 +2,7 @@ package ch.zhaw.it.pm2.professor.view;
 
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
+import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
@@ -20,17 +21,19 @@ import java.util.List;
  * All the methods in this class are getting called from another class, so this class only represents the IO.
  */
 public class CliDisplay implements Display {
-    TextIO textIO;
-    TextTerminal<?> terminal;
-    Parser parser;
+    private TextIO textIO;
+    private TextTerminal<?> terminal;
+    private Parser parser;
+    private GameEndListener gameEndListener;
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public CliDisplay() {
-        textIO = TextIoFactory.getTextIO();
-        terminal = textIO.getTextTerminal();
+    public CliDisplay(GameEndListener gameEndListener) {
+        this.textIO = TextIoFactory.getTextIO();
+        this.terminal = textIO.getTextTerminal();
         this.parser = new Parser();
+        this.gameEndListener = gameEndListener;
     }
 
     public void messageUserForInput() {
@@ -39,7 +42,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void showHouse(House house, Level level) {
-        terminal.println(house.toString(level));
+        terminal.println(house.printLevel(level));
     }
 
     public void welcomeMessage(House house) {
@@ -48,7 +51,7 @@ public class CliDisplay implements Display {
 
     public String requestUsername() {
         terminal.println("Please enter your username.\nBetween " + Config.MIN_CHARS_USERNAME + " - " + Config.MAX_CHARS_USERNAME + " characters");
-        String username = this.textIO.newStringInputReader().read();
+        String username = getNextUserInput();
         try {
             parser.parseName(username);
         } catch (InvalidInputException e) {
@@ -67,14 +70,14 @@ public class CliDisplay implements Display {
 
     public Config.Command navigate(Level level) {
         Config.Command command = null;
-            terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
-            terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
-            String input = getNextUserInput();
-            try {
-                command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
-            } catch (InvalidInputException e) {
-                invalidInputMessage();
-            }
+        terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
+        terminal.println("LEFT: left\nUP: up\nRIGHT: right\nDOWN: down\nHELP: help\nQUIT: quit\n");
+        String input = getNextUserInput();
+        try {
+            command = this.parser.parseInput(level.getValidCommandsList(), input.toLowerCase());
+        } catch (InvalidInputException e) {
+            invalidInputMessage();
+        }
         return command;
     }
 
@@ -97,7 +100,33 @@ public class CliDisplay implements Display {
     }
 
     public String getNextUserInput() {
-        return textIO.newStringInputReader().read();
+        terminal.print("\nEnter \"quit\" to quit.\n");
+        String userInput = textIO.newStringInputReader().read();
+        checkForQuitCommand(userInput);
+        return userInput;
+    }
+
+    private void checkForQuitCommand(String userInput) {
+        Config.Command[] quitCommandList = {Config.Command.QUIT};
+        try {
+            this.parser.parseInput(quitCommandList, userInput);
+            exitApplication();
+        } catch (InvalidInputException e) {
+            // so we don't quit
+        }
+    }
+
+    /**
+     * If this method gets called, the user gets informed that the Application gets closed after 5 seconds.
+     */
+    private void exitApplication() {
+        terminal.println("\nThank you for playing racetrack today. The Application closes in 5 seconds and your highscore will be saved. Goodbye.");
+        try {
+            this.gameEndListener.onGameEnd();
+        } catch (UserIoException e) {
+            terminal.println("Game could not be ended, because user could not be saved. Check if everything is right with the user-files");
+            e.printStackTrace();
+        }
     }
 
     @Override
