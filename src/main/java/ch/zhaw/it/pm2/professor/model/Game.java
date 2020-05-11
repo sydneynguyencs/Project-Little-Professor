@@ -75,14 +75,13 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
     }
 
-    private void updateAndShowHouse() throws IOException {
+    private void updateHouse() throws IOException {
         this.house.changeState(House.State.HALLWAY);
         this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
-        this.display.showHouse(this.house, currentLevel);
     }
 
     private void doUserCommand() throws IOException {
@@ -91,7 +90,9 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
             this.display.playAgainMessage();
             resetGame();
         }
-        updateAndShowHouse();
+        updateHouse();
+        this.display.showHouse(this.house, currentLevel);
+        this.display.showHouse(this.house, currentLevel);
         this.house.changeState(House.State.HALLWAY);
 
         Config.Command command = this.display.navigate(currentLevel);

@@ -17,7 +17,7 @@ public enum Room {
     private final String name;
     private final Point position;
     private Config.Command command;
-    private Boolean completed;
+    private boolean completed;
 
     Room(Config.Operation operation, Point position, Config.Command command) {
         this(operation.toString(), position);
