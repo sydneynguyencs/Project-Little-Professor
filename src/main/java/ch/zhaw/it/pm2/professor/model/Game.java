@@ -116,6 +116,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         resetTimer();
         resetRooms();
         levelCount = 0;
+        this.house.setLevel(currentLevel);
     }
 
     private void moveIntoRoom(Config.Command command) throws IOException {
@@ -134,16 +135,16 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
             if (levelCount == levelSource.getLevels().size() - 1) {//final level check
                 this.display.gameEndNotification(levelSuccessful(), user.getScore());
                 this.display.playAgainMessage();
+                resetGame();
             } else {
                 if (levelSuccessful()) {
                     updateLevel();
                 } else {
                     this.display.levelNotSuccessfullMessage();
                     this.display.playAgainMessage();
-                    resetRooms();
+                    resetGame();
                 }
             }
-            resetTimer();
         }
         if (!this.gameEnded) {
             doUserCommand();
