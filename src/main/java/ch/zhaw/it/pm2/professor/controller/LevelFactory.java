@@ -11,24 +11,48 @@ public class LevelFactory implements LevelSource {
 
     public LevelFactory() {
         this.levelList = new ArrayList<>();
-        int[] domainBeginner = {0, 10};
-        int[] domainIntermediate = {10, 100};
-        int[] domainAdvanced = {0, 1000};
 
         Room[] roomsAdditionSubtraction = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_UP};
         Room[] roomsMultiplicationDivision = {Room.HALLWAY, Room.ROOM_RIGHT, Room.ROOM_DOWN};
         Room[] roomsAll = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT, Room.ROOM_UP, Room.ROOM_DOWN};
 
-        levelList.add(new Level("1", domainBeginner, roomsAdditionSubtraction));
-        levelList.add(new Level("2", domainIntermediate, roomsAdditionSubtraction));
-        levelList.add(new Level("3", domainBeginner, roomsMultiplicationDivision));
-        levelList.add(new Level("4", domainIntermediate, roomsMultiplicationDivision));
-        levelList.add(new Level("5", domainIntermediate, roomsAll));
-        levelList.add(new Level("6", domainAdvanced, roomsAll));
+        levelList.add(new Level("1", Difficulty.BEGINNER, roomsAdditionSubtraction));
+        levelList.add(new Level("2", Difficulty.BEGINNER, roomsAdditionSubtraction));
+        levelList.add(new Level("4", Difficulty.INTERMEDIATE, roomsMultiplicationDivision));
+        levelList.add(new Level("5", Difficulty.INTERMEDIATE, roomsAll));
+        levelList.add(new Level("6", Difficulty.ADVANCED, roomsAll));
     }
 
     @Override
     public List<Level> getLevels() {
         return levelList;
+    }
+
+    public enum Difficulty {
+        BEGINNER(0, 10, false),
+        INTERMEDIATE(0, 100, true),
+        ADVANCED(-100, 100, true);
+
+        private int lowerbound;
+        private int upperbound;
+        private boolean hasDoubleNumbers;
+
+        Difficulty(int lowerbound, int upperbound, boolean hasDoubleNumbers) {
+            this.lowerbound = lowerbound;
+            this.upperbound = upperbound;
+            this.hasDoubleNumbers = hasDoubleNumbers;
+        }
+
+        public int getLowerbound() {
+            return lowerbound;
+        }
+
+        public int getUpperbound() {
+            return upperbound;
+        }
+
+        public boolean hasDoubleNumbers() {
+            return hasDoubleNumbers;
+        }
     }
 }

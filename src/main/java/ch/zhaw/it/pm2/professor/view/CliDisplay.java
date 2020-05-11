@@ -141,12 +141,20 @@ public class CliDisplay implements Display {
     }
 
     @Override
-    public void askQuestionsMessage() {
-        terminal.println("Solve: (question set to be inserted here)");
-        terminal.print("Your answer: \n(In this Version, just type something to go back to the hallway.)");
-        String answer = getNextUserInput();
-        terminal.println();
-        //return the  answer to check in game class?
+    public void quitMessage() {
+        terminal.println("Thanks for playing!\nSee you soon to improve your math skills.");
+    }
+
+    @Override
+    public String askQuestionsMessage(Room room, Level level) {
+        terminal.println("Solve: " + level.getQuestion(room));
+        terminal.print("Your answer:");
+        return textIO.newStringInputReader().read();
+    }
+
+    @Override
+    public void showAnwser(Room room, Level level) {
+        terminal.println("Solve: " + level.getAnwser(room));
     }
 
     @Override
