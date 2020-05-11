@@ -7,8 +7,6 @@ import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;
 
-import java.io.IOException;
-
 /**
  * We use an Interface for our prototype.
  * At later stages it would be easier to replace the DisplayIO, which in the prototype is with berxyTextIO,

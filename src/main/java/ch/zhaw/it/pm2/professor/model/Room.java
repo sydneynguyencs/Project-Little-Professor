@@ -1,6 +1,6 @@
 package ch.zhaw.it.pm2.professor.model;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Specifies the available rooms in the game. Some room types
