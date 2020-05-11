@@ -7,11 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
+/**
+ * Represents the house, with its appearance represented in a string array
+ */
 public class House {
     private String[] house;
     private State state;
     private TimeInterface timeSource;
-    //private List<Room> rooms;
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
@@ -55,11 +57,23 @@ public class House {
         }
     }
 
+    /**
+     * Change the location, where the current state or view of the game is at.
+     * Because this place may look not the same, the appearance must be reinitialized into the string-array.
+     *
+     * @param newState new state
+     */
     public void changeState(State newState) throws IOException {
         this.state = newState;
         init();
     }
 
+    /**
+     * Same as printLevelAsArray but with line-breaks instead of the array.
+     *
+     * @param level is relevant for the rooms
+     * @return the two dimensional house representation
+     */
     public String printLevel(Level level) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : printLevelAsArray(level)) {
@@ -69,6 +83,12 @@ public class House {
         return stringBuilder.toString();
     }
 
+    /**
+     * Write time and rooms to the string-array and return the result.
+     *
+     * @param level is relevant for the rooms
+     * @return the two dimensional house representation
+     */
     public String[] printLevelAsArray(Level level) {
         if (this.state == State.HALLWAY) {
             setTimeInMatrix(getTime());
@@ -81,14 +101,6 @@ public class House {
         for(Room room : level.getRooms()) {
             room.addToHouse(this.house);
         }
-    }
-
-    public void setUsername(String name) {
-        replaceField(USER_FIELD, name);
-    }
-
-    public void setTime(int time) {
-        replaceField(TIME_FIELD, Integer.valueOf(time).toString());
     }
 
     private void setTimeInMatrix(int time) {
@@ -106,19 +118,7 @@ public class House {
         }
     }
 
-    public void setHighscore(int highscore) {
-        this.replaceField(HIGHSCORE_FIELD, String.valueOf(highscore));
-    }
-
-    public void setScore(int score) {
-        this.replaceField(SCORE_FIELD, String.valueOf(score));
-    }
-
-    public void setLevel(Level level) {
-        this.replaceField(LEVEL_FIELD, level.getName());
-    }
-
-    public void replaceField(String field, String value) {
+    private void replaceField(String field, String value) {
         for (int i = 0; i < this.house.length; i++) {
             while (value.length() < field.length()) {
                 value = value + " ";
@@ -144,5 +144,45 @@ public class House {
 
     public interface TimeInterface {
         int getTime();
+    }
+
+    /**
+     * Replace the username in the house-matrix.
+     * @param name to fill in
+     */
+    public void setUsername(String name) {
+        replaceField(USER_FIELD, name);
+    }
+
+    /**
+     * Replace the time in the house-matrix.
+     * @param time to fill in
+     */
+    public void setTime(int time) {
+        replaceField(TIME_FIELD, Integer.valueOf(time).toString());
+    }
+
+    /**
+     * Replace the highscore in the house-matrix.
+     * @param highscore to fill in
+     */
+    public void setHighscore(int highscore) {
+        this.replaceField(HIGHSCORE_FIELD, String.valueOf(highscore));
+    }
+
+    /**
+     * Replace the score in the house-matrix.
+     * @param score to fill in
+     */
+    public void setScore(int score) {
+        this.replaceField(SCORE_FIELD, String.valueOf(score));
+    }
+
+    /**
+     * Replace the level in the house-matrix.
+     * @param level to fill in
+     */
+    public void setLevel(Level level) {
+        this.replaceField(LEVEL_FIELD, level.getName());
     }
 }

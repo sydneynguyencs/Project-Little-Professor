@@ -2,7 +2,6 @@ package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
-import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
@@ -13,7 +12,7 @@ import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 import java.io.IOException;
 import java.util.TimerTask;
 
-public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener {
+public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener, CliDisplay.DebugSuccessListener, CliDisplay.DebugFailListener {
     private final House house;
     private final Display display;
     private User user;
@@ -23,11 +22,13 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private Level currentLevel;
     private final LevelSource levelSource;
     private int levelCount = 0;
+    private boolean gameEnded = false;
+    private boolean gameSuccess = false;
     private int oldScore;
 
     public Game() throws IOException {
         this.house = new House(this);
-        this.display = new CliDisplay(this);
+        this.display = new CliDisplay(this, this, this);
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
@@ -40,19 +41,40 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void update() {
-        if (this.started) {
-            this.time--;
-            this.house.setTime(this.time);
-        }
+        this.time--;
+        this.house.setTime(this.time);
     }
 
     public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         this.user = userIo.load(display.requestUsername());
-        updateAndShowHouse();
-        this.started = true;
-        doUserCommand();
+        while (true) {
+            updateAndShowHouse();
+            this.user.setScore(0);
+            doUserCommand();
+            end();
+            this.display.playAgainMessage();
+        }
+    }
+
+    /**
+     * at the moment it is called when the player enters the debug-command "suc" or "fail"
+     * the DebugSuccessListener can be removed, when the rest of the logic is implemented
+     */
+    private void end() {
+        this.display.gameEndNotification(this.gameSuccess, this.user.getScore());
+        highscoreCheck();
+    }
+
+    public void highscoreCheck() {
+        int score = this.user.getScore();
+        System.out.println(this.user.getHighscore());
+        System.out.println(this.user.getScore());
+        if (score > this.user.getHighscore()) {
+            this.user.setHighscore(score);
+            this.display.newPersonalHighscoreNotification(score);
+        }
     }
 
     private void updateAndShowHouse() throws IOException {
@@ -65,7 +87,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.display.showHouse(this.house, currentLevel);
     }
 
-    private void doUserCommand() throws IOException, UserIoException {
+    private void doUserCommand() throws IOException {
         if(time <= 0) {
             this.display.timeIsUp();
             //abbruch methode: restart game with Y or end game
@@ -77,14 +99,19 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         if(command == null) {
             doUserCommand();
         }
-        if (command == Config.Command.HELP) {
-            this.display.helpMessage();
-            doUserCommand();
+        switch(command) {
+            case HELP:
+                this.display.helpMessage();
+                doUserCommand();
+                break;
+            case DEBUG_FAIL:
+            case DEBUG_SUCCESS: break;
+            default:
+                moveIntoRoom(command);
         }
-        moveIntoRoom(command);
     }
 
-    private void moveIntoRoom(Config.Command command) throws IOException, UserIoException {
+    private void moveIntoRoom(Config.Command command) throws IOException {
         Room room = null;
         for (int i = 0; i < currentLevel.getRooms().length; i++) {
             if (currentLevel.getRooms()[i].getCommand() == command) {
@@ -104,8 +131,9 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                 resetRooms();
             }
         }
-
-        doUserCommand();
+        if (!this.gameEnded) {
+            doUserCommand();
+        }
     }
 
     private void updateLevel() {
@@ -146,13 +174,24 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         return allRoomsCompleted;
     }
 
-     private void startQuestionSet(Room room, Level level) {
+    private void startQuestionSet(Room room, Level level) {
         for (int i = 0; i < Config.NUMBER_OF_QUESTIONS_PER_ROOM; i++) {
             if (this.display.askQuestionsMessage(room, level).equals(level.getAnwser(room))) {
                 user.setScore(user.getScore() + 1);
             }
             this.display.showAnwser(room, level);
         }
+    }
+
+    @Override
+    public void onGameFailed() {
+        this.gameEnded = true;
+    }
+
+    @Override
+    public void onGameSuccess() {
+        this.gameEnded = true;
+        this.gameSuccess = true;
     }
 
     public int getTime() {
