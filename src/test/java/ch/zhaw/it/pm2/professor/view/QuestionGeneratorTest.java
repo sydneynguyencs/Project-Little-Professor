@@ -10,6 +10,9 @@ public class QuestionGeneratorTest {
     QuestionGenerator questionGenerator;
     DeterministicQuestionGenerator deterministicGenerator;
 
+    /**
+     * Tests if the generator saves questions and answers correctly for integer numbers.
+     */
     @Test
     void questionIntTest() {
         deterministicGenerator = new DeterministicQuestionGenerator(false, 3);
@@ -19,6 +22,9 @@ public class QuestionGeneratorTest {
         assertEquals("6", answer);
     }
 
+    /**
+     * Tests if the generator saves questions and answers correctly for double numbers.
+     */
     @Test
     void questionDoubleTest() {
         deterministicGenerator = new DeterministicQuestionGenerator(true, 2.3);
@@ -28,6 +34,9 @@ public class QuestionGeneratorTest {
         assertEquals("4.6", answer);
     }
 
+    /**
+     * Tests if questions with doubles have a full number result, then the ending .0 is deleted.
+     */
     @Test
     void doubleResultIsRoundedTest() {
         deterministicGenerator = new DeterministicQuestionGenerator(true, 2.5);
@@ -38,6 +47,9 @@ public class QuestionGeneratorTest {
         assertNotEquals("5.0", answer);
     }
 
+    /**
+     * Tests if questions are random.
+     */
     @Test
     void isRandomTest() {
         questionGenerator = new QuestionGenerator(false);
@@ -46,6 +58,9 @@ public class QuestionGeneratorTest {
         assertNotEquals(question, question2);
     }
 
+    /**
+     * Tests if the numbers in questions are within the given range.
+     */
     @Test
     void isInRangeTest() {
         questionGenerator = new QuestionGenerator(true);
@@ -59,6 +74,9 @@ public class QuestionGeneratorTest {
         assert (num2 <= 100);
     }
 
+    /**
+     * Tests if the result of a question is correctly calculated and saved.
+     */
     @Test
     void correctResultTest() {
         questionGenerator = new QuestionGenerator(false);
@@ -72,6 +90,9 @@ public class QuestionGeneratorTest {
         assertEquals(expectedResult, actualResult);
     }
 
+    /**
+     * Tests if IllegalArgumentException is thrown when an invalid operation is received.
+     */
     @Test
     void invalidOperation() {
         questionGenerator = new QuestionGenerator(true);
