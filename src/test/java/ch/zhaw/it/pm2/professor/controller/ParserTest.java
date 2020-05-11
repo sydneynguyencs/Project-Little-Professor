@@ -11,6 +11,10 @@ import java.util.List;
 import static ch.zhaw.it.pm2.professor.model.Config.Command.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * ParserTest.
+ * Test-methods are described here.
+ */
 class ParserTest {
 
     List<Config.Command> acceptedCommands;
@@ -29,8 +33,10 @@ class ParserTest {
 
     private static final String VALID_USERNAME = "Cellestine";
     private static final String VALID_USERNAME_TEST_TRIM_15_CHARS = " Cellestine    ";
-    private static final String VALID_USERNAME_FOUR_CHARS = "Otto";
-    private static final String INVALID_USERNAME = "ThisUsernameHasToManyCharsAndIsNotAccepted";
+    private static final String VALID_USERNAME_MIN_CHARS = "Otto";
+    private static final String VALID_USERNAME_MAX_CHARS = "ThisUsername";
+    private static final String USERNAME_TOO_SHORT = "abc";
+    private static final String USERNAME_TOO_LONG = "ThisUsernameHasToManyCharsAndIsNotAccepted";
 
     @BeforeEach
     void setUp() {
@@ -47,117 +53,265 @@ class ParserTest {
         assertNotNull(acceptedCommands);
     }
 
+    /**
+     * Test parseInput:
+     * Test a valid input with spare spaces. Method should parse the input to the command DOWN and trim
+     * the spare spaces.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseValidDownInputWithSpaces() throws InvalidInputException {
+    void testParseValidDownInputWithSpaces() throws InvalidInputException {
         Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_DOWN_TEST_TRIM);
-        assertEquals(DOWN,actualCommand);
+        assertEquals(DOWN, actualCommand);
     }
 
+    /**
+     * Test parseInput:
+     * Test a valid input with spare spaces. Method should parse the input to the command LEFT and trim
+     * the spare spaces.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseValidInputLeftWithSpaces() throws InvalidInputException {
+    void testParseValidInputLeftWithSpaces() throws InvalidInputException {
         Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_LEFT_TEST_TRIM);
-        assertEquals(LEFT,actualCommand);
+        assertEquals(LEFT, actualCommand);
     }
 
+    /**
+     * Test parseInput:
+     * Test a valid input with spare spaces. Method should parse the input to the command UP.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseValidInputHelp() throws InvalidInputException {
-        Config.Command actualCommand = parser.parseInput(acceptedCommands,VALID_INPUT_HELP);
-        assertEquals(HELP,actualCommand);
-    }
-
-    @Test
-    void parseValidInputQuit() throws InvalidInputException {
-        Config.Command actualCommand = parser.parseInput(acceptedCommands,VALID_INPUT_QUIT);
-        assertEquals(QUIT,actualCommand);
-    }
-
-    @Test
-    void parseValidInputRight() throws InvalidInputException {
-        Config.Command actualCommand = parser.parseInput(acceptedCommands,VALID_INPUT_RIGHT);
-        assertEquals(RIGHT,actualCommand);
-    }
-
-    @Test
-    void parseValidInputUnknown() throws InvalidInputException {
-        Config.Command actualCommand = parser.parseInput(acceptedCommands,VALID_INPUT_UNKNOWN);
-        assertEquals(UNKNOWN,actualCommand);
-    }
-
-    @Test
-    void parseValidInputUpWithSpaces() throws InvalidInputException {
+    void testParseValidInputUpWithSpaces() throws InvalidInputException {
         Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_UP_TEST_TRIM);
-        assertEquals(UP,actualCommand);
+        assertEquals(UP, actualCommand);
     }
 
+    /**
+     * Test parseInput:
+     * Test a valid input without spare spaces. Method should parse the input to the command GO.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseInvalidInput() throws InvalidInputException {
+    void testParseValidInputGo() throws InvalidInputException {
+        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_GO);
+        assertEquals(GO, actualCommand);
+    }
+
+    /**
+     * Test parseInput:
+     * Test a valid input without spare spaces. Method should parse the input to the command HELP.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseValidInputHelp() throws InvalidInputException {
+        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_HELP);
+        assertEquals(HELP, actualCommand);
+    }
+
+    /**
+     * Test parseInput:
+     * Test a valid input without spare spaces. Method should parse the input to the command QUIT.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseValidInputQuit() throws InvalidInputException {
+        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_QUIT);
+        assertEquals(QUIT, actualCommand);
+    }
+
+    /**
+     * Test parseInput:
+     * Test a valid input without spare spaces. Method should parse the input to the command RIGHT.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseValidInputRight() throws InvalidInputException {
+        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_RIGHT);
+        assertEquals(RIGHT, actualCommand);
+    }
+
+    /**
+     * Test parseInput:
+     * Test a valid input without spare spaces. Method should parse the String "?" input
+     * to the command UNKNOWN.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseValidInputUnknown() throws InvalidInputException {
+        Config.Command actualCommand = parser.parseInput(acceptedCommands, VALID_INPUT_UNKNOWN);
+        assertEquals(UNKNOWN, actualCommand);
+    }
+
+    /**
+     * Test parseInput:
+     * Invalid Input which is not in the List with acceptedCommands. Should throw a InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseInvalidInput() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseInput(acceptedCommands, INVALID_INPUT_ONE));
     }
 
+    /**
+     * Test parseInput:
+     * Invalid Input which is not in the List with acceptedCommands. Should throw a InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseAnotherInvalidInput() throws InvalidInputException {
+    void testParseAnotherInvalidInput() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseInput(acceptedCommands, INVALID_INPUT_TWO));
     }
 
+    /**
+     * Test parseInput:
+     * EMPTY_STRING as input. Should throw a InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseEmptyString() throws InvalidInputException {
+    void testParseEmptyString() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseInput(acceptedCommands, EMPTY_STRING));
     }
 
+    /**
+     * Test parseInput:
+     * null-object as input, should thow a NullPointerException.
+     *
+     * @throws NullPointerException
+     */
     @Test
-    void parseNullInput() throws NullPointerException {
+    void testParseNullInput() throws NullPointerException {
         NullPointerException thrown = assertThrows(
                 NullPointerException.class,
                 () -> parser.parseInput(acceptedCommands, null));
     }
 
+    /**
+     * Test parseName:
+     * Valid username, should pass.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseValidName() throws InvalidInputException {
+    void testParseValidName() throws InvalidInputException {
         String actualUsername = parser.parseName(VALID_USERNAME);
         assertEquals("Cellestine", actualUsername);
     }
 
+    /**
+     * Test parseName:
+     * Valid username, minimum chars, should pass.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseValidNameFourChars() throws InvalidInputException {
-        String actualUsername = parser.parseName(VALID_USERNAME_FOUR_CHARS);
+    void testParseValidNameMinChars() throws InvalidInputException {
+        String actualUsername = parser.parseName(VALID_USERNAME_MIN_CHARS);
         assertEquals("Otto", actualUsername);
     }
 
+    /**
+     * Test parseName:
+     * Valid username, maximum chars, should pass.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseValidNameTrimAccidentallyGivenSpaces() throws InvalidInputException {
+    void testParseValidNameMaxChars() throws InvalidInputException {
+        String actualUsername = parser.parseName(VALID_USERNAME_MAX_CHARS);
+        assertEquals("ThisUsername", actualUsername);
+    }
+
+    /**
+     * Test parseName:
+     * Valid username, accidentally spare spaces, should trim the spare spaces and should pass.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseValidNameTrimAccidentallyGivenSpaces() throws InvalidInputException {
         String actualUsername = parser.parseName(VALID_USERNAME_TEST_TRIM_15_CHARS);
         assertEquals("Cellestine", actualUsername);
     }
 
+    /**
+     * Test parseName:
+     * Username too long. Should throw an InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseInvalidName() throws InvalidInputException {
+    void testParseTooLongName() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
-                () -> parser.parseName(INVALID_USERNAME));
+                () -> parser.parseName(USERNAME_TOO_LONG));
     }
 
+    /**
+     * Test parseName:
+     * Username too short. Should throw an InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseInvalidNameEmptyString() throws InvalidInputException {
+    void testParseTooShortName() throws InvalidInputException {
+        InvalidInputException thrown = assertThrows(
+                InvalidInputException.class,
+                () -> parser.parseName(USERNAME_TOO_SHORT));
+    }
+
+    /**
+     * Test parseName:
+     * EMPTY_STRING. Should throw an InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
+    @Test
+    void testParseInvalidNameEmptyString() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseName(EMPTY_STRING));
     }
 
+    /**
+     * Test parseName:
+     * Invalid input too short. Should throw an InvalidInputException.
+     *
+     * @throws InvalidInputException
+     */
     @Test
-    void parseInvalidNameThreeChars() throws InvalidInputException {
+    void testParseInvalidNameThreeChars() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
                 () -> parser.parseName("abc"));
     }
 
+    /**
+     * Test parseName:
+     * null-object. Should throw a NullPointerExcption.
+     *
+     * @throws NullPointerException
+     */
     @Test
-    void parseInvalidNameNullObject() throws InvalidInputException {
+    void testParseInvalidNameNullObject() throws NullPointerException {
         NullPointerException thrown = assertThrows(
                 NullPointerException.class,
                 () -> parser.parseName(null));
