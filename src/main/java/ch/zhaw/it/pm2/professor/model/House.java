@@ -26,17 +26,26 @@ public class House {
      * @param timeSource    TimeInterface timeSource
      * @throws IOException  IOException which gets thrown if the timeSource in not valid
      */
-    public House(TimeInterface timeSource) throws IOException {
+    public House(TimeInterface timeSource) {
         this.state = State.ENTRANCE;
         this.timeSource = timeSource;
-        init();
+        try {
+            init();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public State getState() {
         return this.state;
     }
 
-    public void init() throws IOException {
+    /**
+     * Method init. The class init tries to read a State-file. If it can not be found,
+     * a FileNotFoundException gets thrown.
+     * @throws IOException
+     */
+    public void init() throws FileNotFoundException {
         this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
@@ -56,7 +65,11 @@ public class House {
             e.printStackTrace();
         } finally {
             if (in != null) {
-                in.close();
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
