@@ -11,9 +11,6 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 
-import java.util.List;
-
-
 /**
  * Prints the output to the terminal.
  * The class Display could be replaced by a GUI if wanted.
@@ -25,15 +22,19 @@ public class CliDisplay implements Display {
     private TextTerminal<?> terminal;
     private Parser parser;
     private GameEndListener gameEndListener;
+    private DebugSuccessListener debugSuccessListener; // is only temporary because the game can't be ended at the moment
+    private DebugFailListener debugFailListener; // is only temporary because the game can't be ended at the moment
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      */
-    public CliDisplay(GameEndListener gameEndListener) {
+    public CliDisplay(GameEndListener gameEndListener, DebugSuccessListener debugSuccessListener, DebugFailListener debugFailListener) {
         this.textIO = TextIoFactory.getTextIO();
         this.terminal = textIO.getTextTerminal();
         this.parser = new Parser();
         this.gameEndListener = gameEndListener;
+        this.debugSuccessListener = debugSuccessListener;
+        this.debugFailListener = debugFailListener;
     }
 
     public void messageUserForInput() {
@@ -60,14 +61,6 @@ public class CliDisplay implements Display {
         return username;
     }
 
-    public void seeTheHighscores() {
-        terminal.print("To see the highscores from all the users, please press Y.");
-    }
-
-    public void displayHighscores() {
-        terminal.print("This are the highscores.");
-    }
-
     public Config.Command navigate(Level level) {
         Config.Command command = null;
         terminal.println("You are in the Hallway right now. Type any of the following commands to enter a room.\n");
@@ -79,10 +72,6 @@ public class CliDisplay implements Display {
             invalidInputMessage();
         }
         return command;
-    }
-
-    public String getCommandSelectionString(List<Config.Command> commands) {
-        return null;
     }
 
     public void invalidInputMessage() {
@@ -103,6 +92,7 @@ public class CliDisplay implements Display {
         terminal.print("\nEnter \"quit\" to quit.\n");
         String userInput = textIO.newStringInputReader().read();
         checkForQuitCommand(userInput);
+        checkForGameEnd(userInput);
         return userInput;
     }
 
@@ -117,10 +107,27 @@ public class CliDisplay implements Display {
     }
 
     /**
+     * Can be deleted, when game can be finished
+     */
+    private void checkForGameEnd(String userInput) {
+        Config.Command[] successCommandList = {Config.Command.DEBUG_SUCCESS};
+        try {
+            Config.Command command = this.parser.parseInput(successCommandList, userInput);
+            if (command == Config.Command.DEBUG_FAIL) {
+                this.debugFailListener.onGameFailed();
+            } else if (command == Config.Command.DEBUG_SUCCESS){
+                this.debugSuccessListener.onGameSuccess();
+            }
+        } catch (InvalidInputException e) {
+            // so we don't end the game
+        }
+    }
+
+    /**
      * If this method gets called, the user gets informed that the Application gets closed after 5 seconds.
      */
     private void exitApplication() {
-        terminal.println("\nThank you for playing racetrack today. The Application closes in 5 seconds and your highscore will be saved. Goodbye.");
+        terminal.println("\nThank you for playing little-professor today. The Application closes in 5 seconds and your highscore will be saved. Goodbye.");
         try {
             this.gameEndListener.onGameEnd();
         } catch (UserIoException e) {
@@ -138,11 +145,6 @@ public class CliDisplay implements Display {
     @Override
     public void helpMessage() {
         terminal.println("Move into a room to start the question set and gain enough points to win this level.\nWatch out for the timer!\nTo quit Little Professor type \"quit\"");
-    }
-
-    @Override
-    public void quitMessage() {
-        terminal.println("Thanks for playing!\nSee you soon to improve your math skills.");
     }
 
     @Override
@@ -165,12 +167,46 @@ public class CliDisplay implements Display {
     @Override
     public void updateLevelMessage(Level level) {
         terminal.println("__________________________________________________\n");
-        terminal.println("Congratulations! You finished this level successfully. Welcome to level " + level.getName());
-
-
+        terminal.println("You finished this level successfully. Welcome to level " + level.getName());
     }
 
-    public void printPromt(String promt) {
-        terminal.print(promt);
+    @Override
+    public void gameEndNotification(boolean success, int score) {
+        terminal.println("__________________________________________________\n");
+        if (success) {
+            terminal.println("Congratulations! You finished the game successfully with the following score: " + score);
+        } else {
+            terminal.println("Unfortunately you could not successfully complete the game with a score of " + score + ".");
+        }
+    }
+
+    @Override
+    public void newPersonalHighscoreNotification(int highscore) {
+        terminal.println("__________________________________________________\n");
+        terminal.println("YOU ACHIEVED A NEW PERSONAL HIGHSCORE: " + highscore);
+    }
+
+    @Override
+    public void playAgainMessage() {
+        Config.Command command = null;
+        Config.Command[] yesCommandList = {Config.Command.YES};
+        while (command == null) {
+            terminal.println("__________________________________________________\n");
+            terminal.println("Would you like to play again? ('y' for yes)");
+            String input = getNextUserInput();
+            try {
+                command = this.parser.parseInput(yesCommandList, input);
+            } catch (InvalidInputException e) {
+                // ask again
+            }
+        }
+    }
+
+    public interface DebugSuccessListener {
+        void onGameSuccess();
+    }
+
+    public interface DebugFailListener {
+        void onGameFailed();
     }
 }
