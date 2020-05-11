@@ -148,11 +148,6 @@ public class CliDisplay implements Display {
     }
 
     @Override
-    public void quitMessage() {
-        terminal.println("Thanks for playing!\nSee you soon to improve your math skills.");
-    }
-
-    @Override
     public String askQuestionsMessage(Room room, Level level) {
         terminal.println("Solve: " + level.getQuestion(room));
         terminal.print("Your answer:");
