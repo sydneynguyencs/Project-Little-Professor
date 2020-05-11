@@ -1,7 +1,6 @@
 package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.model.Question;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -10,11 +9,11 @@ import java.math.RoundingMode;
 import java.util.Random;
 
 public class QuestionGenerator {
-    static Question question;
+    protected static Question question;
     ScriptEngineManager sem;
-    ScriptEngine engine;
+    protected ScriptEngine engine;
     final int PLACES = 2;
-    boolean hasDouble;
+    protected boolean hasDouble;
 
     public QuestionGenerator(boolean hasDouble) {
         question = new Question();
@@ -27,7 +26,7 @@ public class QuestionGenerator {
         return start + (int) (new Random().nextFloat() * (end - start));
     }
 
-    protected double getRandomDouble(int start, int end) {
+  protected double getRandomDouble(int start, int end) {
         double randomDouble = start + new Random().nextDouble() * (end - start);
         BigDecimal bd = BigDecimal.valueOf(randomDouble);
         bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
@@ -66,9 +65,6 @@ public class QuestionGenerator {
     }
 
     protected boolean checkOperator(char operation) {
-        if (operation == '+' || operation == '-' || operation == '*' || operation == '/') {
-            return true;
-        }
-        return false;
+        return operation == '+' || operation == '-' || operation == '*' || operation == '/';
     }
 }

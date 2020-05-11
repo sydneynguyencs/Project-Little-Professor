@@ -40,6 +40,7 @@ public class QuestionGeneratorTest {
 
     @Test
     void isRandomTest() {
+        questionGenerator = new QuestionGenerator(false);
         String question = questionGenerator.getQuestion('-', 0, 10);
         String question2 = questionGenerator.getQuestion('-', 0, 10);
         assertNotEquals(question, question2);
@@ -47,6 +48,7 @@ public class QuestionGeneratorTest {
 
     @Test
     void isInRangeTest() {
+        questionGenerator = new QuestionGenerator(true);
         String question = questionGenerator.getQuestion('-', 0, 100);
         String[] split = question.split(" ");
         int num1 = Integer.parseInt(split[0]);
@@ -59,6 +61,7 @@ public class QuestionGeneratorTest {
 
     @Test
     void correctResultTest() {
+        questionGenerator = new QuestionGenerator(false);
         String question = questionGenerator.getQuestion('*', 0, 100);
         String answer = questionGenerator.getAnswer();
         String[] split = question.split(" ");
@@ -71,6 +74,7 @@ public class QuestionGeneratorTest {
 
     @Test
     void invalidOperation() {
+        questionGenerator = new QuestionGenerator(true);
         Exception exception = assertThrows(RuntimeException.class, () -> {
             questionGenerator.getQuestion('&', 0, 100);
         });
