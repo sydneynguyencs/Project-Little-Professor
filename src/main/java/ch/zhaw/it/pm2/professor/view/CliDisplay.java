@@ -90,8 +90,10 @@ public class CliDisplay implements Display {
     }
 
     public void timeIsUp() {
-        terminal.print("The time is up.\nYour score will be written to the highscore file and the game " +
-                "will end here.");
+        terminal.print("\nThe time is up.\nYour score will be written to the highscore file and the game " +
+                "will end here.\n");
+        terminal.print("Would you like to play again? (Y/quit)");
+
     }
 
     public void levelComplete() {
@@ -174,7 +176,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void levelNotSuccessfullMessage() {
-        terminal.println("Unfortunately you did not collect enough points to finish this level. Try again.\n");
+        terminal.println("\nUnfortunately you did not collect enough points to finish this level. Try again.\n");
 
     }
 

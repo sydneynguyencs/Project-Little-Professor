@@ -2,6 +2,7 @@ package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
+import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
@@ -65,8 +66,9 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void doUserCommand() throws IOException, UserIoException {
-        if(time >= 0) {
-            onGameEnd();
+        if(time <= 0) {
+            this.display.timeIsUp();
+            //evtl restart game or end game
         }
         updateAndShowHouse();
         this.house.changeState(House.State.HALLWAY);
