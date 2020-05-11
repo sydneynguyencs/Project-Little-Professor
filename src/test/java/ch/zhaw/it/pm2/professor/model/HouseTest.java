@@ -6,11 +6,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
-
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * HouseTest.
+ * Test-methods are described here.
+ */
 class HouseTest {
 
     private House house;
@@ -37,18 +39,51 @@ class HouseTest {
         assertNotNull(house);
     }
 
+    /**
+     * Test changeState:
+     * Change state to Hallway, assert that the new State is Hallway.
+     * @throws IOException
+     */
     @Test
     void testChangeStateToHallway() throws IOException {
         house.changeState(House.State.HALLWAY);
         assertEquals(House.State.HALLWAY, house.getState());
     }
 
+    /**
+     * Test changeState:
+     * Change state to Entrance, then to Hallway and again to Entrance,
+     * assert that the new State is Entrance.
+     * @throws IOException
+     */
     @Test
-    void testChangeStateToEntrance() throws IOException {
+    void testChangeStateToHallwayAndBack() throws IOException {
+        house.changeState(House.State.ENTRANCE);
+        house.changeState(House.State.HALLWAY);
         house.changeState(House.State.ENTRANCE);
         assertEquals(House.State.ENTRANCE, house.getState());
     }
 
+    /**
+     * Test changeState:
+     * If passed a null-object, a NullPointerException should get thrown.
+     * @throws IOException
+     */
+    @Test
+    void testNullState() throws NullPointerException {
+        NullPointerException thrown = assertThrows(
+                NullPointerException.class,
+                () -> house.changeState(null));
+
+    }
+
+    /**
+     * Test printLevelAsArray:
+     * Using a Mock to mock the Level class because printLevelAsArray requires a Level Object.
+     * Changing to state Entrance and print the Level as Array.
+     * Assert the actual Array with the given String[] ENTRANCE.
+     * @throws IOException
+     */
     @Test
     void testStateEntrancePrintAsArray() throws IOException {
         house.changeState(House.State.ENTRANCE);
@@ -56,22 +91,20 @@ class HouseTest {
         assertArrayEquals(ENTRANCE, actualHouse);
     }
 
+    /**
+     * Test printLevelAsArray:
+     * If State is Hallway, the method should add rooms and time to the house.
+     * setUsername and setScore also adds this user information.
+     * Assert the actual Array with the given String[] HOUSE_WITH_ROOMS_AND_USERDATA.
+     * @throws IOException
+     */
     @Test
     void testSetUserDataAndAddRoomsInStateHallway() throws IOException {
         house.changeState(House.State.HALLWAY);
         house.setUsername(USERNAME);
-        house.setTime(2);
         house.setScore(1000);
         String[] actualHouse = house.printLevelAsArray(levelMock);
 
         assertArrayEquals(HOUSE_WITH_ROOMS_AND_USERDATA, actualHouse);
-    }
-
-    @Test
-    void testNullState() throws IOException {
-        NullPointerException thrown = assertThrows(
-                NullPointerException.class,
-                () -> house.changeState(null));
-
     }
 }

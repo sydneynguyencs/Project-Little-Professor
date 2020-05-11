@@ -16,6 +16,8 @@ import java.io.IOException;
  */
 public interface Display {
 
+    void messageUserForInput();
+
     void showHouse(House house, Level level);
 
     void welcomeMessage(House house);
@@ -24,11 +26,15 @@ public interface Display {
 
     Config.Command navigate(Level level);
 
+    void invalidInputMessage();
+
     void timeIsUp();
 
     void levelComplete();
 
     String getNextUserInput() throws InvalidInputException;
+
+    void checkForQuitCommand(String userInput);
 
     void selectedRoomMessage(Room room, Level level);
 
