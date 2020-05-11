@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 
 /**
  * Represents the house, with its appearance represented in a string array
@@ -22,6 +21,11 @@ public class House {
     private static final String LEVEL_FIELD = "%LEVEL%";
     private static final int LINES_EMPTYHOUSE = 21;
 
+    /**
+     * House constructor. A TimeInterface is given to the constructor.
+     * @param timeSource    TimeInterface timeSource
+     * @throws IOException  IOException which gets thrown if the timeSource in not valid
+     */
     public House(TimeInterface timeSource) throws IOException {
         this.state = State.ENTRANCE;
         this.timeSource = timeSource;
