@@ -7,21 +7,23 @@ import java.awt.*;
  * provide an operation, other do not.
  */
 public enum Room {
-    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8), Config.Command.LEFT),
-    ROOM_UP(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.UP),
-    ROOM_RIGHT(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.RIGHT),
-    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13), Config.Command.DOWN),
+    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8), Config.Command.LEFT, false),
+    ROOM_UP(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.UP, false),
+    ROOM_RIGHT(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.RIGHT, false),
+    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13), Config.Command.DOWN, false),
     HALLWAY("--", new Point(23, 8));
 
     private Config.Operation operation = null;
     private final String name;
     private final Point position;
     private Config.Command command;
+    private Boolean completed;
 
-    Room(Config.Operation operation, Point position, Config.Command command) {
+    Room(Config.Operation operation, Point position, Config.Command command, Boolean completed) {
         this(operation.toString(), position);
         this.operation = operation;
         this.command = command;
+        this.completed = completed;
     }
 
     Room(String name, Point position) {
@@ -66,5 +68,13 @@ public enum Room {
             return before + this.name + after;
         }
         return line;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public Boolean isCompleted() {
+        return completed;
     }
 }

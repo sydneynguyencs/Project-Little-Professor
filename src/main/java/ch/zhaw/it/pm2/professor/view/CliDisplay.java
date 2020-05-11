@@ -154,7 +154,7 @@ public class CliDisplay implements Display {
 
     @Override
     public void showAnwser(Room room, Level level) {
-        terminal.println("Solve: " + level.getAnwser(room));
+        terminal.println("Right answer: " + level.getAnwser(room));
     }
 
     @Override
@@ -164,9 +164,17 @@ public class CliDisplay implements Display {
 
     @Override
     public void updateLevelMessage(Level level) {
-        terminal.println("__________________________________________________\n");
+        terminal.println("_________________________________________________________________________________\n");
         terminal.println("Congratulations! You finished this level successfully. Welcome to level " + level.getName());
+        terminal.println("The timer is reset. \nTry to gain " + (level.getRooms().length-1)*4 + " extra points to get to the next level.\n");
 
+
+
+    }
+
+    @Override
+    public void levelNotSuccessfullMessage() {
+        terminal.println("Unfortunately you did not collect enough points to finish this level. Try again.\n");
 
     }
 

@@ -49,6 +49,8 @@ public interface Display {
 
     void updateLevelMessage(Level level);
 
+    void levelNotSuccessfullMessage();
+
     public interface GameEndListener {
         void onGameEnd() throws UserIoException;
     }
