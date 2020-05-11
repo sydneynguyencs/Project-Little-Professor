@@ -68,7 +68,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void doUserCommand() throws IOException, UserIoException {
         if(time <= 0) {
             this.display.timeIsUp();
-            //evtl restart game or end game
+            //abbruch methode: restart game with Y or end game
         }
         updateAndShowHouse();
         this.house.changeState(House.State.HALLWAY);
@@ -109,12 +109,16 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void updateLevel() {
-        levelCount++;
-        currentLevel = levelSource.getLevels().get(levelCount);
-        oldScore = user.getScore();
-        time = (currentLevel.getRooms().length-1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 10;
-        resetRooms();
-        this.display.updateLevelMessage(currentLevel);
+        if(levelCount < levelSource.getLevels().size()-1) {
+            levelCount++;
+            currentLevel = levelSource.getLevels().get(levelCount);
+            oldScore = user.getScore();
+            time = (currentLevel.getRooms().length - 1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 10;
+            resetRooms();
+            this.display.updateLevelMessage(currentLevel);
+        } else {
+            //abbruch methode: restart game with Y or end game
+        }
     }
 
     private void resetRooms() {
