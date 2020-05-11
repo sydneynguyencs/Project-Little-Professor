@@ -166,14 +166,14 @@ public class CliDisplay implements Display {
 
     @Override
     public void updateLevelMessage(Level level) {
-        terminal.println("__________________________________________________\n");
+        terminal.println("_______________________________________________________________________________________________\n");
         terminal.println("You finished this level successfully. Welcome to level " + level.getName());
-        terminal.println("The timer is reset. \nTry to gain " + (level.getRooms().length-1)*4 + " extra points to get to the next level.\n");
+        terminal.println("The timer is reset. \nTry to gain " + (level.getRooms().length-1)*4 + " additional points to get to the next level.\n");
     }
 
     @Override
     public void gameEndNotification(boolean success, int score) {
-        terminal.println("__________________________________________________\n");
+        terminal.println("_______________________________________________________________________________________________\n");
         if (success) {
             terminal.println("Congratulations! You finished the game successfully with the following score: " + score);
         } else {
@@ -183,12 +183,12 @@ public class CliDisplay implements Display {
 
     @Override
     public void levelNotSuccessfullMessage() {
-        terminal.println("\nUnfortunately you did not collect enough points to finish this level. Try again.\n");
+        terminal.println("\nUnfortunately you did not finish this level on time with enough points.\n");
     }
 
     @Override
     public void newPersonalHighscoreNotification(int highscore) {
-        terminal.println("__________________________________________________\n");
+        terminal.println("_______________________________________________________________________________________________\n");
         terminal.println("YOU ACHIEVED A NEW PERSONAL HIGHSCORE: " + highscore);
     }
 
@@ -197,7 +197,7 @@ public class CliDisplay implements Display {
         Config.Command command = null;
         Config.Command[] yesCommandList = {Config.Command.YES};
         while (command == null) {
-            terminal.println("__________________________________________________\n");
+            terminal.println("_______________________________________________________________________________________________\n");
             terminal.println("Would you like to play again? ('y' for yes)");
             String input = getNextUserInput();
             try {

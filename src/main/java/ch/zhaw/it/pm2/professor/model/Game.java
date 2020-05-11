@@ -18,7 +18,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private User user;
     private final UserIo userIo;
     private int time;
-    private boolean started = false;
     private Level currentLevel;
     private final LevelSource levelSource;
     private int levelCount = 0;
@@ -32,7 +31,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
-        time = (currentLevel.getRooms().length-1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 5;
+        resetTimer();
     }
 
     @Override
@@ -50,7 +49,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.display.welcomeMessage(house);
         this.user = userIo.load(display.requestUsername());
         while (true) {
-            updateAndShowHouse();
             this.user.setScore(0);
             doUserCommand();
             end();
@@ -90,7 +88,8 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void doUserCommand() throws IOException {
         if(time <= 0) {
             this.display.timeIsUp();
-            //abbruch methode: restart game with Y or end game
+            this.display.playAgainMessage();
+            resetGame();
         }
         updateAndShowHouse();
         this.house.changeState(House.State.HALLWAY);
@@ -111,6 +110,13 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
     }
 
+    private void resetGame() {
+        user.setScore(0);
+        resetTimer();
+        resetRooms();
+        levelCount = 0;
+    }
+
     private void moveIntoRoom(Config.Command command) throws IOException {
         Room room = null;
         for (int i = 0; i < currentLevel.getRooms().length; i++) {
@@ -123,30 +129,37 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.display.showRoom(room, currentLevel);
         startQuestionSet(room, currentLevel);
         room.setCompleted(true);
-        if(allRoomsCompleted()) {
-            if (levelSuccessful()) {
-                updateLevel();
+        if (allRoomsCompleted()) {
+            if (levelCount == levelSource.getLevels().size() - 1) {//final level check
+                this.display.gameEndNotification(levelSuccessful(), user.getScore());
+                this.display.playAgainMessage();
             } else {
-                this.display.levelNotSuccessfullMessage();
-                resetRooms();
+                if (levelSuccessful()) {
+                    updateLevel();
+                } else {
+                    this.display.levelNotSuccessfullMessage();
+                    this.display.playAgainMessage();
+                    resetRooms();
+                }
             }
+            resetTimer();
         }
         if (!this.gameEnded) {
             doUserCommand();
         }
     }
 
+    private void resetTimer() {
+        time = (currentLevel.getRooms().length - 1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 10;
+    }
+
     private void updateLevel() {
-        if(levelCount < levelSource.getLevels().size()-1) {
-            levelCount++;
-            currentLevel = levelSource.getLevels().get(levelCount);
-            oldScore = user.getScore();
-            time = (currentLevel.getRooms().length - 1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 10;
-            resetRooms();
-            this.display.updateLevelMessage(currentLevel);
-        } else {
-            //abbruch methode: restart game with Y or end game
-        }
+        levelCount++;
+        currentLevel = levelSource.getLevels().get(levelCount);
+        oldScore = user.getScore();
+        resetTimer();
+        resetRooms();
+        this.display.updateLevelMessage(currentLevel);
     }
 
     private void resetRooms() {
