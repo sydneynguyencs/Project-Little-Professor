@@ -5,10 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 public class House {
     private String[] house;
     private State state;
+    private TimeInterface timeSource;
+    //private List<Room> rooms;
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
@@ -17,8 +20,9 @@ public class House {
     private static final String LEVEL_FIELD = "%LEVEL%";
     private static final int LINES_EMPTYHOUSE = 21;
 
-    public House() throws IOException {
+    public House(TimeInterface timeSource) throws IOException {
         this.state = State.ENTRANCE;
+        this.timeSource = timeSource;
         init();
     }
 
@@ -56,19 +60,24 @@ public class House {
         init();
     }
 
-    public String toString(Level level) {
-        if (this.state == State.HALLWAY) {
-            addRooms(level);
-        }
+    public String printLevel(Level level) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String s : this.house) {
+        for (String s : printLevelAsArray(level)) {
             stringBuilder.append(s);
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
     }
 
-    private void addRooms(Level level) {
+    public String[] printLevelAsArray(Level level) {
+        if (this.state == State.HALLWAY) {
+            setTimeInMatrix(getTime());
+            addRoomsToMatrix(level);
+        }
+        return this.house;
+    }
+
+    private void addRoomsToMatrix(Level level) {
         for(Room room : level.getRooms()) {
             room.addToHouse(this.house);
         }
@@ -79,7 +88,22 @@ public class House {
     }
 
     public void setTime(int time) {
+        replaceField(TIME_FIELD, Integer.valueOf(time).toString());
+    }
+
+    private void setTimeInMatrix(int time) {
         this.replaceField(TIME_FIELD, String.valueOf(time));
+    }
+
+    private int getTime() {
+        if (this.timeSource == null) {
+            throw new NullPointerException();
+        }
+        try {
+            return this.timeSource.getTime();
+        } catch (Exception e) {
+            throw new RuntimeException("This should not be possible.");
+        }
     }
 
     public void setHighscore(int highscore) {
@@ -116,5 +140,9 @@ public class House {
         public String getFilePath() {
             return filePath;
         }
+    }
+
+    public interface TimeInterface {
+        int getTime();
     }
 }

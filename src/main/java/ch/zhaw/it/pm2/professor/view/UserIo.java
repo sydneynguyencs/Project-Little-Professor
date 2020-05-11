@@ -1,14 +1,11 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.security.InvalidParameterException;
 
 public class UserIo {
 
@@ -29,13 +26,10 @@ public class UserIo {
      *
      * @param name of the user, that should be loaded
      * @return an object, null if the user was not found
-     * @throws IOException if the users-file can't be read for some reason
-     * @throws InvalidFileException if something with the user-file is wrong
      */
-    public User load(String name) throws IOException, InvalidFileException {
-        File file = getFile();
+    public User load(String name) throws UserConverter.UserConversionException, UserIoException {
         try (
-                BufferedReader reader = new BufferedReader(new FileReader(file));
+                BufferedReader reader = new BufferedReader(new FileReader(getFile()));
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -44,8 +38,8 @@ public class UserIo {
                     return fileUser;
                 }
             }
-        } catch (UserConverter.UserConversionException e) {
-            throw new InvalidFileException();
+        } catch (IOException e) {
+            throw new UserIoException(e);
         }
         return new User(name);
     }
@@ -55,13 +49,16 @@ public class UserIo {
      * If the file does not exist. It will be created.
      * If the users-file already contains a user with the given name, his highscore will be updated.
      *
-     * @param user the user-object, that should be persisted
-     * @throws IOException if something on reading or writing to from the user-file goes wrong
-     * @throws InvalidFileException if something with the user-file is wrong
+     * @param user the user-object, that should be persisted (must not be null)
      */
-    public void store(User user) throws IOException, InvalidFileException {
+    public void store(User user) throws UserIoException {
         boolean updated = false;
-        File file = getFile();
+        File file = null;
+        try {
+            file = getFile();
+        } catch (IOException e) {
+            throw new UserIoException(e);
+        }
         File tmpFile = new File(this.filePath + ".tmp");
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -79,8 +76,10 @@ public class UserIo {
             if (!updated) {
                 writeUser(writer, user);
             }
-        } catch (UserConverter.UserConversionException e) {
-            throw new InvalidFileException();
+        } catch (UserConverter.UserConversionException | IOException e) {
+            // if a UserConversionException is catched, something with the users in the file is wrong
+            // because of this we throw a UserIoException to
+            throw new UserIoException(e);
         }
 
         //noinspection ResultOfMethodCallIgnored
@@ -92,6 +91,7 @@ public class UserIo {
     private File getFile() throws IOException {
         File file = new File(this.filePath);
         //noinspection ResultOfMethodCallIgnored
+        file.getParentFile().mkdirs(); // create resources-folder if it does not exist
         file.createNewFile(); // does nothing, if file does not already exist
         return file;
     }

@@ -3,31 +3,30 @@ package ch.zhaw.it.pm2.professor.model;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.controller.Parser;
+import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
 import ch.zhaw.it.pm2.professor.view.UserIo;
+import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
 import java.io.IOException;
 import java.util.TimerTask;
 
-public class Game extends TimerTask {
-    House house;
-    Display display;
-    User user;
-    Parser parser;
-    UserIo userIo;
-    Level currentLevel;
-    LevelSource levelSource;
-    int levelCount = 0;
-    int time = 10;
-    boolean started = false;
-    String username;
+public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener {
+    private final House house;
+    private final Display display;
+    private User user;
+    private final UserIo userIo;
+    private int time = 10;
+    private boolean started = false;
+    private Level currentLevel;
+    private final LevelSource levelSource;
+    private int levelCount = 0;
 
     public Game() throws IOException {
-        this.house = new House();
-        this.display = new CliDisplay();
-        this.parser = new Parser();
+        this.house = new House(this);
+        this.display = new CliDisplay(this);
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
@@ -42,15 +41,13 @@ public class Game extends TimerTask {
         if (this.started) {
             this.time--;
             this.house.setTime(this.time);
-            this.display.showHouse(this.house, currentLevel);
         }
     }
 
-    public void start() throws IOException, UserIo.InvalidFileException {
+    public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
-        username = display.requestUsername();
-        this.user = userIo.load(username);
+        this.user = userIo.load(display.requestUsername());
         updateHouse();
         this.started = true;
         doUserCommand();
@@ -58,7 +55,7 @@ public class Game extends TimerTask {
 
     private void updateHouse() throws IOException {
         this.house.changeState(House.State.HALLWAY);
-        this.house.setUsername(username);
+        this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
         this.house.setTime(this.time);
@@ -78,8 +75,6 @@ public class Game extends TimerTask {
             case HELP:
                 this.display.helpMessage();
                 doUserCommand();
-            case QUIT:
-                this.display.quitMessage();
             default:
                 moveIntoRoom(command);
         }
@@ -118,5 +113,21 @@ public class Game extends TimerTask {
             }
             this.display.showAnwser(room, level);
         }
+    }
+
+    public int getTime() {
+        return this.time;
+    }
+
+    public void onGameEnd() throws UserIoException {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            System.out.println(e.toString());
+        }
+        if (this.user != null) {
+            this.userIo.store(this.user);
+        }
+        System.exit(0);
     }
 }

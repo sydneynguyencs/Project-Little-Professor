@@ -2,6 +2,10 @@ package ch.zhaw.it.pm2.professor.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
@@ -9,91 +13,58 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HouseTest {
 
-    House house;
-
+    private House house;
     private static final String USERNAME = "Cellestine";
-    private static final String ENTRANCE_STRING =
-                            "###############################################################\n" +
-                            "#                                                             #\n" +
-                            "#                                                             #\n" +
-                            "#                                                             #\n" +
-                            "#                                                             #\n" +
-                            "#  ,   .     .                     .                          #\n" +
-                            "#  | . |     |                     |                          #\n" +
-                            "#  | ) ) ,-. | ,-. ,-. ;-.-. ,-.   |-  ,-.                    #\n" +
-                            "#  |/|/  |-' | |   | | | | | |-'   |   | |                    #\n" +
-                            "#  ' '   `-' ' `-' `-' ' ' ' `-'   `-' `-'                    #\n" +
-                            "#                                                             #\n" +
-                            "#  .   .   .   .                                           .  #\n" +
-                            "#  | o |   |   |                    ,-                     |  #\n" +
-                            "#  | . |-  |-  | ,-.   ;-. ;-. ,-.  |  ,-. ,-. ,-. ,-. ;-. |  #\n" +
-                            "#  | | |   |   | |-'   | | |   | |  |- |-' `-. `-. | | |      #\n" +
-                            "#  ' ' `-' `-' ' `-'   |-' '   `-'  |  `-' `-' `-' `-' '   o  #\n" +
-                            "#                                                             #\n" +
-                            "#                                                             #\n" +
-                            "#                                                             #\n" +
-                            "#                                                             #\n" +
-                            "###############################################################\n";
 
-    private static final String HOUSE_WITH_ROOMS_AND_USERDATA =
-                            "###############################################################\n" +
-                            "# Username:Cellestine             Highscore:%HIGHSCORE%       #\n" +
-                            "###############################################################\n" +
-                            "#                      ################                       #\n" +
-                            "#                      #              #                       #\n" +
-                            "#                      #     -        #                       #\n" +
-                            "#                      #              #                       #\n" +
-                            "#                      ################                       #\n" +
-                            "#    ################  ################  ################     #\n" +
-                            "#    #              #  #              #  #              #     #\n" +
-                            "#    #     +        #  #     --       #  #     *        #     #\n" +
-                            "#    #              #  #              #  #              #     #\n" +
-                            "#    ################  ################  ################     #\n" +
-                            "#                      ################                       #\n" +
-                            "#                      #              #                       #\n" +
-                            "#                      #     /        #                       #\n" +
-                            "#                      #              #                       #\n" +
-                            "#                      ################                       #\n" +
-                            "###############################################################\n" +
-                            "# Level:%LEVEL% | Time:2                     Score:1000       #\n" +
-                            "###############################################################\n";
+    static final String[] EMPTY_HOUSE =
+            {"###############################################################","# Username:%USER________%         Highscore:%HIGHSCORE%       #","###############################################################","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","###############################################################","# Level:%LEVEL% | Time:%TIME%                Score:%SCORE%    #","###############################################################"};
+    static final String[] EXPECTED_FULL_HOUSE_NO_USERDATA =
+            {"###############################################################","# Username:%USER________%         Highscore:%HIGHSCORE%       #","###############################################################","#                      ################                       #","#                      #              #                       #","#                      #     -        #                       #","#                      #              #                       #","#                      ################                       #","#    ################                    ################     #","#    #              #                    #              #     #","#    #     +        #                    #     *        #     #","#    #              #                    #              #     #","#    ################                    ################     #","#                      ################                       #","#                      #              #                       #","#                      #     /        #                       #","#                      #              #                       #","#                      ################                       #","###############################################################","# Level:%LEVEL% | Time:%TIME%                Score:%SCORE%    #","###############################################################"};
+    static final String[] HOUSE_WITH_ROOMS_AND_USERDATA =
+            {"###############################################################","# Username:Cellestine             Highscore:%HIGHSCORE%       #","###############################################################","#                      ################                       #","#                      #              #                       #","#                      #     -        #                       #","#                      #              #                       #","#                      ################                       #","#    ################  ################  ################     #","#    #              #  #              #  #              #     #","#    #     +        #  #     --       #  #     *        #     #","#    #              #  #              #  #              #     #","#    ################  ################  ################     #","#                      ################                       #","#                      #              #                       #","#                      #     /        #                       #","#                      #              #                       #","#                      ################                       #","###############################################################","# Level:%LEVEL% | Time:2                     Score:1000       #","###############################################################"};
+    static final String[] ENTRANCE =
+            {"###############################################################","#                                                             #","#                                                             #","#                                                             #","#                                                             #","#  ,   .     .                     .                          #","#  | . |     |                     |                          #","#  | ) ) ,-. | ,-. ,-. ;-.-. ,-.   |-  ,-.                    #","#  |/|/  |-' | |   | | | | | |-'   |   | |                    #","#  ' '   `-' ' `-' `-' ' ' ' `-'   `-' `-'                    #","#                                                             #","#  .   .   .   .                                           .  #","#  | o |   |   |                    ,-                     |  #","#  | . |-  |-  | ,-.   ;-. ;-. ,-.  |  ,-. ,-. ,-. ,-. ;-. |  #","#  | | |   |   | |-'   | | |   | |  |- |-' `-. `-. | | |      #","#  ' ' `-' `-' ' `-'   |-' '   `-'  |  `-' `-' `-' `-' '   o  #","#                                                             #","#                                                             #","#                                                             #","#                                                             #","###############################################################"};
+    @Mock
+    private Level levelMock;
 
 
     @BeforeEach
     void setUp() throws IOException {
-        house = new House();
+        MockitoAnnotations.initMocks(this);
+        when(levelMock.getRooms()).thenReturn(Room.values());
+
+        house = new House(() -> 2);
         assertNotNull(house);
     }
 
     @Test
-    void changeStateToHallway() throws IOException {
+    void testChangeStateToHallway() throws IOException {
         house.changeState(House.State.HALLWAY);
         assertEquals(House.State.HALLWAY, house.getState());
     }
 
     @Test
-    void changeStateToEntrance() throws IOException {
+    void testChangeStateToEntrance() throws IOException {
         house.changeState(House.State.ENTRANCE);
         assertEquals(House.State.ENTRANCE, house.getState());
     }
 
     @Test
-    void testEntranceToString() throws IOException {
+    void testStateEntrancePrintAsArray() throws IOException {
         house.changeState(House.State.ENTRANCE);
-        String actualHouse = house.toString();
-
-        assertEquals(ENTRANCE_STRING, actualHouse);
+        String[] actualHouse = house.printLevelAsArray(levelMock);
+        assertArrayEquals(ENTRANCE, actualHouse);
     }
 
     @Test
-    void setUserDataAndAddRoomsInStateHallway() throws IOException {
+    void testSetUserDataAndAddRoomsInStateHallway() throws IOException {
         house.changeState(House.State.HALLWAY);
         house.setUsername(USERNAME);
         house.setTime(2);
         house.setScore(1000);
-        String actualHouse = house.toString();
+        String[] actualHouse = house.printLevelAsArray(levelMock);
 
-        assertEquals(HOUSE_WITH_ROOMS_AND_USERDATA, actualHouse);
+        assertArrayEquals(HOUSE_WITH_ROOMS_AND_USERDATA, actualHouse);
     }
 
     @Test

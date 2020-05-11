@@ -14,9 +14,7 @@ public class User {
     }
 
     public User(String name) {
-        this.name = name;
-        this.score = NONE;
-        this.highscore = NONE;
+        this(name, NONE, NONE);
     }
 
     public String getName() {

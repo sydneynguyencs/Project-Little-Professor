@@ -1,17 +1,17 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
-import ch.zhaw.it.pm2.professor.view.User;
-import ch.zhaw.it.pm2.professor.view.UserIo;
 import static org.junit.jupiter.api.Assertions.*;
+
+import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
 
 public class UserIoTest {
 
-    private UserIo userIo;
+    private final UserIo userIo;
 
     public UserIoTest() {
         this.userIo = new UserIo(Config.USER_TEST_FILE_PATH);
@@ -21,7 +21,7 @@ public class UserIoTest {
      * Tests if the the user-file is created if it does not exist and User.load() is called.
      */
     @Test
-    public void noFileStoreTest() throws IOException, UserIo.InvalidFileException {
+    public void noFileStoreTest() throws UserConverter.UserConversionException, UserIoException {
         deleteUserFile();
         this.userIo.load("TestUser");
         assertTrue(getUserFile().exists());
@@ -31,7 +31,7 @@ public class UserIoTest {
      * Test if a new user is created, when he isn't found.
      */
     @Test
-    public void newUserTest() throws IOException, UserIo.InvalidFileException {
+    public void newUserTest() throws UserConverter.UserConversionException, UserIoException {
         User user = this.userIo.load("Dekyi");
         assertNotNull(user);
     }
@@ -40,7 +40,7 @@ public class UserIoTest {
      * Tests if the the user-file is created if it does not exist and User.store() is called.
      */
     @Test
-    public void noFileLoadTest() throws IOException, UserIo.InvalidFileException {
+    public void noFileLoadTest() throws UserIoException {
         deleteUserFile();
         User user = new User("TestUser", 0, 1000);
         this.userIo.store(user);
@@ -52,7 +52,7 @@ public class UserIoTest {
      *  After this the stored users are loaded again. Name and highscore should now match with the original objects.
      */
     @Test
-    public void storeAndLoadTest() throws IOException, UserIo.InvalidFileException {
+    public void storeAndLoadTest() throws UserIoException, UserConverter.UserConversionException {
         User testUser = new User("Fritz Muster", 20, 1500);
         User testUserTwo = new User("Peter Wurst", 33, 1700);
         userIo.store(testUser);
