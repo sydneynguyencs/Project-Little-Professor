@@ -52,4 +52,13 @@ public class Level {
         return generator.getAnswer();
     }
 
+    /**
+     * Minimum amount of points that have to be collected to finish the current level successfully.
+     * Its calculated by all rooms without Hallway times 9, as maximal to achieved points are 5 per room.
+     * @return int minimum point to be reached
+     */
+    public int getMinPoints(){
+        return (getRooms().length - 1) * 4;
+    }
+
 }

@@ -48,6 +48,8 @@ public interface Display {
 
     void playAgainMessage();
 
+    void levelNotSuccessfullMessage();
+
     interface GameEndListener {
         void onGameEnd() throws UserIoException;
     }

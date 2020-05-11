@@ -17,16 +17,19 @@ public enum Room {
     private final String name;
     private final Point position;
     private Config.Command command;
+    private boolean completed;
 
     Room(Config.Operation operation, Point position, Config.Command command) {
         this(operation.toString(), position);
         this.operation = operation;
         this.command = command;
+        this.completed = false;
     }
 
     Room(String name, Point position) {
         this.name = name;
         this.position = position;
+        completed = false;
     }
 
     @Override
@@ -49,11 +52,15 @@ public enum Room {
     }
 
     public void addToHouse(String[] house) {
-        for (int i = 0; i < Config.ROOM_LOOK.length; i++) {
+        String[] roomDepiction = Config.ROOM_LOOK;
+        if (completed) {
+            roomDepiction = Config.ROOM_LOOK_COMPLETED;
+        }
+        for (int i = 0; i < roomDepiction.length; i++) {
             String houseLine = house[this.position.y + i];
             String before = houseLine.substring(0, this.position.x);
-            String after = houseLine.substring(this.position.x + Config.ROOM_LOOK[0].length());
-            String replacement = Config.ROOM_LOOK[i];
+            String after = houseLine.substring(this.position.x + roomDepiction[0].length());
+            String replacement = roomDepiction[i];
             replacement = addNameToLine(replacement, i);
             house[this.position.y + i] = before + replacement + after;
         }
@@ -66,5 +73,13 @@ public enum Room {
             return before + this.name + after;
         }
         return line;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public Boolean isCompleted() {
+        return completed;
     }
 }

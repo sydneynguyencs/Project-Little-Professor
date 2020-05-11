@@ -17,7 +17,8 @@ public class LevelFactory implements LevelSource {
         Room[] roomsAll = {Room.HALLWAY, Room.ROOM_LEFT, Room.ROOM_RIGHT, Room.ROOM_UP, Room.ROOM_DOWN};
 
         levelList.add(new Level("1", Difficulty.BEGINNER, roomsAdditionSubtraction));
-        levelList.add(new Level("2", Difficulty.BEGINNER, roomsAdditionSubtraction));
+        levelList.add(new Level("2", Difficulty.INTERMEDIATE, roomsAdditionSubtraction));
+        levelList.add(new Level("3", Difficulty.BEGINNER, roomsMultiplicationDivision));
         levelList.add(new Level("4", Difficulty.INTERMEDIATE, roomsMultiplicationDivision));
         levelList.add(new Level("5", Difficulty.INTERMEDIATE, roomsAll));
         levelList.add(new Level("6", Difficulty.ADVANCED, roomsAll));

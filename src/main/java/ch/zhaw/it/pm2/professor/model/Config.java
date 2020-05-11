@@ -21,6 +21,14 @@ public class Config {
             "#              #" ,
             "################"
     };
+    public static final String[] ROOM_LOOK_COMPLETED = {
+            "################",
+            "################",
+            "################",
+            "################",
+            "################"
+    };
+
 
     /**
      * Representation for all valid command for the game.
