@@ -11,7 +11,6 @@ public class House {
     private String[] house;
     private State state;
     private TimeInterface timeSource;
-    //private List<Room> rooms;
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
