@@ -7,10 +7,10 @@ import java.awt.*;
  * provide an operation, other do not.
  */
 public enum Room {
-    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8), Config.Command.LEFT, false),
-    ROOM_UP(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.UP, false),
-    ROOM_RIGHT(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.RIGHT, false),
-    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13), Config.Command.DOWN, false),
+    ROOM_LEFT(Config.Operation.ADDITION, new Point(5, 8), Config.Command.LEFT),
+    ROOM_UP(Config.Operation.SUBTRACTION, new Point(23, 3), Config.Command.UP),
+    ROOM_RIGHT(Config.Operation.MULTIPLICATION, new Point(41, 8), Config.Command.RIGHT),
+    ROOM_DOWN(Config.Operation.DIVISION, new Point(23, 13), Config.Command.DOWN),
     HALLWAY("--", new Point(23, 8));
 
     private Config.Operation operation = null;
@@ -19,16 +19,17 @@ public enum Room {
     private Config.Command command;
     private Boolean completed;
 
-    Room(Config.Operation operation, Point position, Config.Command command, Boolean completed) {
+    Room(Config.Operation operation, Point position, Config.Command command) {
         this(operation.toString(), position);
         this.operation = operation;
         this.command = command;
-        this.completed = completed;
+        this.completed = false;
     }
 
     Room(String name, Point position) {
         this.name = name;
         this.position = position;
+        completed = false;
     }
 
     @Override
@@ -51,11 +52,15 @@ public enum Room {
     }
 
     public void addToHouse(String[] house) {
-        for (int i = 0; i < Config.ROOM_LOOK.length; i++) {
+        String[] roomDepiction = Config.ROOM_LOOK;
+        if (completed) {
+            roomDepiction = Config.ROOM_LOOK_COMPLETED;
+        }
+        for (int i = 0; i < roomDepiction.length; i++) {
             String houseLine = house[this.position.y + i];
             String before = houseLine.substring(0, this.position.x);
-            String after = houseLine.substring(this.position.x + Config.ROOM_LOOK[0].length());
-            String replacement = Config.ROOM_LOOK[i];
+            String after = houseLine.substring(this.position.x + roomDepiction[0].length());
+            String replacement = roomDepiction[i];
             replacement = addNameToLine(replacement, i);
             house[this.position.y + i] = before + replacement + after;
         }

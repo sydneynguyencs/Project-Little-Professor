@@ -96,8 +96,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.display.showRoom(room, currentLevel);
         startQuestionSet(room, currentLevel);
         room.setCompleted(true);
-        //TODO: set house with completed room.
-        //ROOM_LOOK_COMPLETED ins haus einbinden
         if(allRoomsCompleted()) {
             if (levelSuccessful()) {
                 updateLevel();
