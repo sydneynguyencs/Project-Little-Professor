@@ -26,6 +26,8 @@ public class UserIo {
      *
      * @param name of the user, that should be loaded
      * @return an object, null if the user was not found
+     * @throws UserConverter.UserConversionException if something with the name is wrong
+     * @throws UserIoException if something with the user-file is wrong
      */
     public User load(String name) throws UserConverter.UserConversionException, UserIoException {
         try (
@@ -50,6 +52,7 @@ public class UserIo {
      * If the users-file already contains a user with the given name, his highscore will be updated.
      *
      * @param user the user-object, that should be persisted (must not be null)
+     * @throws UserIoException if something with the user-file is wrong
      */
     public void store(User user) throws UserIoException {
         boolean updated = false;
@@ -100,6 +103,4 @@ public class UserIo {
             throws IOException, UserConverter.UserConversionException {
         writer.write(UserConverter.toString(fileUser) + "\n");
     }
-
-    public static class InvalidFileException extends Exception {}
 }
