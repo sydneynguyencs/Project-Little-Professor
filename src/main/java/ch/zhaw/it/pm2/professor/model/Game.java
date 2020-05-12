@@ -32,7 +32,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
-        resetTimer();
     }
 
     @Override
@@ -50,6 +49,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.display.welcomeMessage(house);
         this.user = userIo.load(display.requestUsername());
         while (true) {
+            resetTimer();
             this.user.setScore(0);
             doUserCommand();
             end();
