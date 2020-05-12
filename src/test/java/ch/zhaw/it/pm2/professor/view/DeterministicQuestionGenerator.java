@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
 import javax.script.ScriptException;
 
@@ -16,8 +17,8 @@ public class DeterministicQuestionGenerator extends QuestionGenerator {
      * @param intNumber to be used as the value of the random number
      * @param hasDouble will the questions include double numbers
      */
-    public DeterministicQuestionGenerator(boolean hasDouble, int intNumber) {
-        super(hasDouble);
+    public DeterministicQuestionGenerator(boolean hasDouble, int intNumber, LevelFactory.Difficulty difficulty) {
+        super(hasDouble, difficulty);
         this.intNumber = intNumber;
     }
 
@@ -27,8 +28,8 @@ public class DeterministicQuestionGenerator extends QuestionGenerator {
      * @param doubleNumber to be used as the value of the random number
      * @param hasDouble    will the questions include double numbers
      */
-    public DeterministicQuestionGenerator(boolean hasDouble, double doubleNumber) {
-        super(hasDouble);
+    public DeterministicQuestionGenerator(boolean hasDouble, double doubleNumber, LevelFactory.Difficulty difficulty) {
+        super(hasDouble, difficulty);
         this.doubleNumber = doubleNumber;
     }
 
@@ -67,8 +68,10 @@ public class DeterministicQuestionGenerator extends QuestionGenerator {
      * @throws IllegalArgumentException if the given operation is invalid
      */
     @Override
-    public String getQuestion(char operation, int lowerBound, int upperBound) {
-        if (!(operation == '+' || operation == '-' || operation == '*' || operation == '/')) {
+    public String getQuestion(String operation, int lowerBound, int upperBound) {
+        int num1, num2;
+        double num3, num4;
+        if (!checkOperator(operation)) {
             throw new IllegalArgumentException("Operation is invalid");
         }
         int choose = 0;
@@ -78,22 +81,27 @@ public class DeterministicQuestionGenerator extends QuestionGenerator {
         }
         switch (choose) {
             case 0:
-                int num1 = getRandomInt(lowerBound, upperBound);
-                int num2 = getRandomInt(lowerBound, upperBound);
+                do {
+                    num1 = getRandomInt(lowerBound, upperBound);
+                    num2 = getRandomInt(lowerBound, upperBound);
+                    //check if the result of a subtraction is negative
+                } while (!subtractionCheckForBeginner(num1, num2, operation) || !divisionCheck(num1, num2, operation));
                 question.setQuestion(num1 + " " + operation + " " + num2);
                 break;
             case 1:
-                double num3 = getRandomDouble(lowerBound, upperBound);
-                double num4 = getRandomDouble(lowerBound, upperBound);
+                do {
+                    num3 = getRandomDouble(lowerBound, upperBound);
+                    num4 = getRandomDouble(lowerBound, upperBound);
+                } while (!divisionCheck(num3, num4, operation));
                 question.setQuestion(num3 + " " + operation + " " + num4);
         }
         try {
             String answer = engine.eval(question.getQuestion()).toString();
-            if(answer.endsWith(".0")){
-                answer=answer.replace(".0","");
+            //if the answer of a question with double numbers result in a full number, then the ending will be removed
+            if (answer.endsWith(".0")) {
+                answer = answer.replace(".0", "");
             }
-            question.setAnswer( answer);
-
+            question.setAnswer(answer);
         } catch (ScriptException ex) {
             ex.printStackTrace();
         }

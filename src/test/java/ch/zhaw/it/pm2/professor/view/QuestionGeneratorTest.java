@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,8 +16,8 @@ public class QuestionGeneratorTest {
      */
     @Test
     void questionIntTest() {
-        deterministicGenerator = new DeterministicQuestionGenerator(false, 3);
-        String question = deterministicGenerator.getQuestion('+', 0, 10);
+        deterministicGenerator = new DeterministicQuestionGenerator(false, 3, LevelFactory.Difficulty.BEGINNER);
+        String question = deterministicGenerator.getQuestion("+", 0, 10);
         String answer = deterministicGenerator.getAnswer();
         assertEquals("3 + 3", question);
         assertEquals("6", answer);
@@ -27,8 +28,8 @@ public class QuestionGeneratorTest {
      */
     @Test
     void questionDoubleTest() {
-        deterministicGenerator = new DeterministicQuestionGenerator(true, 2.3);
-        String question = deterministicGenerator.getQuestion('+', 0, 10);
+        deterministicGenerator = new DeterministicQuestionGenerator(true, 2.3, LevelFactory.Difficulty.ADVANCED);
+        String question = deterministicGenerator.getQuestion("+", 0, 10);
         String answer = deterministicGenerator.getAnswer();
         assertEquals("2.3 + 2.3", question);
         assertEquals("4.6", answer);
@@ -39,8 +40,8 @@ public class QuestionGeneratorTest {
      */
     @Test
     void doubleResultIsRoundedTest() {
-        deterministicGenerator = new DeterministicQuestionGenerator(true, 2.5);
-        String question = deterministicGenerator.getQuestion('+', 0, 10);
+        deterministicGenerator = new DeterministicQuestionGenerator(true, 2.5, LevelFactory.Difficulty.INTERMEDIATE);
+        String question = deterministicGenerator.getQuestion("+", 0, 10);
         String answer = deterministicGenerator.getAnswer();
         assertEquals("2.5 + 2.5", question);
         assertEquals("5", answer);
@@ -52,9 +53,9 @@ public class QuestionGeneratorTest {
      */
     @Test
     void isRandomTest() {
-        questionGenerator = new QuestionGenerator(false);
-        String question = questionGenerator.getQuestion('-', 0, 10);
-        String question2 = questionGenerator.getQuestion('-', 0, 10);
+        questionGenerator = new QuestionGenerator(false, LevelFactory.Difficulty.BEGINNER);
+        String question = questionGenerator.getQuestion("-", 0, 10);
+        String question2 = questionGenerator.getQuestion("-", 0, 10);
         assertNotEquals(question, question2);
     }
 
@@ -63,8 +64,8 @@ public class QuestionGeneratorTest {
      */
     @Test
     void isInRangeTest() {
-        questionGenerator = new QuestionGenerator(true);
-        String question = questionGenerator.getQuestion('-', 0, 100);
+        questionGenerator = new QuestionGenerator(true, LevelFactory.Difficulty.ADVANCED);
+        String question = questionGenerator.getQuestion("-", 0, 100);
         String[] split = question.split(" ");
         int num1 = Integer.parseInt(split[0]);
         int num2 = Integer.parseInt(split[2]);
@@ -79,8 +80,8 @@ public class QuestionGeneratorTest {
      */
     @Test
     void correctResultTest() {
-        questionGenerator = new QuestionGenerator(false);
-        String question = questionGenerator.getQuestion('*', 0, 100);
+        questionGenerator = new QuestionGenerator(false, LevelFactory.Difficulty.INTERMEDIATE);
+        String question = questionGenerator.getQuestion("*", 0, 100);
         String answer = questionGenerator.getAnswer();
         String[] split = question.split(" ");
         int num1 = Integer.parseInt(split[0]);
@@ -95,9 +96,9 @@ public class QuestionGeneratorTest {
      */
     @Test
     void invalidOperation() {
-        questionGenerator = new QuestionGenerator(true);
+        questionGenerator = new QuestionGenerator(true, LevelFactory.Difficulty.BEGINNER);
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            questionGenerator.getQuestion('&', 0, 100);
+            questionGenerator.getQuestion("&", 0, 100);
         });
         String expectedMessage = "Operation is invalid";
         String actualMessage = exception.getMessage();
