@@ -81,7 +81,8 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                User fileUser = UserConverter.toObject(line);
+                String decryptedLine = decryptString(line);
+                User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(user.getName())) {
                     fileUser.setHighscore(user.getHighscore());
                     updated = true;
