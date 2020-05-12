@@ -17,7 +17,7 @@ public class Level {
         this.name = name;
         this.difficulty = difficulty;
         this.rooms = rooms;
-        this.generator = new QuestionGenerator(difficulty.hasDoubleNumbers());
+        this.generator = new QuestionGenerator(difficulty.hasDoubleNumbers(), difficulty);
     }
 
     public String getName() {
@@ -45,7 +45,7 @@ public class Level {
     }
 
     public String getQuestion(Room room) {
-        return generator.getQuestion(room.getOperation().toString().charAt(0), difficulty.getLowerbound(), difficulty.getUpperbound());
+        return generator.getQuestion(room.getOperation().toString(), difficulty.getLowerbound(), difficulty.getUpperbound());
     }
 
     public String getAnwser(Room room) {
