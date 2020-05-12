@@ -105,6 +105,12 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void doUserCommand() {
         if(time <= 0) {
             this.display.timeIsUp();
+            end();
+            try {
+                onGameEnd();
+            } catch (UserIoException e) {
+                e.printStackTrace();
+            }
             return;
         }
         updateHouse();
@@ -217,7 +223,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
 
     public void onGameEnd() throws UserIoException {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(6000);
         } catch (InterruptedException e) {
             System.out.println(e.toString());
         }
