@@ -2,6 +2,7 @@ package ch.zhaw.it.pm2.professor.view;
 
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
+
 import javax.script.ScriptException;
 
 /**
@@ -69,9 +70,7 @@ public class DeterministicQuestionGenerator extends QuestionGenerator {
      */
     @Override
     public String getQuestion(String operation, int lowerBound, int upperBound) {
-        int num1, num2;
-        double num3, num4;
-        if (!checkOperator(operation)) {
+        if (checkOperator(operation)) {
             throw new IllegalArgumentException("Operation is invalid");
         }
         int choose = 0;
@@ -81,19 +80,10 @@ public class DeterministicQuestionGenerator extends QuestionGenerator {
         }
         switch (choose) {
             case 0:
-                do {
-                    num1 = getRandomInt(lowerBound, upperBound);
-                    num2 = getRandomInt(lowerBound, upperBound);
-                    //check if the result of a subtraction is negative
-                } while (!subtractionCheckForBeginner(num1, num2, operation) || !divisionCheck(num1, num2, operation));
-                question.setQuestion(num1 + " " + operation + " " + num2);
+                setQuestionInt(operation, lowerBound, upperBound);
                 break;
             case 1:
-                do {
-                    num3 = getRandomDouble(lowerBound, upperBound);
-                    num4 = getRandomDouble(lowerBound, upperBound);
-                } while (!divisionCheck(num3, num4, operation));
-                question.setQuestion(num3 + " " + operation + " " + num4);
+                setQuestionDouble(operation, lowerBound, upperBound);
         }
         try {
             String answer = engine.eval(question.getQuestion()).toString();

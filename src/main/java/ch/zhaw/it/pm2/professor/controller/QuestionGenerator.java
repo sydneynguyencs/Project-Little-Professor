@@ -72,9 +72,7 @@ public class QuestionGenerator {
      */
 
     public String getQuestion(String operation, int lowerBound, int upperBound) {
-        int num1, num2;
-        double num3, num4;
-        if (!checkOperator(operation)) {
+        if (checkOperator(operation)) {
             throw new IllegalArgumentException("Operation is invalid");
         }
         //if hasDouble is true then questions will randomly switch between integers and doubles
@@ -84,19 +82,10 @@ public class QuestionGenerator {
         }
         switch (choose) {
             case 0:
-                do {
-                    num1 = getRandomInt(lowerBound, upperBound);
-                    num2 = getRandomInt(lowerBound, upperBound);
-                    //check if the result of a subtraction is negative
-                } while (!subtractionCheckForBeginner(num1, num2, operation) || !divisionCheck(num1, num2, operation));
-                question.setQuestion(num1 + " " + operation + " " + num2);
+                setQuestionInt(operation, lowerBound, upperBound);
                 break;
             case 1:
-                do {
-                    num3 = getRandomDouble(lowerBound, upperBound);
-                    num4 = getRandomDouble(lowerBound, upperBound);
-                } while (!divisionCheck(num3, num4, operation));
-                question.setQuestion(num3 + " " + operation + " " + num4);
+                setQuestionDouble(operation, lowerBound, upperBound);
         }
         try {
             String answer = engine.eval(question.getQuestion()).toString();
@@ -112,6 +101,42 @@ public class QuestionGenerator {
     }
 
     /**
+     * This method sets the numbers for the question. It will request new numbers until the divisionCheck passes.
+     *
+     * @param operation  of the question
+     * @param lowerBound start range
+     * @param upperBound end range
+     */
+    protected void setQuestionDouble(String operation, int lowerBound, int upperBound) {
+        double num3;
+        double num4;
+        do {
+            num3 = getRandomDouble(lowerBound, upperBound);
+            num4 = getRandomDouble(lowerBound, upperBound);
+        } while (!divisionCheck(num3, num4, operation));
+        question.setQuestion(num3 + " " + operation + " " + num4);
+    }
+
+    /**
+     * This method sets the numbers of the question. It will request new numbers until the divisionCheck
+     * and substractionCheckForBeginner passes.
+     *
+     * @param operation
+     * @param lowerBound
+     * @param upperBound
+     */
+    protected void setQuestionInt(String operation, int lowerBound, int upperBound) {
+        int num1;
+        int num2;
+        do {
+            num1 = getRandomInt(lowerBound, upperBound);
+            num2 = getRandomInt(lowerBound, upperBound);
+            //check if the result of a subtraction is negative
+        } while (!subtractionCheckForBeginner(num1, num2, operation) || !divisionCheck(num1, num2, operation));
+        question.setQuestion(num1 + " " + operation + " " + num2);
+    }
+
+    /**
      * This method will return the answer of the question as a String.
      *
      * @return answer as a String
@@ -122,10 +147,10 @@ public class QuestionGenerator {
 
 
     protected boolean checkOperator(String operation) {
-        return operation.equals(Config.Operation.ADDITION.toString())
-                || operation.equals(Config.Operation.SUBTRACTION.toString())
-                || operation.equals(Config.Operation.MULTIPLICATION.toString())
-                || operation.equals(Config.Operation.DIVISION.toString());
+        return !operation.equals(Config.Operation.ADDITION.toString())
+                && !operation.equals(Config.Operation.SUBTRACTION.toString())
+                && !operation.equals(Config.Operation.MULTIPLICATION.toString())
+                && !operation.equals(Config.Operation.DIVISION.toString());
     }
 
     /**
@@ -141,9 +166,7 @@ public class QuestionGenerator {
     protected boolean subtractionCheckForBeginner(int num1, int num2, String operation) {
         if (difficulty.equals(LevelFactory.Difficulty.BEGINNER)
                 && operation.equals(Config.Operation.SUBTRACTION.toString())) {
-            if (!(num1 >= num2)) {
-                return false;
-            }
+            return num1 >= num2;
         }
         return true;
     }
@@ -158,9 +181,7 @@ public class QuestionGenerator {
      */
     protected boolean divisionCheck(int num1, int num2, String operation) {
         if (operation.equals(Config.Operation.DIVISION.toString())) {
-            if ((num2 == 0) || !(num1 % num2 == 0)) {
-                return false;
-            }
+            return (num2 != 0) && num1 % num2 == 0;
         }
         return true;
     }
