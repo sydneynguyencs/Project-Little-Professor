@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.exception.HouseIoException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +33,7 @@ public class House {
         this.timeSource = timeSource;
         try {
             init();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | HouseIoException e) {
             e.printStackTrace();
         }
     }
@@ -45,7 +47,7 @@ public class House {
      * a FileNotFoundException gets thrown.
      * @throws IOException
      */
-    public void init() throws FileNotFoundException {
+    public void init() throws FileNotFoundException, HouseIoException {
         this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
@@ -62,13 +64,13 @@ public class House {
                 line++;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new HouseIoException(e);
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new HouseIoException(e);
                 }
             }
         }
@@ -80,7 +82,7 @@ public class House {
      *
      * @param newState new state
      */
-    public void changeState(State newState) throws IOException {
+    public void changeState(State newState) throws IOException, HouseIoException {
         this.state = newState;
         init();
     }

@@ -2,6 +2,7 @@ package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
+import ch.zhaw.it.pm2.professor.exception.HouseIoException;
 import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
@@ -25,7 +26,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private boolean gameSuccess = false;
     private int oldScore;
 
-    public Game() throws IOException {
+    public Game() {
         this.house = new House(this);
         this.display = new CliDisplay(this, this, this);
         this.userIo = new UserIo();
@@ -44,7 +45,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setTime(this.time);
     }
 
-    public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
+    public void start() throws UserIoException, UserConverter.UserConversionException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         this.user = userIo.load(display.requestUsername());
@@ -75,8 +76,12 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
     }
 
-    private void updateHouse() throws IOException {
-        this.house.changeState(House.State.HALLWAY);
+    private void updateHouse() {
+        try {
+            this.house.changeState(House.State.HALLWAY);
+        } catch (IOException | HouseIoException e) {
+            e.printStackTrace();
+        }
         this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
@@ -84,7 +89,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setLevel(currentLevel);
     }
 
-    private void doUserCommand() throws IOException {
+    private void doUserCommand() {
         if(time <= 0) {
             this.display.timeIsUp();
             this.display.playAgainMessage();
@@ -93,7 +98,11 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         updateHouse();
         this.display.showHouse(this.house, currentLevel);
         this.display.showHouse(this.house, currentLevel);
-        this.house.changeState(House.State.HALLWAY);
+        try {
+            this.house.changeState(House.State.HALLWAY);
+        } catch (HouseIoException | IOException e) {
+            e.printStackTrace();
+        }
 
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
@@ -119,7 +128,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setLevel(currentLevel);
     }
 
-    private void moveIntoRoom(Config.Command command) throws IOException {
+    private void moveIntoRoom(Config.Command command) {
         Room room = null;
         for (int i = 0; i < currentLevel.getRooms().length; i++) {
             if (currentLevel.getRooms()[i].getCommand() == command) {
