@@ -263,7 +263,7 @@ public class CliDisplay implements Display {
      */
     @Override
     public void levelNotSuccessfullMessage() {
-        this.terminal.println("\nUnfortunately you did not finish this level on time with enough points.\n");
+        this.terminal.println("\nYou did not collect enough points to pass this level.\n");
     }
 
     /**

@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.controller;
 
+import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.Question;
 
 import javax.script.ScriptEngine;
@@ -14,22 +15,24 @@ import java.util.Random;
  * The question and answer are saved in a static Question-object once it's generated.
  */
 public class QuestionGenerator {
-    protected static Question question;
-    ScriptEngineManager sem;
+    protected Question question;
+    private ScriptEngineManager sem;
     protected ScriptEngine engine;
-    final int PLACES = 2;
+    private final int PLACES = 2;
     protected boolean hasDouble;
+    protected LevelFactory.Difficulty difficulty;
 
     /**
      * Every QuestionGenerator-instance has to be defined if it has double numbers or not.
      *
      * @param hasDouble will the questions include double numbers
      */
-    public QuestionGenerator(boolean hasDouble) {
+    public QuestionGenerator(boolean hasDouble, LevelFactory.Difficulty difficulty) {
         question = new Question();
         sem = new ScriptEngineManager();
         engine = sem.getEngineByName("JavaScript");
         this.hasDouble = hasDouble;
+        this.difficulty = difficulty;
     }
 
     /**
@@ -68,8 +71,8 @@ public class QuestionGenerator {
      * @throws IllegalArgumentException if the given operation is invalid
      */
 
-    public String getQuestion(char operation, int lowerBound, int upperBound) {
-        if (!(operation == '+' || operation == '-' || operation == '*' || operation == '/')) {
+    public String getQuestion(String operation, int lowerBound, int upperBound) {
+        if (checkOperator(operation)) {
             throw new IllegalArgumentException("Operation is invalid");
         }
         //if hasDouble is true then questions will randomly switch between integers and doubles
@@ -79,14 +82,10 @@ public class QuestionGenerator {
         }
         switch (choose) {
             case 0:
-                int num1 = getRandomInt(lowerBound, upperBound);
-                int num2 = getRandomInt(lowerBound, upperBound);
-                question.setQuestion(num1 + " " + operation + " " + num2);
+                setQuestionInt(operation, lowerBound, upperBound);
                 break;
             case 1:
-                double num3 = getRandomDouble(lowerBound, upperBound);
-                double num4 = getRandomDouble(lowerBound, upperBound);
-                question.setQuestion(num3 + " " + operation + " " + num4);
+                setQuestionDouble(operation, lowerBound, upperBound);
         }
         try {
             String answer = engine.eval(question.getQuestion()).toString();
@@ -102,11 +101,103 @@ public class QuestionGenerator {
     }
 
     /**
+     * This method sets the numbers of the question. It will request new numbers until the divisionCheck passes.
+     *
+     * @param operation  of the question
+     * @param lowerBound start range
+     * @param upperBound end range
+     */
+    protected void setQuestionDouble(String operation, int lowerBound, int upperBound) {
+        double num3;
+        double num4;
+        do {
+            num3 = getRandomDouble(lowerBound, upperBound);
+            num4 = getRandomDouble(lowerBound, upperBound);
+        } while (!divisionCheck(num3, num4, operation));
+        question.setQuestion(num3 + " " + operation + " " + num4);
+    }
+
+    /**
+     * This method sets the numbers of the question. It will request new numbers until the divisionCheck
+     * and substractionCheckForBeginner passes.
+     *
+     * @param operation  of the question
+     * @param lowerBound start range
+     * @param upperBound end range
+     */
+    protected void setQuestionInt(String operation, int lowerBound, int upperBound) {
+        int num1;
+        int num2;
+        do {
+            num1 = getRandomInt(lowerBound, upperBound);
+            num2 = getRandomInt(lowerBound, upperBound);
+            //check if the result of a subtraction is negative
+        } while (!subtractionCheckForBeginner(num1, num2, operation) || !divisionCheck(num1, num2, operation));
+        question.setQuestion(num1 + " " + operation + " " + num2);
+    }
+
+    /**
      * This method will return the answer of the question as a String.
      *
      * @return answer as a String
      */
     public String getAnswer() {
         return question.getAnswer();
+    }
+
+
+    protected boolean checkOperator(String operation) {
+        return !operation.equals(Config.Operation.ADDITION.toString())
+                && !operation.equals(Config.Operation.SUBTRACTION.toString())
+                && !operation.equals(Config.Operation.MULTIPLICATION.toString())
+                && !operation.equals(Config.Operation.DIVISION.toString());
+    }
+
+    /**
+     * Check for level BEGINNER and operation Subtraction if the result is negative.
+     * Compare the values of the minuend and subtrahend.
+     *
+     * @param num1      minuend
+     * @param num2      subtrahend
+     * @param operation to control
+     * @return it only returns false if the level is BEGINNER, operation is - and the
+     * subtrahend is bigger than the minuend
+     */
+    protected boolean subtractionCheckForBeginner(int num1, int num2, String operation) {
+        if (difficulty.equals(LevelFactory.Difficulty.BEGINNER)
+                && operation.equals(Config.Operation.SUBTRACTION.toString())) {
+            return num1 >= num2;
+        }
+        return true;
+    }
+
+    /**
+     * Check if it's division through zero or if the result isn't a natural number.
+     *
+     * @param num1      dividend
+     * @param num2      divisor
+     * @param operation to control
+     * @return false if either is the case
+     */
+    protected boolean divisionCheck(int num1, int num2, String operation) {
+        if (operation.equals(Config.Operation.DIVISION.toString())) {
+            return (num2 != 0) && num1 % num2 == 0;
+        }
+        return true;
+    }
+
+    /**
+     * Check if it's division through zero or if the result isn't a natural number.
+     *
+     * @param num1      dividend
+     * @param num2      divisor
+     * @param operation to control
+     * @return false if either is the case
+     */
+    protected boolean divisionCheck(double num1, double num2, String operation) {
+        if (operation.equals(Config.Operation.DIVISION.toString())) {
+            return (num2 != 0.0) && num1 % num2 == 0.00;
+        }
+        return true;
     }
 }
