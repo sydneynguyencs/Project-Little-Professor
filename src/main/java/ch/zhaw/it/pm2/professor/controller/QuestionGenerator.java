@@ -15,10 +15,10 @@ import java.util.Random;
  * The question and answer are saved in a static Question-object once it's generated.
  */
 public class QuestionGenerator {
-    protected static Question question;
-    ScriptEngineManager sem;
+    protected Question question;
+    private ScriptEngineManager sem;
     protected ScriptEngine engine;
-    final int PLACES = 2;
+    private final int PLACES = 2;
     protected boolean hasDouble;
     protected LevelFactory.Difficulty difficulty;
 
