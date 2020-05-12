@@ -56,10 +56,10 @@ public class UserIo {
     }
 
     public void logLoadedUser(User user) {
-        LOGGER.fine("A user was loaded:");
-        LOGGER.fine("username: " + user.getName());
-        LOGGER.fine("score: " + user.getScore());
-        LOGGER.fine("highscore: " + user.getHighscore());
+        LOGGER.info("A user was loaded:");
+        LOGGER.info("username: " + user.getName());
+        LOGGER.info("score: " + user.getScore());
+        LOGGER.info("highscore: " + user.getHighscore());
     }
 
     /**
@@ -110,11 +110,11 @@ public class UserIo {
 
     private static String encryptString(String line) throws UserIoEncryptionException {
         try {
-            LOGGER.fine("String to encrypt: " + line);
+            LOGGER.info("String to encrypt: " + line);
             line = addWorkaroundSufix(line);
-            LOGGER.fine("String with workaround-sufix to encrypt: " + line);
+            LOGGER.info("String with workaround-sufix to encrypt: " + line);
             String base64String = toBase64(line);
-            LOGGER.fine("String to encrypt in base-64: " + base64String);
+            LOGGER.info("String to encrypt in base-64: " + base64String);
             byte[] bytes = Base64.getDecoder().decode(base64String);
             Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
             byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
@@ -122,7 +122,7 @@ public class UserIo {
             c.init(Cipher.ENCRYPT_MODE, key);
             byte[] encryptedBytes = c.doFinal(bytes);
             String encryptedBase64String = Base64.getEncoder().encodeToString(encryptedBytes);
-            LOGGER.fine("Encrypted string in base-64: " + encryptedBase64String);
+            LOGGER.info("Encrypted string in base-64: " + encryptedBase64String);
             return encryptedBase64String;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
             throw new UserIoEncryptionException(e);
@@ -131,7 +131,7 @@ public class UserIo {
 
     private static String decryptString(String line) throws UserIoEncryptionException {
         try {
-            LOGGER.fine("String to decrypt in base-64: " + line);
+            LOGGER.info("String to decrypt in base-64: " + line);
             byte[] bytes = Base64.getDecoder().decode(line);
             Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
             byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
@@ -139,11 +139,11 @@ public class UserIo {
             c.init(Cipher.DECRYPT_MODE, key);
             byte[] decryptedBytes = c.doFinal(bytes);
             String decryptedBase64String = Base64.getEncoder().encodeToString(decryptedBytes);
-            LOGGER.fine("Decrypted string in base-64: " + decryptedBase64String);
+            LOGGER.info("Decrypted string in base-64: " + decryptedBase64String);
             String decryptedString = fromBase64(decryptedBase64String);
-            LOGGER.fine("Decrypted string with workaround-sufix: " + decryptedString);
+            LOGGER.info("Decrypted string with workaround-sufix: " + decryptedString);
             decryptedString = removeWorkaroundSufix(decryptedString);
-            LOGGER.fine("Decrypted string: " + decryptedString);
+            LOGGER.info("Decrypted string: " + decryptedString);
             return decryptedString;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
             throw new UserIoEncryptionException(e);
