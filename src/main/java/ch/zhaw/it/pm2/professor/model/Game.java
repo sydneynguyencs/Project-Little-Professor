@@ -53,6 +53,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
             doUserCommand();
             end();
             this.display.playAgainMessage();
+            resetGame();
         }
     }
 
@@ -87,8 +88,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void doUserCommand() throws IOException {
         if(time <= 0) {
             this.display.timeIsUp();
-            this.display.playAgainMessage();
-            resetGame();
+            return;
         }
         updateHouse();
         this.display.showHouse(this.house, currentLevel);
@@ -152,7 +152,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void resetTimer() {
-        time = (currentLevel.getRooms().length - 1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 10;
+        time = (currentLevel.getRooms().length - 1) * Config.NUMBER_OF_QUESTIONS_PER_ROOM * 2;
     }
 
     private void updateLevel() {
