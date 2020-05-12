@@ -42,7 +42,7 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String decryptedLine = cryptString(line, Cipher.DECRYPT_MODE);
+                String decryptedLine = decryptString(line);
                 System.out.println(decryptedLine);
                 User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(name)) {
@@ -103,26 +103,54 @@ public class UserIo {
         tmpFile.renameTo(file);
     }
 
-    private static String cryptString(String line, int cryptMode) throws UserIoEncryptionException {
+    private static String encryptString(String line) throws UserIoEncryptionException {
         try {
-            LOGGER.fine("Crypt with crypt mode: " + cryptMode);
-            LOGGER.fine("String to crypt: " + line);
+            LOGGER.fine("String to encrypt: " + line);
+            line = addWorkaroundSufix(line);
+            LOGGER.fine("String with workaround-sufix to encrypt: " + line);
             String base64String = toBase64(line);
-            LOGGER.fine("String to crypt in base-64: " + base64String);
+            LOGGER.fine("String to encrypt in base-64: " + base64String);
             byte[] bytes = Base64.getDecoder().decode(base64String);
             Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
             byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
             SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
-            c.init(cryptMode, key);
-            byte[] cryptedBytes = c.doFinal(bytes);
-            String cryptedBase64String = Base64.getEncoder().encodeToString(cryptedBytes);
-            LOGGER.fine("Crypted string in base-64: " + cryptedBase64String);
-            String cryptedString = fromBase64(cryptedBase64String);
-            LOGGER.fine("Crypted string: " + cryptedString);
-            return cryptedString;
+            c.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encryptedBytes = c.doFinal(bytes);
+            String encryptedBase64String = Base64.getEncoder().encodeToString(encryptedBytes);
+            LOGGER.fine("Encrypted string in base-64: " + encryptedBase64String);
+            return encryptedBase64String;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
             throw new UserIoEncryptionException(e);
         }
+    }
+
+    private static String decryptString(String line) throws UserIoEncryptionException {
+        try {
+            LOGGER.fine("String to decrypt in base-64: " + line);
+            byte[] bytes = Base64.getDecoder().decode(line);
+            Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
+            byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
+            SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
+            c.init(Cipher.DECRYPT_MODE, key);
+            byte[] decryptedBytes = c.doFinal(bytes);
+            String decryptedBase64String = Base64.getEncoder().encodeToString(decryptedBytes);
+            LOGGER.fine("Decrypted string in base-64: " + decryptedBase64String);
+            String decryptedString = fromBase64(decryptedBase64String);
+            LOGGER.fine("Decrypted string with workaround-sufix: " + decryptedString);
+            decryptedString = removeWorkaroundSufix(decryptedString);
+            LOGGER.fine("Decrypted string: " + decryptedString);
+            return decryptedString;
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
+            throw new UserIoEncryptionException(e);
+        }
+    }
+
+    private static String addWorkaroundSufix(String string) {
+        return string + 'x';
+    }
+
+    private static String removeWorkaroundSufix(String string) {
+        return string.substring(0, string.length() - 1);
     }
 
     private static String toBase64(String string) {
@@ -151,7 +179,7 @@ public class UserIo {
     }
 
     private static void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
-        String encryptedUser = cryptString(UserConverter.toString(fileUser), Cipher.ENCRYPT_MODE);
+        String encryptedUser = encryptString(UserConverter.toString(fileUser));
         writer.write(encryptedUser + "\n");
     }
 }
