@@ -105,7 +105,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
         updateHouse();
         this.display.showHouse(this.house, currentLevel);
-        //this.house.changeState(House.State.HALLWAY);
 
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
@@ -164,7 +163,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void resetRooms() {
-        //all rooms set to not completed yet
         for (int i = 1; i < currentLevel.getRooms().length; i++) {
             currentLevel.getRooms()[i].setCompleted(false);
         }
