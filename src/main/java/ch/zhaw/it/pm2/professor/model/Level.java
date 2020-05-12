@@ -58,7 +58,7 @@ public class Level {
      * @return int minimum point to be reached
      */
     public int getMinPoints(){
-        return (getRooms().length - 1) * 4;
+        return (rooms.length - 1) * 4;
     }
 
 }
