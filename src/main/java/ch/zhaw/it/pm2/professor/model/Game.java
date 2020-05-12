@@ -8,6 +8,7 @@ import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
 import ch.zhaw.it.pm2.professor.view.UserIo;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.TimerTask;
@@ -92,20 +93,20 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
         updateHouse();
         this.display.showHouse(this.house, currentLevel);
-        this.display.showHouse(this.house, currentLevel);
         this.house.changeState(House.State.HALLWAY);
 
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
             doUserCommand();
         }
-        switch(command) {
+        switch (command) {
             case HELP:
                 this.display.helpMessage();
                 doUserCommand();
                 break;
             case DEBUG_FAIL:
-            case DEBUG_SUCCESS: break;
+            case DEBUG_SUCCESS:
+                break;
             default:
                 moveIntoRoom(command);
         }
@@ -134,15 +135,13 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         if (allRoomsCompleted()) {
             if (levelCount == levelSource.getLevels().size() - 1) {//final level check
                 this.display.gameEndNotification(levelSuccessful(), user.getScore());
-                this.display.playAgainMessage();
-                resetGame();
+                return;
             } else {
                 if (levelSuccessful()) {
                     updateLevel();
                 } else {
                     this.display.levelNotSuccessfullMessage();
-                    this.display.playAgainMessage();
-                    resetGame();
+                    return;
                 }
             }
         }
@@ -176,17 +175,12 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private boolean allRoomsCompleted() {
-        boolean allRoomsCompleted = false;
-        int count = 0;
-        for (int i = 1; i < currentLevel.getRooms().length; i++){
-            if (currentLevel.getRooms()[i].isCompleted()) {
-                count++;
+        for (Room room : currentLevel.getRooms()) {
+            if(!room.isCompleted()) {
+                return false;
             }
         }
-        if (count == currentLevel.getRooms().length-1) {
-            allRoomsCompleted = true;
-        }
-        return allRoomsCompleted;
+        return true;
     }
 
     private void startQuestionSet(Room room, Level level) {
