@@ -14,7 +14,7 @@ public class Launcher {
 
     private static final Logger LOGGER = Logger.getLogger(Launcher.class.getCanonicalName());
 
-    public static void main(String[] args) throws IOException, UserIoException, UserConverter.UserConversionException {
+    public static void main(String[] args) throws UserIoException, UserConverter.UserConversionException {
         initLogger();
         Timer timer = new Timer();
         Game game = new Game();

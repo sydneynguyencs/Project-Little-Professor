@@ -45,7 +45,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setTime(this.time);
     }
 
-    public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
+    public void start() throws UserIoException, UserConverter.UserConversionException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         this.user = userIo.load(display.requestUsername());
