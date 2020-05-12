@@ -43,12 +43,9 @@ public class UserIo {
             String line;
             while ((line = reader.readLine()) != null) {
                 String decryptedLine = decryptString(line);
-                System.out.println(decryptedLine);
                 User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(name)) {
-                    System.out.println("username: " + fileUser.getName());
-                    System.out.println("score: " + fileUser.getScore());
-                    System.out.println("highscore: " + fileUser.getHighscore());
+                    logLoadedUser(fileUser);
                     return fileUser;
                 }
             }
@@ -56,6 +53,13 @@ public class UserIo {
             throw new UserIoException(e);
         }
         return new User(name);
+    }
+
+    public void logLoadedUser(User user) {
+        LOGGER.fine("A user was loaded:");
+        LOGGER.fine("username: " + user.getName());
+        LOGGER.fine("score: " + user.getScore());
+        LOGGER.fine("highscore: " + user.getHighscore());
     }
 
     /**
