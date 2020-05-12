@@ -69,12 +69,18 @@ public class CliDisplay implements Display {
     @Override
     public String requestUsername() {
         this.terminal.println("Please enter your username.\nBetween " + Config.MIN_CHARS_USERNAME + " - " + Config.MAX_CHARS_USERNAME + " characters");
-        String username = getNextUserInput();
-        try {
-            this.parser.parseName(username);
-        } catch (InvalidInputException e) {
-            invalidInputMessage();
-        }
+        boolean validName;
+        String username;
+        do {
+            username = getNextUserInput();
+            try {
+                this.parser.parseName(username);
+                validName = true;
+            } catch (InvalidInputException e) {
+                terminal.println(e.getMessage());
+                validName = false;
+            }
+        } while (!validName);
         return username;
     }
     /**

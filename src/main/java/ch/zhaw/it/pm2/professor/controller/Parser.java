@@ -62,11 +62,11 @@ public class Parser {
             throw new NullPointerException("The input must not be null.");
         }
         if (input.trim().length() < MIN_CHARS_USERNAME) {
-            throw new InvalidInputException("Please choose at least 4 chars for your username.");
+            throw new InvalidInputException("Please choose at least " + MIN_CHARS_USERNAME + " chars for your username.");
         }
         if (input.trim().length() > MAX_CHARS_USERNAME) {
             throw new InvalidInputException("The username has to many chars, please provide an username " +
-                    "with 14 chars maximum.");
+                    "with " + MAX_CHARS_USERNAME + " chars maximum.");
         }
         return input.trim();
     }
