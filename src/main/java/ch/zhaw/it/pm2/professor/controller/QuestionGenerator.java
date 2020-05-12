@@ -101,7 +101,7 @@ public class QuestionGenerator {
     }
 
     /**
-     * This method sets the numbers for the question. It will request new numbers until the divisionCheck passes.
+     * This method sets the numbers of the question. It will request new numbers until the divisionCheck passes.
      *
      * @param operation  of the question
      * @param lowerBound start range
@@ -121,9 +121,9 @@ public class QuestionGenerator {
      * This method sets the numbers of the question. It will request new numbers until the divisionCheck
      * and substractionCheckForBeginner passes.
      *
-     * @param operation
-     * @param lowerBound
-     * @param upperBound
+     * @param operation  of the question
+     * @param lowerBound start range
+     * @param upperBound end range
      */
     protected void setQuestionInt(String operation, int lowerBound, int upperBound) {
         int num1;
@@ -196,9 +196,7 @@ public class QuestionGenerator {
      */
     protected boolean divisionCheck(double num1, double num2, String operation) {
         if (operation.equals(Config.Operation.DIVISION.toString())) {
-            if ((num2 == 0.0) || !(num1 % num2 == 0.00)) {
-                return false;
-            }
+            return (num2 != 0.0) && num1 % num2 == 0.00;
         }
         return true;
     }
