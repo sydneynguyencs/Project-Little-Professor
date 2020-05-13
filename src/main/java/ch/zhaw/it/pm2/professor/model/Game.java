@@ -1,14 +1,14 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
-import ch.zhaw.it.pm2.professor.view.User;
-import ch.zhaw.it.pm2.professor.view.UserIo;
-import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.controller.UserIo;
+import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 
 import java.io.FileNotFoundException;
 import java.util.TimerTask;

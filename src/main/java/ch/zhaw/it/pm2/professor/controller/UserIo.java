@@ -1,10 +1,10 @@
-package ch.zhaw.it.pm2.professor.view;
+package ch.zhaw.it.pm2.professor.controller;
 
-import ch.zhaw.it.pm2.professor.controller.EncryptionHandler;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIoEncryptionException;
-import ch.zhaw.it.pm2.professor.model.Config;
-import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.Config;
+import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.model.User;
 
 import java.util.logging.Logger;
 import java.io.BufferedReader;

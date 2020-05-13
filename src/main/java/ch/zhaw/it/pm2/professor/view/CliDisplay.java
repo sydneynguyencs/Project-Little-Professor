@@ -3,7 +3,7 @@ package ch.zhaw.it.pm2.professor.view;
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
-import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
 import ch.zhaw.it.pm2.professor.model.Room;

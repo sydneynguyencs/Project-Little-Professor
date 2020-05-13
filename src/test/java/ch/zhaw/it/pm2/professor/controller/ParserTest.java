@@ -1,14 +1,14 @@
 package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
-import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.Config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ch.zhaw.it.pm2.professor.model.Config.Command.*;
+import static ch.zhaw.it.pm2.professor.Config.Command.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

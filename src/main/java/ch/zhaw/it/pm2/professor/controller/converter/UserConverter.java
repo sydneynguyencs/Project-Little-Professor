@@ -1,6 +1,6 @@
-package ch.zhaw.it.pm2.professor.view.converter;
+package ch.zhaw.it.pm2.professor.controller.converter;
 
-import ch.zhaw.it.pm2.professor.view.User;
+import ch.zhaw.it.pm2.professor.model.User;
 
 public class UserConverter {
 

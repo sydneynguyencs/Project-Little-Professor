@@ -1,4 +1,4 @@
-package ch.zhaw.it.pm2.professor.view;
+package ch.zhaw.it.pm2.professor.model;
 
 public class User {
 

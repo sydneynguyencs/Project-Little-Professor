@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
 

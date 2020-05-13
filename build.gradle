@@ -40,7 +40,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'ch.zhaw.it.pm2.professor.model.Launcher'
+    mainClassName = 'ch.zhaw.it.pm2.professor.Launcher'
 }
 
 test {

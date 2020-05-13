@@ -1,10 +1,12 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.controller.UserIo;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
-import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.Config;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
