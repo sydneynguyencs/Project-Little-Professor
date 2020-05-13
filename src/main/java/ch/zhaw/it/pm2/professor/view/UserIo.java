@@ -1,19 +1,11 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.controller.EncryptionHandler;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIoEncryptionException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,13 +19,15 @@ public class UserIo {
     private static final Logger LOGGER = Logger.getLogger(UserIo.class.getCanonicalName());
 
     private final String filePath;
+    private final EncryptionHandler encryptionHandler;
 
     public UserIo() {
-        this.filePath = Config.USER_FILE_PATH;
+        this(Config.USER_FILE_PATH);
     }
 
     public UserIo(String filePath) {
         this.filePath = filePath;
+        this.encryptionHandler = EncryptionHandler.getInstance();
     }
 
     /**
@@ -51,7 +45,8 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                User fileUser = UserConverter.toObject(line);
+                String decryptedLine = this.encryptionHandler.decryptString(line);
+                User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(name)) {
                     logLoadedUser(fileUser);
                     return fileUser;
@@ -91,7 +86,8 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                User fileUser = UserConverter.toObject(line);
+                String decryptedLine = this.encryptionHandler.decryptString(line);
+                User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(user.getName())) {
                     fileUser.setHighscore(user.getHighscore());
                     updated = true;
@@ -121,8 +117,9 @@ public class UserIo {
         return file;
     }
 
-    private static void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
-        writer.write(UserConverter.toString(fileUser) + "\n");
+    private void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
+        String encryptedUser = this.encryptionHandler.encryptString(UserConverter.toString(fileUser));
+        writer.write(encryptedUser + "\n");
     }
 }
 

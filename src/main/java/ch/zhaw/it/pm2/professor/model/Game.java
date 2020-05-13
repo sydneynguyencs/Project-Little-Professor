@@ -109,12 +109,18 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      * Checks if the user hit their last high score.
      */
     public void highscoreCheck() {
+        highscoreCheck(false);
+    }
+
+    public void highscoreCheck(boolean disableNotification) {
         int score = this.user.getScore();
         int highscore = this.user.getHighscore();
         LOGGER.fine(String.format("highscore check (previous-highscore: %s, score: %s)", highscore, score));
         if (score > this.user.getHighscore()) {
             this.user.setHighscore(score);
-            this.display.newPersonalHighscoreNotification(score);
+            if (!disableNotification) {
+                this.display.newPersonalHighscoreNotification(score);
+            }
         }
     }
 
@@ -152,17 +158,19 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
             if (command == null) {
                 doUserCommand();
             }
-            switch (command) {
-                case HELP:
-                    this.display.helpMessage();
-                    doUserCommand();
-                    break;
-                case DEBUG_FAIL:
-                case DEBUG_SUCCESS:
-                    break;
-                default:
-                    moveIntoRoom(command);
-                    break;
+            if(time > 0) {
+                switch (command) {
+                    case HELP:
+                        this.display.helpMessage();
+                        doUserCommand();
+                        break;
+                    case DEBUG_FAIL:
+                    case DEBUG_SUCCESS:
+                        break;
+                    default:
+                        moveIntoRoom(command);
+                        break;
+                }
             }
         }
     }
@@ -297,8 +305,9 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      * Ends the game.
      */
     public void onGameEnd() throws UserIOException {
+        highscoreCheck(true);
         try {
-            Thread.sleep(6000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
