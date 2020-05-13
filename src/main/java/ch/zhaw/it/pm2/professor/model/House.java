@@ -26,7 +26,6 @@ public class House {
     /**
      * House constructor. A TimeInterface is given to the constructor.
      * @param timeSource    TimeInterface timeSource
-     * @throws IOException  IOException which gets thrown if the timeSource in not valid
      */
     public House(TimeInterface timeSource) {
         this.state = State.ENTRANCE;
@@ -45,13 +44,12 @@ public class House {
     /**
      * Method init. The class init tries to read a State-file. If it can not be found,
      * a FileNotFoundException gets thrown.
-     * @throws IOException
      */
     public void init() throws FileNotFoundException, HouseIoException {
         this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
-            throw new FileNotFoundException("The file can not be found in your system." +
+            throw new FileNotFoundException("The house-file can not be found in your system." +
                     "Please check if the State-files exists on your computer.");
         }
         BufferedReader in = null;
