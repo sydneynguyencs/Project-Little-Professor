@@ -70,6 +70,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         totalScore = oldScore + currentLevel.getMinPoints();
         this.user = userIo.load(display.requestUsername());
         while (true) {
+            resetTimer();
             this.user.setScore(0);
             doUserCommand();
             end();
