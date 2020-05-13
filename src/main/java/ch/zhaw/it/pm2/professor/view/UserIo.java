@@ -6,6 +6,7 @@ import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -118,11 +119,7 @@ public class UserIo {
     private static String encryptString(String line) throws UserIoEncryptionException {
         try {
             LOGGER.info("String to encrypt: " + line);
-            line = addWorkaroundSufix(line);
-            LOGGER.info("String with workaround-sufix to encrypt: " + line);
-            String base64String = toBase64(line);
-            LOGGER.info("String to encrypt in base-64: " + base64String);
-            byte[] bytes = Base64.getDecoder().decode(base64String);
+            byte[] bytes = line.getBytes(StandardCharsets.UTF_8);
             Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
             byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
             SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
@@ -145,11 +142,7 @@ public class UserIo {
             SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
             c.init(Cipher.DECRYPT_MODE, key);
             byte[] decryptedBytes = c.doFinal(bytes);
-            String decryptedBase64String = Base64.getEncoder().encodeToString(decryptedBytes);
-            LOGGER.info("Decrypted string in base-64: " + decryptedBase64String);
-            String decryptedString = fromBase64(decryptedBase64String);
-            LOGGER.info("Decrypted string with workaround-sufix: " + decryptedString);
-            decryptedString = removeWorkaroundSufix(decryptedString);
+            String decryptedString = new String(decryptedBytes, StandardCharsets.UTF_8);
             LOGGER.info("Decrypted string: " + decryptedString);
             return decryptedString;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
