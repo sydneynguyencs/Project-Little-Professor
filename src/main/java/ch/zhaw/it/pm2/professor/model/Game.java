@@ -54,12 +54,11 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
             doUserCommand();
             end();
             this.display.playAgainMessage();
-            resetGame();
         }
     }
 
     /**
-     * at the moment it is called when the player enters the debug-command "suc" or "fail"
+     * At the moment it is called when the player enters the debug-command "suc" or "fail"
      * the DebugSuccessListener can be removed, when the rest of the logic is implemented
      */
     private void end() {
@@ -105,16 +104,10 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void doUserCommand() {
         if(time <= 0) {
             this.display.timeIsUp();
-            end();
-            try {
-                onGameEnd();
-            } catch (UserIoException e) {
-                e.printStackTrace();
-            }
-            return;
+            this.display.playAgainMessage();
+            resetGame();
         }
         updateHouse();
-        this.display.showHouse(this.house, currentLevel);
         this.display.showHouse(this.house, currentLevel);
         try {
             this.house.changeState(House.State.HALLWAY);
@@ -131,11 +124,12 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                 this.display.helpMessage();
                 doUserCommand();
                 break;
-            case DEBUG_FAIL:
+            //case DEBUG_FAIL:
             case DEBUG_SUCCESS:
                 break;
             default:
                 moveIntoRoom(command);
+                break;
         }
     }
 
@@ -159,14 +153,20 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                 if (levelSuccessful()) {
                     updateLevel();
                 } else {
-                    this.display.levelNotSuccessfullMessage();
-                    return;
+                    this.display.gameEndNotification(levelSuccessful(), user.getScore());
+                    this.display.playAgainMessage();
+                    resetGame();
                 }
             }
         }
         if (!this.gameEnded) {
             doUserCommand();
+        } else {
+            this.display.gameEndNotification(levelSuccessful(), user.getScore());
+            this.display.playAgainMessage();
+            resetGame();
         }
+
     }
 
     private void updateLevel() {

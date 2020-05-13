@@ -237,9 +237,9 @@ public class CliDisplay implements Display {
      */
     @Override
     public void updateLevelMessage(Level level) {
-        this.terminal.println("_______________________________________________________________________________________________\n");
+        this.terminal.println("_______________________________________________________________________________________________\n\n\n\n");
         this.terminal.println("You finished this level successfully. Welcome to level " + level.getName());
-        this.terminal.println("The timer is reset. \nTry to gain " + (level.getRooms().length-1)*4 + " additional points to get to the next level.\n");
+        this.terminal.println("The timer is reset. Try to gain " + (level.getRooms().length-1)*4 + " additional points to get to the next level.");
     }
 
     /**
