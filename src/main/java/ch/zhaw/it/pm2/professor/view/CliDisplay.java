@@ -22,20 +22,16 @@ public class CliDisplay implements Display {
     private TextTerminal<?> terminal;
     private Parser parser;
     private GameEndListener gameEndListener;
-    private DebugSuccessListener debugSuccessListener; // is only temporary because the game can't be ended at the moment
-    private DebugFailListener debugFailListener; // is only temporary because the game can't be ended at the moment
 
     /**
      * Constructor of the class DisplayIO. It initializes the Terminal, TextIO and a Config-Object.
      * @param gameEndListener used by the display, to end the game
      */
-    public CliDisplay(GameEndListener gameEndListener, DebugSuccessListener debugSuccessListener, DebugFailListener debugFailListener) {
+    public CliDisplay(GameEndListener gameEndListener) {
         this.textIO = TextIoFactory.getTextIO();
         this.terminal = textIO.getTextTerminal();
         this.parser = new Parser();
         this.gameEndListener = gameEndListener;
-        this.debugSuccessListener = debugSuccessListener;
-        this.debugFailListener = debugFailListener;
     }
 
     @Override
@@ -97,7 +93,6 @@ public class CliDisplay implements Display {
         this.terminal.print("\nEnter \"quit\" to quit.\n");
         String userInput = this.textIO.newStringInputReader().read();
         checkForQuitCommand(userInput);
-        checkForGameEnd(userInput);
         return userInput;
     }
 
@@ -187,23 +182,6 @@ public class CliDisplay implements Display {
     }
 
     /**
-     * TODO Can be deleted, when game can be finished
-     */
-    private void checkForGameEnd(String userInput) {
-        Config.Command[] successCommandList = {Config.Command.DEBUG_SUCCESS};
-        try {
-            Config.Command command = this.parser.parseInput(successCommandList, userInput);
-            if (command == Config.Command.DEBUG_FAIL) {
-                this.debugFailListener.onGameFailed();
-            } else if (command == Config.Command.DEBUG_SUCCESS){
-                this.debugSuccessListener.onGameSuccess();
-            }
-        } catch (InvalidInputException e) {
-            // so we don't end the game
-        }
-    }
-
-    /**
      * If this method gets called, the user gets informed that the Application gets closed after 5 seconds.
      */
     private void exitApplication() {
@@ -214,16 +192,5 @@ public class CliDisplay implements Display {
             this.terminal.println("Game could not be ended, because user could not be saved. Check if everything is right with the user-files");
             e.printStackTrace();
         }
-    }
-
-    /**
-     * TODO Bleibt das hier oder kann das gelöscht werden wenn das Spiel fertig ist?
-     */
-    public interface DebugSuccessListener {
-        void onGameSuccess();
-    }
-
-    public interface DebugFailListener {
-        void onGameFailed();
     }
 }
