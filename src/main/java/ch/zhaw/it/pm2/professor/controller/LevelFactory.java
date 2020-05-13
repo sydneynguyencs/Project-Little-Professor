@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * LevelFactory produces levels for the game.
+ * LevelFactory produces levels for the game. New levels can be added and adapted here.
  */
 public class LevelFactory implements LevelSource {
     private List<Level> levelList;
