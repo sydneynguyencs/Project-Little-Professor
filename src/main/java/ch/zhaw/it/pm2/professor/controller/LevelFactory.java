@@ -6,9 +6,15 @@ import ch.zhaw.it.pm2.professor.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * LevelFactory produces levels for the game.
+ */
 public class LevelFactory implements LevelSource {
     private List<Level> levelList;
 
+    /**
+     * The constructor creates new levels and adds them to a list.
+     */
     public LevelFactory() {
         this.levelList = new ArrayList<>();
 
@@ -29,6 +35,9 @@ public class LevelFactory implements LevelSource {
         return levelList;
     }
 
+    /**
+     * This enumeration sets the different difficulty degrees, that name the number domains for the question sets.
+     */
     public enum Difficulty {
         BEGINNER(0, 10, false),
         INTERMEDIATE(0, 20, true),
