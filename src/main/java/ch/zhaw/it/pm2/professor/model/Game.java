@@ -4,6 +4,7 @@ import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.exception.HouseIOException;
+import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
@@ -60,11 +61,11 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      * Starts the game. Initializes the game by setting it up.
      * User is asked to enter a command.
      * @throws UserIOException User will be notified if their input is invalid.
-     * @throws UserConverter.UserConversionException Will be thrown if UserConverterException is thrown.
+     * @throws UserConversionException Will be thrown if UserConverterException is thrown.
      * @throws HouseIOException In case House is not loading the correct file.
      * @throws FileNotFoundException In case the file cann not be found.
      */
-    public void start() throws UserIOException, UserConverter.UserConversionException, HouseIOException, FileNotFoundException {
+    public void start() throws UserIOException, UserConversionException, HouseIOException, FileNotFoundException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage();
         totalScore = oldScore + currentLevel.getMinPoints();

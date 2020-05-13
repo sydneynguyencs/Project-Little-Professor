@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.controller;
 
+import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIoEncryptionException;
 import ch.zhaw.it.pm2.professor.Config;
@@ -40,10 +41,10 @@ public class UserIo {
      *
      * @param name of the user, that should be loaded
      * @return an object, null if the user was not found
-     * @throws UserConverter.UserConversionException if something with the name is wrong
+     * @throws UserConversionException if something with the name is wrong
      * @throws UserIOException if something with the user-file is wrong
      */
-    public User load(String name) throws UserConverter.UserConversionException, UserIOException {
+    public User load(String name) throws UserConversionException, UserIOException {
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(getFile()));
         ) {
@@ -101,7 +102,7 @@ public class UserIo {
             if (!updated) {
                 writeUser(writer, user);
             }
-        } catch (UserConverter.UserConversionException | IOException e) {
+        } catch (UserConversionException | IOException e) {
             // if a UserConversionException is caught, something with the users in the file is wrong
             // because of this we throw a UserIoException to
             throw new UserIOException(e);
@@ -121,7 +122,7 @@ public class UserIo {
         return file;
     }
 
-    private void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
+    private void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConversionException, UserIoEncryptionException {
         String encryptedUser = this.encryptionHandler.encryptString(UserConverter.toString(fileUser));
         writer.write(encryptedUser + "\n");
     }

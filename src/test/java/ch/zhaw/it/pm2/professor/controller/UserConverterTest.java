@@ -1,6 +1,7 @@
 package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,10 +64,10 @@ class UserConverterTest {
      * Test toString:
      * Calling the toString-method with all four Mocks. Should pass and verify that the
      * methods to produce the String should be called from every Mock once.
-     * @throws UserConverter.UserConversionException
+     * @throws UserConversionException
      */
     @Test
-    void testAllUserToString() throws UserConverter.UserConversionException {
+    void testAllUserToString() throws UserConversionException {
         String actualStringOne = UserConverter.toString(firstUser);
         String actualStringTwo = UserConverter.toString(secondUser);
         String actualStringThree = UserConverter.toString(thirdUser);
@@ -90,14 +91,14 @@ class UserConverterTest {
     }
 
     @Test
-    void testNullUserToString() throws UserConverter.UserConversionException {
-        UserConverter.UserConversionException thrown = assertThrows(
-                UserConverter.UserConversionException.class,
+    void testNullUserToString() throws UserConversionException {
+        UserConversionException thrown = assertThrows(
+                UserConversionException.class,
                 () -> UserConverter.toString(null));
     }
 
     @Test
-    void testToObjectAllUsers() throws UserConverter.UserConversionException {
+    void testToObjectAllUsers() throws UserConversionException {
         User actualUserOne = UserConverter.toObject(FIRST_USER_EXPECTED);
         User expectedUserOne = new User(firstUser.getName(),0,firstUser.getHighscore());
 
@@ -117,16 +118,16 @@ class UserConverterTest {
     }
 
     @Test
-    void testNullUserToObject() throws UserConverter.UserConversionException {
-        UserConverter.UserConversionException thrown = assertThrows(
-                UserConverter.UserConversionException.class,
+    void testNullUserToObject() throws UserConversionException {
+        UserConversionException thrown = assertThrows(
+                UserConversionException.class,
                 () -> UserConverter.toObject(null));
     }
 
     @Test
-    void testUserTooManyAttributes() throws UserConverter.UserConversionException {
-        UserConverter.UserConversionException thrown = assertThrows(
-                UserConverter.UserConversionException.class,
+    void testUserTooManyAttributes() throws UserConversionException {
+        UserConversionException thrown = assertThrows(
+                UserConversionException.class,
                 () -> UserConverter.toObject(USER_TOO_MANY_ATTRIBUTES));
     }
 }
