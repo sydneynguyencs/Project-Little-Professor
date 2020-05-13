@@ -60,7 +60,6 @@ public class QuestionGenerator {
 
     /**
      * Round the double to 2 places after decimal.
-     *
      * @param randomDouble to round
      * @return rounded double
      */
@@ -133,7 +132,7 @@ public class QuestionGenerator {
 
     /**
      * This method sets the numbers of the question. It will request new numbers until the divisionCheck
-     * and substractionCheckForBeginner passes.
+     * and subtractionCheckForBeginner passes.
      *
      * @param operation  of the question
      * @param lowerBound start range
@@ -160,7 +159,7 @@ public class QuestionGenerator {
     }
 
     /**
-     * Check if the given operator is valid
+     * Check if operator is valid.
      *
      * @param operation to control
      * @return if it's valid or not
