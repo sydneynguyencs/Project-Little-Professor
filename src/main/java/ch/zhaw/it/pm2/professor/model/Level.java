@@ -18,6 +18,12 @@ public class Level {
     private Room[] rooms;
     private QuestionGenerator generator;
 
+    /**
+     * Constructor of class Level.
+     * @param name  the name of the level
+     * @param difficulty    the difficulty of the level
+     * @param rooms the rooms as Room[] which are inside this level
+     */
     public Level(String name, LevelFactory.Difficulty difficulty, Room[] rooms) {
         this.name = name;
         this.difficulty = difficulty;
@@ -49,10 +55,19 @@ public class Level {
         return validCommandsList;
     }
 
+    /**
+     * Gets the Question.
+     * @param room  the room in which the user is
+     * @return  the generated question from the generator
+     */
     public String getQuestion(Room room) {
         return generator.getQuestion(room.getOperation().toString(), difficulty.getLowerbound(), difficulty.getUpperbound());
     }
 
+    /**
+     * Gets the answer to a question.
+     * @return  the answer to a question
+     */
     public String getAnswer() {
         return generator.getAnswer();
     }

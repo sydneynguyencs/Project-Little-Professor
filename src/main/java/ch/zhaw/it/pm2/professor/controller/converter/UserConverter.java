@@ -9,6 +9,13 @@ import ch.zhaw.it.pm2.professor.model.User;
  */
 public class UserConverter {
 
+    /**
+     * The method toString takes a User-Object as parameter and cenverts it to
+     * a String with name and highscore.
+     * @param user  a user object
+     * @return      a String in the form "player+highscoreAsInt"
+     * @throws UserConversionException if the user object is null, this Exception gets thrown
+     */
     public static String toString(User user) throws UserConversionException {
         if (user == null) {
             throw new UserConversionException("User mustn't be null.");
@@ -16,6 +23,13 @@ public class UserConverter {
         return user.getName() + '+' + user.getHighscore();
     }
 
+    /**
+     * The method toObject takes a String-object representing a user with a highscore and
+     * makes an User Object with the data into this String.
+     * @param user  a String in the form "player+highscoreAsInt"
+     * @return      a new User object
+     * @throws UserConversionException  if the String is null, this Exception gets thrown
+     */
     public static User toObject(String user) throws UserConversionException {
         if (user == null) {
             throw new UserConversionException("User mustn't be null.");

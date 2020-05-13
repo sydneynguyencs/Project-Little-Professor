@@ -21,6 +21,12 @@ public enum Room {
     private Config.Command command;
     private boolean completed;
 
+    /**
+     * Constructor to class Room.
+     * @param operation the operation which has to be solved inside this room
+     * @param position the position the room is
+     * @param command the command to come inside this room
+     */
     Room(Config.Operation operation, Point position, Config.Command command) {
         this(operation.toString(), position);
         this.operation = operation;
@@ -28,6 +34,11 @@ public enum Room {
         this.completed = false;
     }
 
+    /**
+     * Second constructor to class Room.
+     * @param name the name of the room
+     * @param position the position of the room
+     */
     Room(String name, Point position) {
         this.name = name;
         this.position = position;
@@ -53,6 +64,10 @@ public enum Room {
         return operation;
     }
 
+    /**
+     * Add to house method. Takes a String[] representing a house and adds this to the house
+     * @param house a String[] representing the house
+     */
     public void addToHouse(String[] house) {
         String[] roomDepiction = Config.ROOM_LOOK;
         if (completed) {

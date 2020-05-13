@@ -10,6 +10,12 @@ public class User {
     private int highscore;
     private static final int NONE = 0;
 
+    /**
+     * Constuctor Class User.
+     * @param name name of the user
+     * @param score score of the user
+     * @param highscore highscore of the user
+     */
     public User(String name, int score, int highscore) {
         this.name = name;
         this.score = score;

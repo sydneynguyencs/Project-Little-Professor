@@ -2,7 +2,7 @@ package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
-import ch.zhaw.it.pm2.professor.exception.UserIoEncryptionException;
+import ch.zhaw.it.pm2.professor.exception.UserIOEncryptionException;
 import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 import ch.zhaw.it.pm2.professor.model.User;
@@ -19,18 +19,25 @@ import java.io.IOException;
  * This class handles the users.txt file which holds the user-highscores.
  * With the help of the encryption-handler, it can even store encrypted user-data.
  */
-public class UserIo {
+public class UserIO {
 
-    private static final Logger LOGGER = Logger.getLogger(UserIo.class.getCanonicalName());
+    private static final Logger LOGGER = Logger.getLogger(UserIO.class.getCanonicalName());
 
     private final String filePath;
     private final EncryptionHandler encryptionHandler;
 
-    public UserIo() {
+    /**
+     * Constructor UserIO, no param. USER_FILE_PATH is getting saved.
+     */
+    public UserIO() {
         this(Config.USER_FILE_PATH);
     }
 
-    public UserIo(String filePath) {
+    /**
+     * Second Constructor UserIO, with param filePath.
+     * @param filePath  the filePath to the USER_FILE
+     */
+    public UserIO(String filePath) {
         this.filePath = filePath;
         this.encryptionHandler = EncryptionHandler.getInstance();
     }
@@ -63,6 +70,10 @@ public class UserIo {
         return new User(name);
     }
 
+    /**
+     * The method logs the loaded user to the LOGGER.
+     * @param user  a user Object
+     */
     public void logLoadedUser(User user) {
         LOGGER.info(String.format("A user was loaded (name: %s, score: %s, highscore: %s).",
                 user.getName(), user.getScore(), user.getHighscore()));
@@ -122,7 +133,7 @@ public class UserIo {
         return file;
     }
 
-    private void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConversionException, UserIoEncryptionException {
+    private void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConversionException, UserIOEncryptionException {
         String encryptedUser = this.encryptionHandler.encryptString(UserConverter.toString(fileUser));
         writer.write(encryptedUser + "\n");
     }

@@ -3,13 +3,12 @@ package ch.zhaw.it.pm2.professor.model;
 import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
+import ch.zhaw.it.pm2.professor.controller.UserIO;
 import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
-import ch.zhaw.it.pm2.professor.controller.UserIo;
-import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 
 import java.io.FileNotFoundException;
 import java.util.TimerTask;
@@ -25,7 +24,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private final House house;
     private final Display display;
     private User user;
-    private final UserIo userIo;
+    private final UserIO userIo;
     private int time;
     private Level currentLevel;
     private final LevelSource levelSource;
@@ -35,10 +34,15 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private boolean gameSuccess = false;
     private int oldScore;
 
+    /**
+     * Constructor of class House.
+     * @throws HouseIOException In case House is not loading the correct file.
+     * @throws FileNotFoundException In case the file can not be found.
+     */
     public Game() throws HouseIOException, FileNotFoundException {
         this.house = new House(this);
         this.display = new CliDisplay(this);
-        this.userIo = new UserIo();
+        this.userIo = new UserIO();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
         resetTimer();
@@ -63,7 +67,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      * @throws UserIOException User will be notified if their input is invalid.
      * @throws UserConversionException Will be thrown if UserConverterException is thrown.
      * @throws HouseIOException In case House is not loading the correct file.
-     * @throws FileNotFoundException In case the file cann not be found.
+     * @throws FileNotFoundException In case the file can not be found.
      */
     public void start() throws UserIOException, UserConversionException, HouseIOException, FileNotFoundException {
         this.display.showHouse(this.house, currentLevel);

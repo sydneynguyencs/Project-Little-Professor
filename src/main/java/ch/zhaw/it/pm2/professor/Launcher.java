@@ -4,7 +4,6 @@ import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.model.Game;
-import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

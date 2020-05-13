@@ -5,22 +5,21 @@ import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.Config;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 import ch.zhaw.it.pm2.professor.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 /**
- * UserIoTest.
+ * UserIOTest.
  * Test-methods are described here.
  */
-public class UserIoTest {
+public class UserIOTest {
 
-    private final UserIo userIo;
+    private final UserIO userIo;
 
-    public UserIoTest() {
-        this.userIo = new UserIo(Config.USER_TEST_FILE_PATH);
+    public UserIOTest() {
+        this.userIo = new UserIO(Config.USER_TEST_FILE_PATH);
     }
 
     /**
