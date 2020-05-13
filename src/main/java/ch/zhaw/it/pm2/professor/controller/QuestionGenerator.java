@@ -78,7 +78,7 @@ public class QuestionGenerator {
         //if hasDouble is true then questions will randomly switch between integers and doubles
         int choose = 0;
         if (hasDouble) {
-            choose = getRandomInt(0, 1);
+            choose = getRandomInt(0, 2);
         }
         switch (choose) {
             case 0:
