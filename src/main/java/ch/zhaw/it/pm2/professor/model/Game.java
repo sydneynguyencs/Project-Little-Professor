@@ -12,8 +12,12 @@ import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener, CliDisplay.DebugSuccessListener, CliDisplay.DebugFailListener {
+
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getCanonicalName());
+
     private final House house;
     private final Display display;
     private User user;
@@ -84,8 +88,8 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
 
     public void highscoreCheck() {
         int score = this.user.getScore();
-        System.out.println(this.user.getHighscore());
-        System.out.println(this.user.getScore());
+        int highscore = this.user.getHighscore();
+        LOGGER.fine(String.format("highscore check (previous-highscore: %s, score: %s)", highscore, score));
         if (score > this.user.getHighscore()) {
             this.user.setHighscore(score);
             this.display.newPersonalHighscoreNotification(score);
@@ -215,7 +219,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         if (this.user != null) {
             this.userIo.store(this.user);
