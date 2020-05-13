@@ -17,7 +17,7 @@ import java.util.Random;
 public class QuestionGenerator {
     protected Question question;
     protected ScriptEngine engine;
-    private static final int PLACES = 2;
+    private static final int PLACES = 1;
     protected boolean hasDouble;
     protected LevelFactory.Difficulty difficulty;
 
@@ -58,7 +58,8 @@ public class QuestionGenerator {
     }
 
     /**
-     * Round the double to 2 places after decimal.
+     * Round the double to value of PLACES places after decimal.
+     *
      * @param randomDouble to round
      * @return rounded double
      */
