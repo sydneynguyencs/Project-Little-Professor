@@ -2,15 +2,15 @@ package ch.zhaw.it.pm2.professor.model;
 
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
-import ch.zhaw.it.pm2.professor.exception.UserIoException;
+import ch.zhaw.it.pm2.professor.exception.HouseIOException;
+import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
 import ch.zhaw.it.pm2.professor.view.User;
 import ch.zhaw.it.pm2.professor.view.UserIo;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
-import org.mockito.internal.matchers.Null;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
@@ -31,7 +31,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private boolean gameSuccess = false;
     private int oldScore;
 
-    public Game() throws IOException {
+    public Game() throws HouseIOException, FileNotFoundException {
         this.house = new House(this);
         this.display = new CliDisplay(this, this, this);
         this.userIo = new UserIo();
@@ -50,22 +50,22 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setTime(this.time);
     }
 
-    public void start() throws UserIoException, UserConverter.UserConversionException, IOException {
+    public void start() throws UserIOException, UserConverter.UserConversionException, HouseIOException, FileNotFoundException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         totalScore += (currentLevel.getRooms().length - 1) * 4;
         this.user = userIo.load(display.requestUsername());
         while (true) {
+            resetTimer();
             this.user.setScore(0);
             doUserCommand();
             end();
             this.display.playAgainMessage();
-            resetGame();
         }
     }
 
     /**
-     * at the moment it is called when the player enters the debug-command "suc" or "fail"
+     * At the moment it is called when the player enters the debug-command "suc" or "fail"
      * the DebugSuccessListener can be removed, when the rest of the logic is implemented
      */
     private void end() {
@@ -98,7 +98,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
     }
 
-    private void updateHouse() throws IOException {
+    private void updateHouse() throws HouseIOException, FileNotFoundException {
         this.house.changeState(House.State.HALLWAY);
         this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
@@ -108,14 +108,15 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setLevel(currentLevel);
     }
 
-    private void doUserCommand() throws IOException {
+    private void doUserCommand() throws HouseIOException, FileNotFoundException {
         if(time <= 0) {
             this.display.timeIsUp();
-            onGameFailed();
-            return;
+            this.display.playAgainMessage();
+            resetGame();
         }
         updateHouse();
         this.display.showHouse(this.house, currentLevel);
+        this.house.changeState(House.State.HALLWAY);
 
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
@@ -131,10 +132,11 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                 break;
             default:
                 moveIntoRoom(command);
+                break;
         }
     }
 
-    private void moveIntoRoom(Config.Command command) throws IOException {
+    private void moveIntoRoom(Config.Command command) throws HouseIOException, FileNotFoundException {
         Room room = null;
         for (Room r : currentLevel.getRooms()) {
             if(r.getCommand() == command) {
@@ -148,19 +150,23 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         room.setCompleted(true);
         if (allRoomsCompleted()) {
             if (levelCount == levelSource.getLevels().size() - 1) {//final level check
-                onGameSuccess();
-                return;
+                this.display.gameEndNotification(levelSuccessful(), user.getScore());
             } else {
                 if (levelSuccessful()) {
                     updateLevel();
                 } else {
-                    this.display.levelNotSuccessfullMessage();
-                    return;
+                    this.display.gameEndNotification(levelSuccessful(), user.getScore());
+                    this.display.playAgainMessage();
+                    resetGame();
                 }
             }
         }
         if (!this.gameEnded) {
             doUserCommand();
+        } else {
+            this.display.gameEndNotification(levelSuccessful(), user.getScore());
+            this.display.playAgainMessage();
+            resetGame();
         }
     }
 
@@ -219,9 +225,9 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         return this.time;
     }
 
-    public void onGameEnd() throws UserIoException {
+    public void onGameEnd() throws UserIOException {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(6000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

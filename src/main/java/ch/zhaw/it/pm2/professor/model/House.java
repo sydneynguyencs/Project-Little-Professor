@@ -1,5 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.exception.HouseIOException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +14,7 @@ import java.io.IOException;
 public class House {
     private String[] house;
     private State state;
-    private TimeInterface timeSource;
+    private final TimeInterface timeSource;
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
@@ -24,11 +26,9 @@ public class House {
 
     /**
      * House constructor. A TimeInterface is given to the constructor.
-     *
      * @param timeSource TimeInterface timeSource
-     * @throws IOException IOException which gets thrown if the timeSource in not valid
      */
-    public House(TimeInterface timeSource) throws IOException {
+    public House(TimeInterface timeSource) throws HouseIOException, FileNotFoundException {
         this.state = State.ENTRANCE;
         this.timeSource = timeSource;
         init();
@@ -38,11 +38,15 @@ public class House {
         return this.state;
     }
 
-    public void init() throws IOException {
+    /**
+     * Method init. The class init tries to read a State-file. If it can not be found,
+     * a FileNotFoundException gets thrown.
+     */
+    public void init() throws HouseIOException, FileNotFoundException {
         this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
-            throw new FileNotFoundException("The file can not be found in your system." +
+            throw new FileNotFoundException("The house-file can not be found in your system." +
                     "Please check if the State-files exists on your computer.");
         }
         BufferedReader in = null;
@@ -55,10 +59,14 @@ public class House {
                 line++;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new HouseIOException(e);
         } finally {
             if (in != null) {
-                in.close();
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    throw new HouseIOException(e);
+                }
             }
         }
     }
@@ -69,7 +77,7 @@ public class House {
      *
      * @param newState new state
      */
-    public void changeState(State newState) throws IOException {
+    public void changeState(State newState) throws HouseIOException, FileNotFoundException {
         this.state = newState;
         init();
     }

@@ -2,7 +2,7 @@ package ch.zhaw.it.pm2.professor.view;
 
 import ch.zhaw.it.pm2.professor.controller.Parser;
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
-import ch.zhaw.it.pm2.professor.exception.UserIoException;
+import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
@@ -178,7 +178,7 @@ public class CliDisplay implements Display {
         this.terminal.println("\nThank you for playing little-professor today. The Application closes in 5 seconds and your highscore will be saved. Goodbye.");
         try {
             this.gameEndListener.onGameEnd();
-        } catch (UserIoException e) {
+        } catch (UserIOException e) {
             this.terminal.println("Game could not be ended, because user could not be saved. Check if everything is right with the user-files");
             e.printStackTrace();
         }
@@ -243,9 +243,9 @@ public class CliDisplay implements Display {
      */
     @Override
     public void updateLevelMessage(Level level) {
-        this.terminal.println("_______________________________________________________________________________________________\n");
+        this.terminal.println("_______________________________________________________________________________________________\n\n\n\n");
         this.terminal.println("You finished this level successfully. Welcome to level " + level.getName());
-        this.terminal.println("The timer is reset. \nTry to gain " + (level.getRooms().length-1)*4 + " additional points to get to the next level.\n");
+        this.terminal.println("The timer is reset. Try to gain " + (level.getRooms().length-1)*4 + " additional points to get to the next level.");
     }
 
     /**

@@ -1,12 +1,26 @@
 package ch.zhaw.it.pm2.professor.view;
 
+import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIoEncryptionException;
-import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import java.io.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.logging.Logger;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class UserIo {
 
@@ -29,9 +43,9 @@ public class UserIo {
      * @param name of the user, that should be loaded
      * @return an object, null if the user was not found
      * @throws UserConverter.UserConversionException if something with the name is wrong
-     * @throws UserIoException if something with the user-file is wrong
+     * @throws UserIOException if something with the user-file is wrong
      */
-    public User load(String name) throws UserConverter.UserConversionException, UserIoException {
+    public User load(String name) throws UserConverter.UserConversionException, UserIOException {
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(getFile()));
         ) {
@@ -44,7 +58,7 @@ public class UserIo {
                 }
             }
         } catch (IOException e) {
-            throw new UserIoException(e);
+            throw new UserIOException(e);
         }
         return new User(name);
     }
@@ -60,15 +74,15 @@ public class UserIo {
      * If the users-file already contains a user with the given name, his highscore will be updated.
      *
      * @param user the user-object, that should be persisted (must not be null)
-     * @throws UserIoException if something with the user-file is wrong
+     * @throws UserIOException if something with the user-file is wrong
      */
-    public void store(User user) throws UserIoException {
+    public void store(User user) throws UserIOException {
         boolean updated = false;
         File file = null;
         try {
             file = getFile();
         } catch (IOException e) {
-            throw new UserIoException(e);
+            throw new UserIOException(e);
         }
         File tmpFile = new File(this.filePath + ".tmp");
         try (
@@ -90,7 +104,7 @@ public class UserIo {
         } catch (UserConverter.UserConversionException | IOException e) {
             // if a UserConversionException is catched, something with the users in the file is wrong
             // because of this we throw a UserIoException to
-            throw new UserIoException(e);
+            throw new UserIOException(e);
         }
 
         //noinspection ResultOfMethodCallIgnored
