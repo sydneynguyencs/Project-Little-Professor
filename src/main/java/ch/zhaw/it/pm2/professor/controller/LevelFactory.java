@@ -31,8 +31,8 @@ public class LevelFactory implements LevelSource {
 
     public enum Difficulty {
         BEGINNER(0, 10, false),
-        INTERMEDIATE(0, 100, true),
-        ADVANCED(-100, 100, true);
+        INTERMEDIATE(0, 20, true),
+        ADVANCED(-20, 20, true);
 
         private int lowerbound;
         private int upperbound;
