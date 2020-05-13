@@ -193,7 +193,7 @@ class ParserTest {
 
     /**
      * Test parseInput:
-     * null-object as input, should thow a NullPointerException.
+     * null-object as input, should throw a NullPointerException.
      *
      * @throws NullPointerException
      */

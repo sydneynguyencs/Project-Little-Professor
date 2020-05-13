@@ -102,7 +102,7 @@ public class UserIo {
                 writeUser(writer, user);
             }
         } catch (UserConverter.UserConversionException | IOException e) {
-            // if a UserConversionException is catched, something with the users in the file is wrong
+            // if a UserConversionException is caught, something with the users in the file is wrong
             // because of this we throw a UserIoException to
             throw new UserIOException(e);
         }

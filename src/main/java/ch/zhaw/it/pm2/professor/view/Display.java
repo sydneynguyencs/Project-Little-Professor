@@ -40,7 +40,7 @@ public interface Display {
 
     String askQuestionsMessage(Room room, Level level);
 
-    void showAnwser(Room room, Level level);
+    void showAnswer(Room room, Level level);
 
     void showRoom(Room room, Level level);
 
@@ -52,7 +52,7 @@ public interface Display {
 
     void playAgainMessage();
 
-    void levelNotSuccessfullMessage();
+    void levelNotSuccessfulMessage();
 
     interface GameEndListener {
         void onGameEnd() throws UserIOException;

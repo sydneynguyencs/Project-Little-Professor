@@ -198,7 +198,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                 if (levelSuccessful()) {
                     updateLevel();
                 } else {
-                    this.display.levelNotSuccessfullMessage();
+                    this.display.levelNotSuccessfulMessage();
                     gameEnded = true;
                 }
             }
@@ -265,10 +265,10 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      */
     private void startQuestionSet(Room room) {
         for (int i = 0; i < Config.NUMBER_OF_QUESTIONS_PER_ROOM; i++) {
-            if (this.display.askQuestionsMessage(room, currentLevel).equals(currentLevel.getAnwser(room))) {
+            if (this.display.askQuestionsMessage(room, currentLevel).equals(currentLevel.getAnswer(room))) {
                 user.setScore(user.getScore() + 1);
             }
-            this.display.showAnwser(room, currentLevel);
+            this.display.showAnswer(room, currentLevel);
         }
     }
 

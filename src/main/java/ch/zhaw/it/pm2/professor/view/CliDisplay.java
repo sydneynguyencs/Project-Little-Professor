@@ -37,7 +37,7 @@ public class CliDisplay implements Display {
         this.debugFailListener = debugFailListener;
     }
     /**
-     * Messeage the user for a valid user input.
+     * Message the user for a valid user input.
      */
     @Override
     public void messageUserForInput() {
@@ -52,8 +52,10 @@ public class CliDisplay implements Display {
     public void showHouse(House house, Level level) {
         this.terminal.println(house.printLevel(level));
     }
+
     /**
-     * Takes a house object and prints the welcome messeage to the terminal.
+     * Takes a house object and prints the welcome message to the terminal.
+     *
      * @param house a house object
      */
     @Override
@@ -62,7 +64,7 @@ public class CliDisplay implements Display {
     }
 
     /**
-     * Messeage the user to ask for the username. The input is then passed over to the parser which checks
+     * Message the user to ask for the username. The input is then passed over to the parser which checks
      * if the input is valid or not.
      * @return if the input is valid, the username as String gets returned
      */
@@ -83,11 +85,12 @@ public class CliDisplay implements Display {
         } while (!validName);
         return username;
     }
+
     /**
      * Method that returns a Config.Command from a specific level, the user can navigate with the given
      * commands.
-     * @param level the actuel level-object
-     * @return  the command where the user wants to go as a Config.Command object
+     * @param level the actual level-object
+     * @return the command where the user wants to go as a Config.Command object
      */
     @Override
     public Config.Command navigate(Level level) {
@@ -221,12 +224,13 @@ public class CliDisplay implements Display {
 
     /**
      * Show the answer of the question.
-     * @param room the room in which the user is
+     *
+     * @param room  the room in which the user is
      * @param level the level in which the user is
      */
     @Override
-    public void showAnwser(Room room, Level level) {
-        this.terminal.println("Solution: " + level.getAnwser(room));
+    public void showAnswer(Room room, Level level) {
+        this.terminal.println("Solution: " + level.getAnswer(room));
     }
 
     /**
@@ -266,16 +270,16 @@ public class CliDisplay implements Display {
     }
 
     /**
-     * Messeage the user if he/she doesn't reaches the end of the level because of not reached
+     * Message the user if he/she doesn't reaches the end of the level because of not reached
      * the passmark.
      */
     @Override
-    public void levelNotSuccessfullMessage() {
+    public void levelNotSuccessfulMessage() {
         this.terminal.println("\nYou did not collect enough points to pass this level.\n");
     }
 
     /**
-     * If a user reaches a new personal highscore, this message gets promted out.
+     * If a user reaches a new personal highscore, this message gets prompted out.
      * @param highscore the int value of the personal highscore
      */
     @Override
