@@ -90,6 +90,11 @@ class UserConverterTest {
         verify(fourthUser, times(1)).getHighscore();
     }
 
+    /**
+     * Test toString:
+     * Null Pointer
+     * @throws UserConversionException
+     */
     @Test
     void testNullUserToString() throws UserConversionException {
         UserConversionException thrown = assertThrows(
@@ -97,6 +102,11 @@ class UserConverterTest {
                 () -> UserConverter.toString(null));
     }
 
+    /**
+     * Test toObject:
+     * Should pass with Mock
+     * @throws UserConversionException
+     */
     @Test
     void testToObjectAllUsers() throws UserConversionException {
         User actualUserOne = UserConverter.toObject(FIRST_USER_EXPECTED);
@@ -117,6 +127,11 @@ class UserConverterTest {
         assertEquals(expectedUserFour, actualUserFour);
     }
 
+    /**
+     * Test toObject:
+     * Null
+     * @throws UserConversionException
+     */
     @Test
     void testNullUserToObject() throws UserConversionException {
         UserConversionException thrown = assertThrows(
@@ -124,6 +139,11 @@ class UserConverterTest {
                 () -> UserConverter.toObject(null));
     }
 
+    /**
+     * Test toObject:
+     * Too many attributes
+     * @throws UserConversionException
+     */
     @Test
     void testUserTooManyAttributes() throws UserConversionException {
         UserConversionException thrown = assertThrows(
