@@ -1,5 +1,8 @@
 package ch.zhaw.it.pm2.professor.model;
 
+/**
+ * The QuestionGenerator uses this class to save a question and it's result in Strings.
+ */
 public class Question {
     private String question;
     private String answer;
