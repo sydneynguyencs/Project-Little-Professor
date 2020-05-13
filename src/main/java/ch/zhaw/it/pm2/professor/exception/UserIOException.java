@@ -1,8 +1,8 @@
 package ch.zhaw.it.pm2.professor.exception;
 
-public class UserIoException extends Exception{
+public class UserIOException extends Exception{
 
-    public UserIoException(Throwable wrappedException) {
+    public UserIOException(Throwable wrappedException) {
         super("Something with the user-file is wrong.", wrappedException);
     }
 

@@ -1,6 +1,7 @@
 package ch.zhaw.it.pm2.professor.model;
 
-import ch.zhaw.it.pm2.professor.exception.UserIoException;
+import ch.zhaw.it.pm2.professor.exception.HouseIOException;
+import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Launcher {
 
     private static final Logger LOGGER = Logger.getLogger(Launcher.class.getCanonicalName());
 
-    public static void main(String[] args) throws UserIoException, UserConverter.UserConversionException {
+    public static void main(String[] args) throws UserIOException, UserConverter.UserConversionException, IOException, HouseIOException {
         initLogger();
         Timer timer = new Timer();
         Game game = new Game();

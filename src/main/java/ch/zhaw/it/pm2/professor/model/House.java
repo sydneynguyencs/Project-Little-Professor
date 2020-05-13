@@ -1,6 +1,6 @@
 package ch.zhaw.it.pm2.professor.model;
 
-import ch.zhaw.it.pm2.professor.exception.HouseIoException;
+import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,14 +28,10 @@ public class House {
      * @param timeSource    TimeInterface timeSource
      * @throws IOException  IOException which gets thrown if the timeSource in not valid
      */
-    public House(TimeInterface timeSource) {
+    public House(TimeInterface timeSource) throws IOException, HouseIOException {
         this.state = State.ENTRANCE;
         this.timeSource = timeSource;
-        try {
-            init();
-        } catch (FileNotFoundException | HouseIoException e) {
-            e.printStackTrace();
-        }
+        init();
     }
 
     public State getState() {
@@ -47,7 +43,7 @@ public class House {
      * a FileNotFoundException gets thrown.
      * @throws IOException
      */
-    public void init() throws FileNotFoundException, HouseIoException {
+    public void init() throws IOException, HouseIOException {
         this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
@@ -64,14 +60,11 @@ public class House {
                 line++;
             }
         } catch (IOException e) {
-            throw new HouseIoException(e);
+            throw new HouseIOException(e);
         } finally {
             if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    throw new HouseIoException(e);
-                }
+                in.close();
+
             }
         }
     }
@@ -82,7 +75,7 @@ public class House {
      *
      * @param newState new state
      */
-    public void changeState(State newState) throws IOException, HouseIoException {
+    public void changeState(State newState) throws IOException, HouseIOException {
         this.state = newState;
         init();
     }

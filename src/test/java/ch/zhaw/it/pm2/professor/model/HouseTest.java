@@ -1,6 +1,6 @@
 package ch.zhaw.it.pm2.professor.model;
 
-import ch.zhaw.it.pm2.professor.exception.HouseIoException;
+import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -46,7 +46,7 @@ class HouseTest {
      * @throws IOException
      */
     @Test
-    void testChangeStateToHallway() throws HouseIoException, IOException {
+    void testChangeStateToHallway() throws HouseIOException, IOException {
         house.changeState(House.State.HALLWAY);
         assertEquals(House.State.HALLWAY, house.getState());
     }
@@ -58,7 +58,7 @@ class HouseTest {
      * @throws IOException
      */
     @Test
-    void testChangeStateToHallwayAndBack() throws IOException, HouseIoException {
+    void testChangeStateToHallwayAndBack() throws IOException, HouseIOException {
         house.changeState(House.State.ENTRANCE);
         house.changeState(House.State.HALLWAY);
         house.changeState(House.State.ENTRANCE);
@@ -86,7 +86,7 @@ class HouseTest {
      * @throws IOException
      */
     @Test
-    void testStateEntrancePrintAsArray() throws IOException, HouseIoException {
+    void testStateEntrancePrintAsArray() throws IOException, HouseIOException {
         house.changeState(House.State.ENTRANCE);
         String[] actualHouse = house.printLevelAsArray(levelMock);
         assertArrayEquals(ENTRANCE, actualHouse);
@@ -100,7 +100,7 @@ class HouseTest {
      * @throws IOException
      */
     @Test
-    void testSetUserDataAndAddRoomsInStateHallway() throws IOException, HouseIoException {
+    void testSetUserDataAndAddRoomsInStateHallway() throws IOException, HouseIOException {
         house.changeState(House.State.HALLWAY);
         house.setUsername(USERNAME);
         house.setScore(1000);

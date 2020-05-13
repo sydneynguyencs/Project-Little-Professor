@@ -1,8 +1,8 @@
 package ch.zhaw.it.pm2.professor.exception;
 
-public class HouseIoException extends Exception{
+public class HouseIOException extends Exception{
 
-    public HouseIoException(Throwable wrappedException) {
+    public HouseIOException(Throwable wrappedException) {
         super("Something with the house-file is wrong.", wrappedException);
     }
 

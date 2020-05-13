@@ -1,7 +1,7 @@
 package ch.zhaw.it.pm2.professor.view;
 
 import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
-import ch.zhaw.it.pm2.professor.exception.UserIoException;
+import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
 import ch.zhaw.it.pm2.professor.model.Level;
@@ -55,6 +55,6 @@ public interface Display {
     void levelNotSuccessfullMessage();
 
     interface GameEndListener {
-        void onGameEnd() throws UserIoException;
+        void onGameEnd() throws UserIOException;
     }
 }
