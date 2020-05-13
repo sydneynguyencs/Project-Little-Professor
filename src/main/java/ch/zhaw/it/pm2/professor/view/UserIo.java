@@ -50,10 +50,8 @@ public class UserIo {
     }
 
     public void logLoadedUser(User user) {
-        LOGGER.info("A user was loaded:");
-        LOGGER.info("username: " + user.getName());
-        LOGGER.info("score: " + user.getScore());
-        LOGGER.info("highscore: " + user.getHighscore());
+        LOGGER.info(String.format("A user was loaded (name: %s, score: %s, highscore: %s).",
+                user.getName(), user.getScore(), user.getHighscore()));
     }
 
     /**
