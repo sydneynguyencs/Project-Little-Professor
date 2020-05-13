@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+/**
+ * UserIoTest.
+ * Test-methods are described here.
+ */
 public class UserIoTest {
 
     private final UserIo userIo;

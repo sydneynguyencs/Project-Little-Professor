@@ -3,6 +3,10 @@ package ch.zhaw.it.pm2.professor.controller;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * EncryptionTest.
+ * Test-methods are described here.
+ */
 public class EncryptionTest {
 
     private final static String[] TEST_STRINGS = {

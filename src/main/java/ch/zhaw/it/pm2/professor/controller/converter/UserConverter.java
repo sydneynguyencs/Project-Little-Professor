@@ -2,8 +2,11 @@ package ch.zhaw.it.pm2.professor.controller.converter;
 
 import ch.zhaw.it.pm2.professor.model.User;
 
+/**
+ * This class is used to convert user-objects to a string and strings to user-objects.
+ * The usage of this class is to serialize user-objects. Persisting user-highscores can be achieved with this.
+ */
 public class UserConverter {
-
 
     public static String toString(User user) throws UserConversionException {
         if (user == null) {

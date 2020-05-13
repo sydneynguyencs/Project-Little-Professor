@@ -14,6 +14,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * This class handles the users.txt file which holds the user-highscores.
+ * With the help of the encryption-handler, it can even store encrypted user-data.
+ */
 public class UserIo {
 
     private static final Logger LOGGER = Logger.getLogger(UserIo.class.getCanonicalName());
