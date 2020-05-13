@@ -12,8 +12,10 @@ public class Config {
     public final static String USER_TEST_FILE_PATH = "./src/test/resources/users_test.txt";
     public static final int NUMBER_OF_QUESTIONS_PER_ROOM = 5;
     public static final int MAX_CHARS_USERNAME = 12;
-    public static final int MIN_CHARS_USERNAME = 4;
+    public static final int MIN_CHARS_USERNAME = 3;
     public static final int TIMER_INTERVAL_MILLIS = 1000;
+    public final static String SECRET_KEY = "00ZQyczZ2Xc20o//04INMg==";
+    public final static String ENCRYPTION_TYPE = "AES";
     public static final String[] ROOM_LOOK = {
             "################" ,
             "#              #" ,

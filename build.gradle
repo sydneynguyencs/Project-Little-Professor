@@ -44,6 +44,9 @@ application {
 }
 
 test {
+    testLogging {
+        showStandardStreams = true;
+    }
     // Use junit platform for unit tests
     useJUnitPlatform()
 }
