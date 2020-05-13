@@ -44,15 +44,14 @@ public class Config {
         RIGHT("right"),
         UP("up"),
         DOWN("down"),
-        YES("y"),
-        DEBUG_SUCCESS("suc"), // can be removed, when logic is fully implemented
-        DEBUG_FAIL("fail"); // can be removed, when logic is fully implemented
+        YES("y");
 
         private String command;
 
         /**
          * Initialize with according command.
-         * @param command   the command as String.
+         *
+         * @param command the command as String.
          */
         Command(String command) {
             this.command = command;

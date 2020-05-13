@@ -50,8 +50,6 @@ public class Level {
         }
         validCommandsList.add(Config.Command.HELP);
         validCommandsList.add(Config.Command.QUIT);
-        validCommandsList.add(Config.Command.DEBUG_FAIL);
-        validCommandsList.add(Config.Command.DEBUG_SUCCESS);
         return validCommandsList;
     }
 

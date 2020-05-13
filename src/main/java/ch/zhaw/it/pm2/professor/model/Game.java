@@ -44,7 +44,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.display = new CliDisplay(this);
         this.userIo = new UserIO();
         levelSource = new LevelFactory();
-        currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
+        currentLevel = levelSource.getLevels().get(levelCount); //first level of the list
         resetTimer();
     }
 
@@ -168,9 +168,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                     case HELP:
                         this.display.helpMessage();
                         doUserCommand();
-                        break;
-                    case DEBUG_FAIL:
-                    case DEBUG_SUCCESS:
                         break;
                     default:
                         moveIntoRoom(command);
