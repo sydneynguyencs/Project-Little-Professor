@@ -73,10 +73,13 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
 
     private void resetGame() {
         user.setScore(0);
+        oldScore = 0;
         resetTimer();
         resetRooms();
         levelCount = 0;
-        this.house.setLevel(currentLevel);
+        currentLevel = levelSource.getLevels().get(levelCount);
+        //gameEnded = false;
+        //gameSuccess = false;
     }
 
     public void highscoreCheck() {
@@ -101,6 +104,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void doUserCommand() throws IOException {
         if(time <= 0) {
             this.display.timeIsUp();
+            onGameFailed();
             return;
         }
         updateHouse();
@@ -137,7 +141,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         room.setCompleted(true);
         if (allRoomsCompleted()) {
             if (levelCount == levelSource.getLevels().size() - 1) {//final level check
-                this.display.gameEndNotification(levelSuccessful(), user.getScore());
+                onGameSuccess();
                 return;
             } else {
                 if (levelSuccessful()) {
@@ -163,8 +167,10 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     private void resetRooms() {
-        for (int i = 1; i < currentLevel.getRooms().length; i++) {
-            currentLevel.getRooms()[i].setCompleted(false);
+        for(Level level : levelSource.getLevels()) {
+            for (int i = 1; i < level.getRooms().length; i++) {
+                level.getRooms()[i].setCompleted(false);
+            }
         }
     }
 
