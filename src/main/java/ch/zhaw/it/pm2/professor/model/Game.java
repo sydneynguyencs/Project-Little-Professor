@@ -26,6 +26,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private Level currentLevel;
     private final LevelSource levelSource;
     private int levelCount = 0;
+    private int totalScore;
     private boolean gameEnded = false;
     private boolean gameSuccess = false;
     private int oldScore;
@@ -52,6 +53,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     public void start() throws UserIOException, UserConverter.UserConversionException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
+        totalScore += (currentLevel.getRooms().length - 1) * 4;
         this.user = userIo.load(display.requestUsername());
         while (true) {
             resetTimer();
@@ -105,6 +107,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
+        this.house.setTotalScore(totalScore);
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
     }
@@ -179,6 +182,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         oldScore = user.getScore();
         levelCount++;
         currentLevel = levelSource.getLevels().get(levelCount);
+        totalScore += (currentLevel.getRooms().length - 1) * 4;
         resetTimer();
         resetRooms();
         this.display.updateLevelMessage(currentLevel);
