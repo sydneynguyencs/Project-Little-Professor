@@ -1,8 +1,9 @@
-package ch.zhaw.it.pm2.professor.model;
+package ch.zhaw.it.pm2.professor;
 
 import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
-import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.model.Game;
+import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,10 +13,23 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+/**
+ * Starts the application and contains the main-method.
+ */
 public class Launcher {
 
     private static final Logger LOGGER = Logger.getLogger(Launcher.class.getCanonicalName());
 
+    /**
+     * Starts the professor, initializes the logger and starts a java-timer,
+     * which triggers the time-updates in the Game class.
+     *
+     * @param args no parameters are used in this program
+     * @throws UserIOException if something goes wrong with the user-file
+     * @throws UserConverter.UserConversionException if something goes wrong with the user-name input
+     * @throws HouseIOException if something goes wrong with the house or entrance-file
+     * @throws FileNotFoundException if the house or entrance-file can't be found
+     */
     public static void main(String[] args) throws UserIOException, UserConverter.UserConversionException, HouseIOException, FileNotFoundException {
         initLogger();
         Timer timer = new Timer();
@@ -24,8 +38,7 @@ public class Launcher {
         game.start();
     }
 
-    public static void initLogger() {
-        // Initialize LogManager: must only be done once at application startup
+    private static void initLogger() {
         try {
             InputStream config = Launcher.class.getClassLoader().getResourceAsStream("./log.properties");
             LogManager.getLogManager().readConfiguration(config);

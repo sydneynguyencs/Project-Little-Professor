@@ -1,7 +1,4 @@
-package ch.zhaw.it.pm2.professor.view;
-
-import ch.zhaw.it.pm2.professor.controller.LevelFactory;
-import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
+package ch.zhaw.it.pm2.professor.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 

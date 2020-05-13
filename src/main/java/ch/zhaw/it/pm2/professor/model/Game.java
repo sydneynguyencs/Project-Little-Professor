@@ -1,14 +1,14 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.LevelSource;
 import ch.zhaw.it.pm2.professor.exception.HouseIOException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.view.CliDisplay;
 import ch.zhaw.it.pm2.professor.view.Display;
-import ch.zhaw.it.pm2.professor.view.User;
-import ch.zhaw.it.pm2.professor.view.UserIo;
-import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.controller.UserIo;
+import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
 
 import java.io.FileNotFoundException;
 import java.util.TimerTask;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * The Game class implements the logic of the game. It initializes the game and leads the user through the steps.
  */
-public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener, CliDisplay.DebugSuccessListener, CliDisplay.DebugFailListener {
+public class Game extends TimerTask implements House.TimeInterface, Display.GameEndListener {
 
     private static final Logger LOGGER = Logger.getLogger(Game.class.getCanonicalName());
 
@@ -36,7 +36,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
 
     public Game() throws HouseIOException, FileNotFoundException {
         this.house = new House(this);
-        this.display = new CliDisplay(this, this, this);
+        this.display = new CliDisplay(this);
         this.userIo = new UserIo();
         levelSource = new LevelFactory();
         currentLevel = levelSource.getLevels().get(levelCount); //erstes Level aus der Liste
@@ -79,8 +79,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     }
 
     /**
-     * At the moment it is called when the player enters the debug-command "suc" or "fail"
-     * the DebugSuccessListener can be removed, when the rest of the logic is implemented
+     * Notifies the user about the game-end and updates his highscore.
      */
     private void end() {
         this.display.gameEndNotification(this.gameSuccess, this.user.getScore());
@@ -278,23 +277,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
             }
             this.display.showAnswer(room, currentLevel);
         }
-    }
-
-    /**
-     * Sets game end
-     */
-    @Override
-    public void onGameFailed() {
-        this.gameEnded = true;
-    }
-
-    /**
-     * Sets game end but successfully.
-     */
-    @Override
-    public void onGameSuccess() {
-        this.gameEnded = true;
-        this.gameSuccess = true;
     }
 
     public int getTime() {

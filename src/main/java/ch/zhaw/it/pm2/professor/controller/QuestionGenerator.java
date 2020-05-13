@@ -1,6 +1,6 @@
 package ch.zhaw.it.pm2.professor.controller;
 
-import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.model.Question;
 
 import javax.script.ScriptEngine;

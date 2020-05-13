@@ -1,5 +1,8 @@
-package ch.zhaw.it.pm2.professor.view;
+package ch.zhaw.it.pm2.professor.model;
 
+/**
+ * Represents the player of the game.
+ */
 public class User {
 
     private String name;

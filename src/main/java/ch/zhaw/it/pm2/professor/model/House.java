@@ -111,6 +111,9 @@ public class House {
         return this.house;
     }
 
+    /**
+     * Tells the rooms, to print themselves onto the string[] representation of the house.
+     */
     private void addRoomsToMatrix(Level level) {
         for(Room room : level.getRooms()) {
             room.addToHouse(this.house);
@@ -121,9 +124,12 @@ public class House {
         this.replaceField(TIME_FIELD, String.valueOf(time));
     }
 
+    /**
+     * Retrieves the time from the time-source (TimeInterface).
+     */
     private int getTime() {
         if (this.timeSource == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("The house has no time-source.");
         }
         try {
             return this.timeSource.getTime();
@@ -132,6 +138,9 @@ public class House {
         }
     }
 
+    /**
+     * Generic method replacinc values in the house-matrix.
+     */
     private void replaceField(String field, String value) {
         for (int i = 0; i < this.house.length; i++) {
             while (value.length() < field.length()) {
@@ -141,6 +150,9 @@ public class House {
         }
     }
 
+    /**
+     * This enum is used, for the house. With its Help, it can tell if it should display the entrance or the rooms.
+     */
     public enum State {
         ENTRANCE("./src/main/resources/house/entrance.txt"),
         HALLWAY("./src/main/resources/house/empty-house.txt");

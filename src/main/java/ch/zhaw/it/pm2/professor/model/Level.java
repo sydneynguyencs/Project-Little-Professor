@@ -1,11 +1,16 @@
 package ch.zhaw.it.pm2.professor.model;
 
+import ch.zhaw.it.pm2.professor.Config;
 import ch.zhaw.it.pm2.professor.controller.LevelFactory;
 import ch.zhaw.it.pm2.professor.controller.QuestionGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The level class implements the game's level. It consists of an ID which is its name here, a difficulty degree that is the domain for the question sets.
+ * Rooms, as every level contains other kind and amount of rooms.
+ */
 public class Level {
 
     private String name;
@@ -28,6 +33,10 @@ public class Level {
         return rooms;
     }
 
+    /**
+     * This list contains all valid commands to enter the existing rooms.
+     * @return a list of valid commands.
+     */
     public List<Config.Command> getValidCommandsList() {
         List<Config.Command> validCommandsList = new ArrayList<>();
         for (int i = 1; i < rooms.length; i++) {

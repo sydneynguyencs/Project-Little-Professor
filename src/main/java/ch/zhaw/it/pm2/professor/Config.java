@@ -1,4 +1,4 @@
-package ch.zhaw.it.pm2.professor.model;
+package ch.zhaw.it.pm2.professor;
 
 /**
  * This class specifies the most important and basic parameters of the game

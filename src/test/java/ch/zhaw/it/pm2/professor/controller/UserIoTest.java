@@ -1,14 +1,19 @@
-package ch.zhaw.it.pm2.professor.view;
+package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
-import ch.zhaw.it.pm2.professor.model.Config;
+import ch.zhaw.it.pm2.professor.Config;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
+import ch.zhaw.it.pm2.professor.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+/**
+ * UserIoTest.
+ * Test-methods are described here.
+ */
 public class UserIoTest {
 
     private final UserIo userIo;
