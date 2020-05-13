@@ -32,7 +32,7 @@ class HouseTest {
 
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws IOException, HouseIOException {
         MockitoAnnotations.initMocks(this);
         when(levelMock.getRooms()).thenReturn(Room.values());
 
