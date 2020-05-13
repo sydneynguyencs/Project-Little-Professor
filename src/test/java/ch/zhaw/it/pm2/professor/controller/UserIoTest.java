@@ -1,4 +1,4 @@
-package ch.zhaw.it.pm2.professor.view;
+package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.controller.UserIo;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
