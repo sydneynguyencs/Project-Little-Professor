@@ -14,38 +14,55 @@ public class EncryptionHandler {
 
     private static final Logger LOGGER = Logger.getLogger(EncryptionHandler.class.getCanonicalName());
 
-    public static String encryptString(String line) throws UserIoEncryptionException {
+    private static EncryptionHandler instance;
+
+    private final Cipher encryptionCipher;
+    private final Cipher decryptionCipher;
+
+    private  EncryptionHandler() {
         try {
-            LOGGER.info("String to encrypt: " + line);
-            byte[] bytes = line.getBytes(StandardCharsets.UTF_8);
-            Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
+            this.encryptionCipher = Cipher.getInstance(Config.ENCRYPTION_TYPE);
+            this.decryptionCipher = Cipher.getInstance(Config.ENCRYPTION_TYPE);
             byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
             SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
-            c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encryptedBytes = c.doFinal(bytes);
+            this.encryptionCipher.init(Cipher.ENCRYPT_MODE, key);
+            this.decryptionCipher.init(Cipher.DECRYPT_MODE, key);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e) {
+            throw new RuntimeException("Something with the cipher creation went wrong.", e);
+        }
+    }
+
+    public String encryptString(String line) {
+        LOGGER.info("String to encrypt: " + line);
+        byte[] bytes = line.getBytes(StandardCharsets.UTF_8);
+        try {
+            byte[] encryptedBytes = this.encryptionCipher.doFinal(bytes);
             String encryptedBase64String = Base64.getEncoder().encodeToString(encryptedBytes);
             LOGGER.info("Encrypted string in base-64: " + encryptedBase64String);
             return encryptedBase64String;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
-            throw new UserIoEncryptionException(e);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            throw new RuntimeException("Something with the encryption went wrong.", e);
         }
     }
 
-    public static String decryptString(String line) throws UserIoEncryptionException {
+    public String decryptString(String line) {
+        LOGGER.info("String to decrypt in base-64: " + line);
+        byte[] bytes = Base64.getDecoder().decode(line);
         try {
-            LOGGER.info("String to decrypt in base-64: " + line);
-            byte[] bytes = Base64.getDecoder().decode(line);
-            Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
-            byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
-            SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
-            c.init(Cipher.DECRYPT_MODE, key);
-            byte[] decryptedBytes = c.doFinal(bytes);
-            String decryptedString = new String(decryptedBytes, StandardCharsets.UTF_8);
+            byte[] encryptedBytes = this.decryptionCipher.doFinal(bytes);
+            String decryptedString = new String(encryptedBytes, StandardCharsets.UTF_8);
             LOGGER.info("Decrypted string: " + decryptedString);
             return decryptedString;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
-            throw new UserIoEncryptionException(e);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            throw new RuntimeException("Something with the decryption went wrong.", e);
         }
     }
 
+    public static EncryptionHandler getInstance() {
+        if (instance != null) {
+            return instance;
+        }
+        instance = new EncryptionHandler();
+        return instance;
+    }
 }

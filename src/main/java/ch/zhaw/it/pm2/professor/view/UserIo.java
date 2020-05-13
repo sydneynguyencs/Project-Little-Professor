@@ -19,13 +19,15 @@ public class UserIo {
     private static final Logger LOGGER = Logger.getLogger(UserIo.class.getCanonicalName());
 
     private final String filePath;
+    private final EncryptionHandler encryptionHandler;
 
     public UserIo() {
-        this.filePath = Config.USER_FILE_PATH;
+        this(Config.USER_FILE_PATH);
     }
 
     public UserIo(String filePath) {
         this.filePath = filePath;
+        this.encryptionHandler = EncryptionHandler.getInstance();
     }
 
     /**
@@ -43,7 +45,7 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String decryptedLine = EncryptionHandler.decryptString(line);
+                String decryptedLine = this.encryptionHandler.decryptString(line);
                 User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(name)) {
                     logLoadedUser(fileUser);
@@ -84,7 +86,7 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String decryptedLine = EncryptionHandler.decryptString(line);
+                String decryptedLine = this.encryptionHandler.decryptString(line);
                 User fileUser = UserConverter.toObject(decryptedLine);
                 if (fileUser.getName().equals(user.getName())) {
                     fileUser.setHighscore(user.getHighscore());
@@ -115,8 +117,8 @@ public class UserIo {
         return file;
     }
 
-    private static void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
-        String encryptedUser = EncryptionHandler.encryptString(UserConverter.toString(fileUser));
+    private void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
+        String encryptedUser = this.encryptionHandler.encryptString(UserConverter.toString(fileUser));
         writer.write(encryptedUser + "\n");
     }
 }
