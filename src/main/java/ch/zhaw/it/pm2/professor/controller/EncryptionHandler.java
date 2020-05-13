@@ -1,6 +1,5 @@
 package ch.zhaw.it.pm2.professor.controller;
 
-import ch.zhaw.it.pm2.professor.exception.UserIoEncryptionException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,6 +9,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.logging.Logger;
 
+/**
+ * This class uses a synchronous encryption-method to encrypt and decrypt between strings and encrypted base64.
+ */
 public class EncryptionHandler {
 
     private static final Logger LOGGER = Logger.getLogger(EncryptionHandler.class.getCanonicalName());
@@ -32,9 +34,14 @@ public class EncryptionHandler {
         }
     }
 
-    public String encryptString(String line) {
-        LOGGER.info("String to encrypt: " + line);
-        byte[] bytes = line.getBytes(StandardCharsets.UTF_8);
+    /**
+     * Encrypts the given string with its utf-8 binary-representation.
+     * @param string string to encrypt
+     * @return encrypted bytes as base64
+     */
+    public String encryptString(String string) {
+        LOGGER.info("String to encrypt: " + string);
+        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
         try {
             byte[] encryptedBytes = this.encryptionCipher.doFinal(bytes);
             String encryptedBase64String = Base64.getEncoder().encodeToString(encryptedBytes);
@@ -45,9 +52,14 @@ public class EncryptionHandler {
         }
     }
 
-    public String decryptString(String line) {
-        LOGGER.info("String to decrypt in base-64: " + line);
-        byte[] bytes = Base64.getDecoder().decode(line);
+    /**
+     * Decrypts the given base64 string after it is converted into binary.
+     * @param string base64 representation of the data, which should be decrypted
+     * @return decrypted string
+     */
+    public String decryptString(String string) {
+        LOGGER.info("String to decrypt in base-64: " + string);
+        byte[] bytes = Base64.getDecoder().decode(string);
         try {
             byte[] encryptedBytes = this.decryptionCipher.doFinal(bytes);
             String decryptedString = new String(encryptedBytes, StandardCharsets.UTF_8);
@@ -58,6 +70,9 @@ public class EncryptionHandler {
         }
     }
 
+    /**
+     * @return The singleton instance of this class.
+     */
     public static EncryptionHandler getInstance() {
         if (instance != null) {
             return instance;
