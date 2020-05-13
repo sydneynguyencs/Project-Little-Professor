@@ -18,7 +18,7 @@ public class QuestionGenerator {
     protected Question question;
     private ScriptEngineManager sem;
     protected ScriptEngine engine;
-    private final int PLACES = 2;
+    private static final int PLACES = 2;
     protected boolean hasDouble;
     protected LevelFactory.Difficulty difficulty;
 
@@ -55,6 +55,15 @@ public class QuestionGenerator {
      */
     protected double getRandomDouble(int start, int end) {
         double randomDouble = start + new Random().nextDouble() * (end - start);
+        return roundDouble(randomDouble);
+    }
+
+    /**
+     * Round the double to 2 places after decimal.
+     * @param randomDouble to round
+     * @return rounded double
+     */
+    protected double roundDouble(double randomDouble) {
         BigDecimal bd = BigDecimal.valueOf(randomDouble);
         bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
         return bd.doubleValue();
@@ -78,7 +87,7 @@ public class QuestionGenerator {
         //if hasDouble is true then questions will randomly switch between integers and doubles
         int choose = 0;
         if (hasDouble) {
-            choose = getRandomInt(0, 1);
+            choose = getRandomInt(0, 2);
         }
         switch (choose) {
             case 0:
@@ -90,6 +99,10 @@ public class QuestionGenerator {
         try {
             String answer = engine.eval(question.getQuestion()).toString();
             //if the answer of a question with double numbers result in a full number, then the ending will be removed
+            if (choose == 1) {
+                double roundedAnswer = roundDouble(Double.parseDouble(answer));
+                answer = String.valueOf(roundedAnswer);
+            }
             if (answer.endsWith(".0")) {
                 answer = answer.replace(".0", "");
             }
@@ -119,7 +132,7 @@ public class QuestionGenerator {
 
     /**
      * This method sets the numbers of the question. It will request new numbers until the divisionCheck
-     * and substractionCheckForBeginner passes.
+     * and subtractionCheckForBeginner passes.
      *
      * @param operation  of the question
      * @param lowerBound start range
@@ -145,7 +158,12 @@ public class QuestionGenerator {
         return question.getAnswer();
     }
 
-
+    /**
+     * Check if operator is valid.
+     *
+     * @param operation to control
+     * @return if it's valid or not
+     */
     protected boolean checkOperator(String operation) {
         return !operation.equals(Config.Operation.ADDITION.toString())
                 && !operation.equals(Config.Operation.SUBTRACTION.toString())

@@ -17,14 +17,16 @@ public class House {
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
     private static final String HIGHSCORE_FIELD = "%HIGHSCORE%";
-    private static final String SCORE_FIELD = "%SCORE%";
+    private static final String SCORE_FIELD = "%S%";
+    private static final String TOTAL_SCORE_FIELD = "%T%";
     private static final String LEVEL_FIELD = "%LEVEL%";
     private static final int LINES_EMPTYHOUSE = 21;
 
     /**
      * House constructor. A TimeInterface is given to the constructor.
-     * @param timeSource    TimeInterface timeSource
-     * @throws IOException  IOException which gets thrown if the timeSource in not valid
+     *
+     * @param timeSource TimeInterface timeSource
+     * @throws IOException IOException which gets thrown if the timeSource in not valid
      */
     public House(TimeInterface timeSource) throws IOException {
         this.state = State.ENTRANCE;
@@ -176,6 +178,7 @@ public class House {
 
     /**
      * Replace the score in the house-matrix.
+     *
      * @param score to fill in
      */
     public void setScore(int score) {
@@ -183,7 +186,17 @@ public class House {
     }
 
     /**
+     * Replace the total score in the house-matrix.
+     *
+     * @param totalScore to fill in
+     */
+    public void setTotalScore(int totalScore) {
+        this.replaceField(TOTAL_SCORE_FIELD, String.valueOf(totalScore));
+    }
+
+    /**
      * Replace the level in the house-matrix.
+     *
      * @param level to fill in
      */
     public void setLevel(Level level) {
