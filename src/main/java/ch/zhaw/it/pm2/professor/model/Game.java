@@ -22,6 +22,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private Level currentLevel;
     private final LevelSource levelSource;
     private int levelCount = 0;
+    private int totalScore;
     private boolean gameEnded = false;
     private boolean gameSuccess = false;
     private int oldScore;
@@ -97,6 +98,8 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
+        totalScore += (currentLevel.getRooms().length - 1) * 4;
+        this.house.setTotalScore(totalScore);
         this.house.setTime(this.time);
         this.house.setLevel(currentLevel);
     }

@@ -64,7 +64,7 @@ public class QuestionGeneratorTest {
      */
     @Test
     void isInRangeTest() {
-        questionGenerator = new QuestionGenerator(true, LevelFactory.Difficulty.ADVANCED);
+        questionGenerator = new QuestionGenerator(false, LevelFactory.Difficulty.ADVANCED);
         String question = questionGenerator.getQuestion("-", 0, 100);
         String[] split = question.split(" ");
         int num1 = Integer.parseInt(split[0]);
