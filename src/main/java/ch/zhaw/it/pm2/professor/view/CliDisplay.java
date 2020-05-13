@@ -201,7 +201,9 @@ public class CliDisplay implements Display {
      */
     @Override
     public void helpMessage() {
-        this.terminal.println("Move into a room to start the question set and gain enough points to win this level.\nWatch out for the timer!\nTo quit Little Professor type \"quit\"");
+        this.terminal.println("\nMove into a room to start the question set and gain enough points to win this level.\nWatch out for the timer!");
+        this.terminal.println("For further information check out the game instruction in our Wiki by the following link:");
+        this.terminal.println("https://github.zhaw.ch/pm2-it19azh-ehri-fame-muon/gruppe05-einhoerner-little-professor/wiki\n");
     }
 
     /**
