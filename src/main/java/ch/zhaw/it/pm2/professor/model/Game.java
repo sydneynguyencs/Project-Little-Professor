@@ -164,9 +164,6 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
                         this.display.helpMessage();
                         doUserCommand();
                         break;
-                    case DEBUG_FAIL:
-                    case DEBUG_SUCCESS:
-                        break;
                     default:
                         moveIntoRoom(command);
                         break;
