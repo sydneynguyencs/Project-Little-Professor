@@ -23,7 +23,7 @@ public class UserIoTest {
     @Test
     public void noFileStoreTest() throws UserConverter.UserConversionException, UserIoException {
         deleteUserFile();
-        this.userIo.load("TestUser");
+        this.userIo.load("tester");
         assertTrue(getUserFile().exists());
     }
 
@@ -32,7 +32,7 @@ public class UserIoTest {
      */
     @Test
     public void newUserTest() throws UserConverter.UserConversionException, UserIoException {
-        User user = this.userIo.load("Dekyi");
+        User user = this.userIo.load("dekyi");
         assertNotNull(user);
     }
 
@@ -42,7 +42,7 @@ public class UserIoTest {
     @Test
     public void noFileLoadTest() throws UserIoException {
         deleteUserFile();
-        User user = new User("TestUser", 0, 1000);
+        User user = new User("tester", 0, 1000);
         this.userIo.store(user);
         assertTrue(getUserFile().exists());
     }
@@ -53,8 +53,8 @@ public class UserIoTest {
      */
     @Test
     public void storeAndLoadTest() throws UserIoException, UserConverter.UserConversionException {
-        User testUser = new User("Fritz Muster", 20, 1500);
-        User testUserTwo = new User("Peter Wurst", 33, 1700);
+        User testUser = new User("fratz", 20, 1500);
+        User testUserTwo = new User("petee", 33, 1700);
         userIo.store(testUser);
         userIo.store(testUserTwo);
         testUserTwo.setHighscore(2000);
