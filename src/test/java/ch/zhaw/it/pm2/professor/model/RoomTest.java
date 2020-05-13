@@ -2,7 +2,6 @@ package ch.zhaw.it.pm2.professor.model;
 
 import org.junit.jupiter.api.Test;
 
-import static ch.zhaw.it.pm2.professor.model.Config.ROOM_LOOK;
 import static ch.zhaw.it.pm2.professor.model.HouseTest.*;
 import static org.junit.jupiter.api.Assertions.*;
 

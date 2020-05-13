@@ -55,11 +55,9 @@ public class CliDisplay implements Display {
 
     /**
      * Takes a house object and prints the welcome message to the terminal.
-     *
-     * @param house a house object
      */
     @Override
-    public void welcomeMessage(House house) {
+    public void welcomeMessage() {
         this.terminal.println("The little Professor will help you to train your math skills while playing.");
     }
 
@@ -191,10 +189,10 @@ public class CliDisplay implements Display {
      * Room selecting method. Parameters are Room and Level-objects.
      * The user can then choose a valid Room from this Level.
      * @param room  a room inside this level
-     * @param level the actual level
+     *
      */
     @Override
-    public void selectedRoomMessage(Room room, Level level) {
+    public void selectedRoomMessage(Room room) {
         this.terminal.println("\nYou entered the room with the mission to solve questions of the operation " + room.getOperation().toString() +
                 ".\nFinish before the time runs out!");
     }
@@ -230,16 +228,16 @@ public class CliDisplay implements Display {
      */
     @Override
     public void showAnswer(Room room, Level level) {
-        this.terminal.println("Solution: " + level.getAnswer(room));
+        this.terminal.println("Solution: " + level.getAnswer());
     }
 
     /**
      * Prints the room.
      * @param room a valid room inside the level
-     * @param level the actual level
+     *
      */
     @Override
-    public void showRoom(Room room, Level level) {
+    public void showRoom(Room room) {
         this.terminal.println(room.toString());
     }
 

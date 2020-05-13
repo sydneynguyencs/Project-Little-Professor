@@ -24,10 +24,6 @@ public class Level {
         return name;
     }
 
-    public LevelFactory.Difficulty getDifficulty() {
-        return difficulty;
-    }
-
     public Room[] getRooms() {
         return rooms;
     }
@@ -48,7 +44,7 @@ public class Level {
         return generator.getQuestion(room.getOperation().toString(), difficulty.getLowerbound(), difficulty.getUpperbound());
     }
 
-    public String getAnswer(Room room) {
+    public String getAnswer() {
         return generator.getAnswer();
     }
 

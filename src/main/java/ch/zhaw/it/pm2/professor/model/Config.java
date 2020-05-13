@@ -96,8 +96,4 @@ public class Config {
             return operation;
         }
     }
-
-    public static int getMaxCharsUsername() {
-        return MAX_CHARS_USERNAME;
-    }
 }

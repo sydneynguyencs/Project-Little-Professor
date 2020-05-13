@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface LevelSource {
 
-    public List<Level> getLevels();
+    List<Level> getLevels();
 
 }

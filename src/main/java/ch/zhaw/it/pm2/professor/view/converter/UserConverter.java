@@ -28,5 +28,5 @@ public class UserConverter {
         public UserConversionException(String message) {
             super(message);
         }
-    };
+    }
 }

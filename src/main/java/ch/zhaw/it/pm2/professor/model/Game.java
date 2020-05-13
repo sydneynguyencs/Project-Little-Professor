@@ -66,7 +66,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      */
     public void start() throws UserIOException, UserConverter.UserConversionException, HouseIOException, FileNotFoundException {
         this.display.showHouse(this.house, currentLevel);
-        this.display.welcomeMessage(house);
+        this.display.welcomeMessage();
         totalScore = oldScore + currentLevel.getMinPoints();
         this.user = userIo.load(display.requestUsername());
         while (true) {
@@ -189,13 +189,13 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private void moveIntoRoom(Config.Command command) throws HouseIOException, FileNotFoundException {
         Room room = null;
         for (Room r : currentLevel.getRooms()) {
-            if(r.getCommand() == command) {
+            if (r.getCommand() == command) {
                 room = r;
             }
         }
         assert false;
-        this.display.selectedRoomMessage(room, currentLevel);
-        this.display.showRoom(room, currentLevel);
+        this.display.selectedRoomMessage(room);
+        this.display.showRoom(room);
         startQuestionSet(room);
         room.setCompleted(true);
         if (allRoomsCompleted()) {
@@ -273,7 +273,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
      */
     private void startQuestionSet(Room room) {
         for (int i = 0; i < Config.NUMBER_OF_QUESTIONS_PER_ROOM; i++) {
-            if (this.display.askQuestionsMessage(room, currentLevel).equals(currentLevel.getAnswer(room))) {
+            if (this.display.askQuestionsMessage(room, currentLevel).equals(currentLevel.getAnswer())) {
                 user.setScore(user.getScore() + 1);
             }
             this.display.showAnswer(room, currentLevel);

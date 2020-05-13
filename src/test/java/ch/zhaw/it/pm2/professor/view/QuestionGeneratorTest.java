@@ -97,9 +97,7 @@ public class QuestionGeneratorTest {
     @Test
     void invalidOperation() {
         questionGenerator = new QuestionGenerator(true, LevelFactory.Difficulty.BEGINNER);
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            questionGenerator.getQuestion("&", 0, 100);
-        });
+        Exception exception = assertThrows(RuntimeException.class, () -> questionGenerator.getQuestion("&", 0, 100));
         String expectedMessage = "Operation is invalid";
         String actualMessage = exception.getMessage();
         assertEquals(actualMessage, expectedMessage);

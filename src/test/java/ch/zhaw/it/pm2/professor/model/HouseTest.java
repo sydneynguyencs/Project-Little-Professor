@@ -43,7 +43,9 @@ class HouseTest {
     /**
      * Test changeState:
      * Change state to Hallway, assert that the new State is Hallway.
+     *
      * @throws IOException
+     * @throws HouseIOException
      */
     @Test
     void testChangeStateToHallway() throws HouseIOException, IOException {
@@ -56,6 +58,7 @@ class HouseTest {
      * Change state to Entrance, then to Hallway and again to Entrance,
      * assert that the new State is Entrance.
      * @throws IOException
+     * @throws HouseIOException
      */
     @Test
     void testChangeStateToHallwayAndBack() throws IOException, HouseIOException {
@@ -68,7 +71,7 @@ class HouseTest {
     /**
      * Test changeState:
      * If passed a null-object, a NullPointerException should get thrown.
-     * @throws IOException
+     * @throws NullPointerException
      */
     @Test
     void testNullState() throws NullPointerException {
@@ -84,6 +87,7 @@ class HouseTest {
      * Changing to state Entrance and print the Level as Array.
      * Assert the actual Array with the given String[] ENTRANCE.
      * @throws IOException
+     * @throws HouseIOException
      */
     @Test
     void testStateEntrancePrintAsArray() throws IOException, HouseIOException {
@@ -98,6 +102,7 @@ class HouseTest {
      * setUsername and setScore also adds this user information.
      * Assert the actual Array with the given String[] HOUSE_WITH_ROOMS_AND_USERDATA.
      * @throws IOException
+     * @throws HouseIOException
      */
     @Test
     void testSetUserDataAndAddRoomsInStateHallway() throws IOException, HouseIOException {

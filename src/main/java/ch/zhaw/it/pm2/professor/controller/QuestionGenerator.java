@@ -16,7 +16,6 @@ import java.util.Random;
  */
 public class QuestionGenerator {
     protected Question question;
-    private ScriptEngineManager sem;
     protected ScriptEngine engine;
     private static final int PLACES = 2;
     protected boolean hasDouble;
@@ -29,7 +28,7 @@ public class QuestionGenerator {
      */
     public QuestionGenerator(boolean hasDouble, LevelFactory.Difficulty difficulty) {
         question = new Question();
-        sem = new ScriptEngineManager();
+        ScriptEngineManager sem = new ScriptEngineManager();
         engine = sem.getEngineByName("JavaScript");
         this.hasDouble = hasDouble;
         this.difficulty = difficulty;

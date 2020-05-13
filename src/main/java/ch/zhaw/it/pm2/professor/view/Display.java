@@ -1,6 +1,5 @@
 package ch.zhaw.it.pm2.professor.view;
 
-import ch.zhaw.it.pm2.professor.exception.InvalidInputException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.model.House;
@@ -18,7 +17,7 @@ public interface Display {
 
     void showHouse(House house, Level level);
 
-    void welcomeMessage(House house);
+    void welcomeMessage();
 
     String requestUsername();
 
@@ -30,11 +29,11 @@ public interface Display {
 
     void levelComplete();
 
-    String getNextUserInput() throws InvalidInputException;
+    String getNextUserInput();
 
     void checkForQuitCommand(String userInput);
 
-    void selectedRoomMessage(Room room, Level level);
+    void selectedRoomMessage(Room room);
 
     void helpMessage();
 
@@ -42,7 +41,7 @@ public interface Display {
 
     void showAnswer(Room room, Level level);
 
-    void showRoom(Room room, Level level);
+    void showRoom(Room room);
 
     void updateLevelMessage(Level level);
 
