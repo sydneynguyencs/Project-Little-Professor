@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.controller;
 
+import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.Config;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ public class UserIoTest {
      * Tests if the the user-file is created if it does not exist and User.load() is called.
      */
     @Test
-    public void noFileStoreTest() throws UserConverter.UserConversionException, UserIOException {
+    public void noFileStoreTest() throws UserConversionException, UserIOException {
         deleteUserFile();
         this.userIo.load("tester");
         assertTrue(getUserFile().exists());
@@ -36,7 +37,7 @@ public class UserIoTest {
      * Test if a new user is created, when he isn't found.
      */
     @Test
-    public void newUserTest() throws UserConverter.UserConversionException, UserIOException {
+    public void newUserTest() throws UserConversionException, UserIOException {
         User user = this.userIo.load("dekyi");
         assertNotNull(user);
     }
@@ -57,7 +58,7 @@ public class UserIoTest {
      *  After this the stored users are loaded again. Name and highscore should now match with the original objects.
      */
     @Test
-    public void storeAndLoadTest() throws UserIOException, UserConverter.UserConversionException {
+    public void storeAndLoadTest() throws UserIOException, UserConversionException {
         User testUser = new User("fratz", 20, 1500);
         User testUserTwo = new User("petee", 33, 1700);
         userIo.store(testUser);

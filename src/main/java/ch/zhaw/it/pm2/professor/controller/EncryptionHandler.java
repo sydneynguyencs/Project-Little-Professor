@@ -1,7 +1,12 @@
 package ch.zhaw.it.pm2.professor.controller;
 
 import ch.zhaw.it.pm2.professor.Config;
-import javax.crypto.*;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;

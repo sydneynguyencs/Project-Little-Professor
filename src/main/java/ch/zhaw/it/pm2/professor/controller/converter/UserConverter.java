@@ -1,5 +1,6 @@
 package ch.zhaw.it.pm2.professor.controller.converter;
 
+import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.model.User;
 
 /**
@@ -27,9 +28,5 @@ public class UserConverter {
         return new User(userArray[0], 0, Integer.parseInt(userArray[1]));
     }
 
-    public static class UserConversionException extends Exception {
-        public UserConversionException(String message) {
-            super(message);
-        }
-    }
+
 }

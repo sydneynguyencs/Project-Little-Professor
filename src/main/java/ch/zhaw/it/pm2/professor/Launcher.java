@@ -1,6 +1,7 @@
 package ch.zhaw.it.pm2.professor;
 
 import ch.zhaw.it.pm2.professor.exception.HouseIOException;
+import ch.zhaw.it.pm2.professor.exception.UserConversionException;
 import ch.zhaw.it.pm2.professor.exception.UserIOException;
 import ch.zhaw.it.pm2.professor.model.Game;
 import ch.zhaw.it.pm2.professor.controller.converter.UserConverter;
@@ -26,11 +27,11 @@ public class Launcher {
      *
      * @param args no parameters are used in this program
      * @throws UserIOException if something goes wrong with the user-file
-     * @throws UserConverter.UserConversionException if something goes wrong with the user-name input
+     * @throws UserConversionException if something goes wrong with the user-name input
      * @throws HouseIOException if something goes wrong with the house or entrance-file
      * @throws FileNotFoundException if the house or entrance-file can't be found
      */
-    public static void main(String[] args) throws UserIOException, UserConverter.UserConversionException, HouseIOException, FileNotFoundException {
+    public static void main(String[] args) throws UserIOException, UserConversionException, HouseIOException, FileNotFoundException {
         initLogger();
         Timer timer = new Timer();
         Game game = new Game();
