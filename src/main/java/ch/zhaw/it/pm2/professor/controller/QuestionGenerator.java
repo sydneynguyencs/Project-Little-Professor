@@ -18,7 +18,7 @@ public class QuestionGenerator {
     protected Question question;
     private ScriptEngineManager sem;
     protected ScriptEngine engine;
-    private final int PLACES = 2;
+    private static final int PLACES = 2;
     protected boolean hasDouble;
     protected LevelFactory.Difficulty difficulty;
 
