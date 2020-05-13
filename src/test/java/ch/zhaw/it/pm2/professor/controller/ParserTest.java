@@ -33,9 +33,9 @@ class ParserTest {
 
     private static final String VALID_USERNAME = "Cellestine";
     private static final String VALID_USERNAME_TEST_TRIM_15_CHARS = " Cellestine    ";
-    private static final String VALID_USERNAME_MIN_CHARS = "Otto";
+    private static final String VALID_USERNAME_MIN_CHARS = "Tim";
     private static final String VALID_USERNAME_MAX_CHARS = "ThisUsername";
-    private static final String USERNAME_TOO_SHORT = "abc";
+    private static final String USERNAME_TOO_SHORT = "Jo";
     private static final String USERNAME_TOO_LONG = "ThisUsernameHasToManyCharsAndIsNotAccepted";
 
     @BeforeEach
@@ -225,7 +225,7 @@ class ParserTest {
     @Test
     void testParseValidNameMinChars() throws InvalidInputException {
         String actualUsername = parser.parseName(VALID_USERNAME_MIN_CHARS);
-        assertEquals("Otto", actualUsername);
+        assertEquals("Tim", actualUsername);
     }
 
     /**
@@ -298,10 +298,10 @@ class ParserTest {
      * @throws InvalidInputException
      */
     @Test
-    void testParseInvalidNameThreeChars() throws InvalidInputException {
+    void testParseInvalidNameTwoChars() throws InvalidInputException {
         InvalidInputException thrown = assertThrows(
                 InvalidInputException.class,
-                () -> parser.parseName("abc"));
+                () -> parser.parseName("Jo"));
     }
 
     /**
