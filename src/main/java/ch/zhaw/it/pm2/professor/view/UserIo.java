@@ -5,12 +5,7 @@ import ch.zhaw.it.pm2.professor.exception.UserIoException;
 import ch.zhaw.it.pm2.professor.model.Config;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.logging.Logger;
 
 public class UserIo {
@@ -42,8 +37,7 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String decryptedLine = decryptString(line);
-                User fileUser = UserConverter.toObject(decryptedLine);
+                User fileUser = UserConverter.toObject(line);
                 if (fileUser.getName().equals(name)) {
                     logLoadedUser(fileUser);
                     return fileUser;
@@ -85,8 +79,7 @@ public class UserIo {
         ) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String decryptedLine = decryptString(line);
-                User fileUser = UserConverter.toObject(decryptedLine);
+                User fileUser = UserConverter.toObject(line);
                 if (fileUser.getName().equals(user.getName())) {
                     fileUser.setHighscore(user.getHighscore());
                     updated = true;
@@ -108,73 +101,6 @@ public class UserIo {
         tmpFile.renameTo(file);
     }
 
-    private static String encryptString(String line) throws UserIoEncryptionException {
-        try {
-            LOGGER.info("String to encrypt: " + line);
-            line = addWorkaroundSufix(line);
-            LOGGER.info("String with workaround-sufix to encrypt: " + line);
-            String base64String = toBase64(line);
-            LOGGER.info("String to encrypt in base-64: " + base64String);
-            byte[] bytes = Base64.getDecoder().decode(base64String);
-            Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
-            byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
-            SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
-            c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encryptedBytes = c.doFinal(bytes);
-            String encryptedBase64String = Base64.getEncoder().encodeToString(encryptedBytes);
-            LOGGER.info("Encrypted string in base-64: " + encryptedBase64String);
-            return encryptedBase64String;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
-            throw new UserIoEncryptionException(e);
-        }
-    }
-
-    private static String decryptString(String line) throws UserIoEncryptionException {
-        try {
-            LOGGER.info("String to decrypt in base-64: " + line);
-            byte[] bytes = Base64.getDecoder().decode(line);
-            Cipher c = Cipher.getInstance(Config.ENCRYPTION_TYPE);
-            byte[] keyBytes = Base64.getDecoder().decode(Config.SECRET_KEY);
-            SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, Config.ENCRYPTION_TYPE);
-            c.init(Cipher.DECRYPT_MODE, key);
-            byte[] decryptedBytes = c.doFinal(bytes);
-            String decryptedBase64String = Base64.getEncoder().encodeToString(decryptedBytes);
-            LOGGER.info("Decrypted string in base-64: " + decryptedBase64String);
-            String decryptedString = fromBase64(decryptedBase64String);
-            LOGGER.info("Decrypted string with workaround-sufix: " + decryptedString);
-            decryptedString = removeWorkaroundSufix(decryptedString);
-            LOGGER.info("Decrypted string: " + decryptedString);
-            return decryptedString;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
-            throw new UserIoEncryptionException(e);
-        }
-    }
-
-    private static String addWorkaroundSufix(String string) {
-        return string + 'x';
-    }
-
-    private static String removeWorkaroundSufix(String string) {
-        return string.substring(0, string.length() - 1);
-    }
-
-    private static String toBase64(String string) {
-        StringBuilder stringBuilder = new StringBuilder(string);
-        while (stringBuilder.length()%4 != 0) {
-            stringBuilder.append('=');
-        }
-        return stringBuilder.toString();
-    }
-
-    private static String fromBase64(String base64String) {
-        for (int i = base64String.length() - 1; i >= 0; i--) {
-            if (base64String.charAt(i) != '=') {
-                return base64String.substring(0, i + 1);
-            }
-        }
-        return null;
-    }
-
     private File getFile() throws IOException {
         File file = new File(this.filePath);
         //noinspection ResultOfMethodCallIgnored
@@ -184,8 +110,7 @@ public class UserIo {
     }
 
     private static void writeUser(BufferedWriter writer, User fileUser) throws IOException, UserConverter.UserConversionException, UserIoEncryptionException {
-        String encryptedUser = encryptString(UserConverter.toString(fileUser));
-        writer.write(encryptedUser + "\n");
+        writer.write(UserConverter.toString(fileUser) + "\n");
     }
 }
 
