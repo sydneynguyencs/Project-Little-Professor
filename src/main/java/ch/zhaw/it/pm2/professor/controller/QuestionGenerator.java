@@ -55,6 +55,16 @@ public class QuestionGenerator {
      */
     protected double getRandomDouble(int start, int end) {
         double randomDouble = start + new Random().nextDouble() * (end - start);
+        return roundDouble(randomDouble);
+    }
+
+    /**
+     * Round the double to 2 places after decimal.
+     *
+     * @param randomDouble to round
+     * @return rounded double
+     */
+    protected double roundDouble(double randomDouble) {
         BigDecimal bd = BigDecimal.valueOf(randomDouble);
         bd = bd.setScale(PLACES, RoundingMode.HALF_UP);
         return bd.doubleValue();
@@ -90,6 +100,10 @@ public class QuestionGenerator {
         try {
             String answer = engine.eval(question.getQuestion()).toString();
             //if the answer of a question with double numbers result in a full number, then the ending will be removed
+            if (choose == 1) {
+                double roundedAnswer = roundDouble(Double.parseDouble(answer));
+                answer = String.valueOf(roundedAnswer);
+            }
             if (answer.endsWith(".0")) {
                 answer = answer.replace(".0", "");
             }
@@ -145,7 +159,12 @@ public class QuestionGenerator {
         return question.getAnswer();
     }
 
-
+    /**
+     * Check if the given operator is valid
+     *
+     * @param operation to control
+     * @return if it's valid or not
+     */
     protected boolean checkOperator(String operation) {
         return !operation.equals(Config.Operation.ADDITION.toString())
                 && !operation.equals(Config.Operation.SUBTRACTION.toString())
