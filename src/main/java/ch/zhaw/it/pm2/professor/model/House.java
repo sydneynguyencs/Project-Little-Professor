@@ -14,7 +14,7 @@ import java.io.IOException;
 public class House {
     private String[] house;
     private State state;
-    private TimeInterface timeSource;
+    private final TimeInterface timeSource;
 
     private static final String USER_FIELD = "%USER________%";
     private static final String TIME_FIELD = "%TIME%";
@@ -27,10 +27,8 @@ public class House {
     /**
      * House constructor. A TimeInterface is given to the constructor.
      * @param timeSource TimeInterface timeSource
-     * @throws IOException IOException which gets thrown if the timeSource in not valid
-
      */
-    public House(TimeInterface timeSource) throws IOException, HouseIOException {
+    public House(TimeInterface timeSource) throws HouseIOException, FileNotFoundException {
         this.state = State.ENTRANCE;
         this.timeSource = timeSource;
         init();
@@ -44,7 +42,7 @@ public class House {
      * Method init. The class init tries to read a State-file. If it can not be found,
      * a FileNotFoundException gets thrown.
      */
-    public void init() throws IOException, HouseIOException {
+    public void init() throws HouseIOException, FileNotFoundException {
         this.house = new String[LINES_EMPTYHOUSE];
         File file = new File(this.state.getFilePath());
         if (!file.canRead() || !file.isFile()) {
@@ -64,8 +62,11 @@ public class House {
             throw new HouseIOException(e);
         } finally {
             if (in != null) {
-                in.close();
-
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    throw new HouseIOException(e);
+                }
             }
         }
     }
@@ -76,7 +77,7 @@ public class House {
      *
      * @param newState new state
      */
-    public void changeState(State newState) throws IOException, HouseIOException {
+    public void changeState(State newState) throws HouseIOException, FileNotFoundException {
         this.state = newState;
         init();
     }

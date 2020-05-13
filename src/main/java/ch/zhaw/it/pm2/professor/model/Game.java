@@ -10,7 +10,7 @@ import ch.zhaw.it.pm2.professor.view.User;
 import ch.zhaw.it.pm2.professor.view.UserIo;
 import ch.zhaw.it.pm2.professor.view.converter.UserConverter;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
@@ -31,7 +31,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
     private boolean gameSuccess = false;
     private int oldScore;
 
-    public Game() throws IOException, HouseIOException {
+    public Game() throws HouseIOException, FileNotFoundException {
         this.house = new House(this);
         this.display = new CliDisplay(this, this, this);
         this.userIo = new UserIo();
@@ -50,7 +50,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setTime(this.time);
     }
 
-    public void start() throws UserIOException, UserConverter.UserConversionException {
+    public void start() throws UserIOException, UserConverter.UserConversionException, HouseIOException, FileNotFoundException {
         this.display.showHouse(this.house, currentLevel);
         this.display.welcomeMessage(house);
         totalScore += (currentLevel.getRooms().length - 1) * 4;
@@ -98,12 +98,8 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
     }
 
-    private void updateHouse() {
-        try {
-            this.house.changeState(House.State.HALLWAY);
-        } catch (IOException | HouseIOException e) {
-            e.printStackTrace();
-        }
+    private void updateHouse() throws HouseIOException, FileNotFoundException {
+        this.house.changeState(House.State.HALLWAY);
         this.house.setUsername(this.user.getName());
         this.house.setHighscore(user.getHighscore());
         this.house.setScore(user.getScore());
@@ -112,7 +108,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         this.house.setLevel(currentLevel);
     }
 
-    private void doUserCommand() {
+    private void doUserCommand() throws HouseIOException, FileNotFoundException {
         if(time <= 0) {
             this.display.timeIsUp();
             this.display.playAgainMessage();
@@ -120,11 +116,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
         updateHouse();
         this.display.showHouse(this.house, currentLevel);
-        try {
-            this.house.changeState(House.State.HALLWAY);
-        } catch (HouseIOException | IOException e) {
-            e.printStackTrace();
-        }
+        this.house.changeState(House.State.HALLWAY);
 
         Config.Command command = this.display.navigate(currentLevel);
         if(command == null) {
@@ -144,7 +136,7 @@ public class Game extends TimerTask implements House.TimeInterface, Display.Game
         }
     }
 
-    private void moveIntoRoom(Config.Command command) {
+    private void moveIntoRoom(Config.Command command) throws HouseIOException, FileNotFoundException {
         Room room = null;
         for (Room r : currentLevel.getRooms()) {
             if(r.getCommand() == command) {
