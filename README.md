@@ -32,3 +32,6 @@ The project structure is made with Gradle, so you can run ```./gradlew run``` or
 
 ## Game instructions
 Find the Game instructions [here](https://github.zhaw.ch/pm2-it19azh-ehri-fame-muon/gruppe05-einhoerner-little-professor/blob/master/docs/Game%20instruction%20LP.pdf)
+
+## Project Outline
+Find the projet outline (german) [here](https://github.com/sydneynguyencs/Project-Little-Professor/blob/master/Team05_Projektskizze_Endversion.pdf)
